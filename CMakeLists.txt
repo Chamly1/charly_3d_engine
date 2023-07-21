@@ -10,6 +10,7 @@ find_package(OpenGL REQUIRED)
 target_link_libraries(learn_OpenGL opengl32)
 
 # link GLEW
+add_compile_definitions(GLEW_STATIC)
 include_directories(external/glew-2.1.0/include)
 set(GLEW_LIB_DIR ${PROJECT_SOURCE_DIR}/external/glew-2.1.0/lib/Release/x64)
 target_link_libraries(learn_OpenGL ${GLEW_LIB_DIR}/glew32s.lib)
