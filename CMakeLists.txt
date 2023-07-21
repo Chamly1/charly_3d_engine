@@ -8,6 +8,10 @@ add_subdirectory(src/cpp)
 
 add_executable(learn_OpenGL)
 
+# link OpenGL
+find_package(OpenGL REQUIRED)
+target_link_libraries(learn_OpenGL opengl32)
+
 # link GLEW
 include_directories(external/glew-2.1.0/include)
 set(GLEW_LIB_DIR ${PROJECT_SOURCE_DIR}/external/glew-2.1.0/lib/Release/x64)
