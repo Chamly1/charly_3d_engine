@@ -3,9 +3,6 @@ project(learn_OpenGL)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(src/include)
-add_subdirectory(src/cpp)
-
 add_executable(learn_OpenGL)
 
 # link OpenGL
@@ -21,5 +18,8 @@ target_link_libraries(learn_OpenGL ${GLEW_LIB_DIR}/glew32s.lib)
 include_directories(external/glfw-3.3.8/include)
 set(GLFW_LIB_DIR ${PROJECT_SOURCE_DIR}/external/glfw-3.3.8/lib-vc2019)
 target_link_libraries(learn_OpenGL ${GLFW_LIB_DIR}/glfw3.lib)
+
+include_directories(src/include)
+add_subdirectory(src/cpp)
 
 target_link_libraries(learn_OpenGL main_obj_lib)
