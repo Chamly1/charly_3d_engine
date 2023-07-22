@@ -20,6 +20,9 @@ include_directories(external/glfw-3.3.8/include)
 set(GLFW_LIB_DIR ${PROJECT_SOURCE_DIR}/external/glfw-3.3.8/lib-vc2019)
 target_link_libraries(learn_OpenGL ${GLFW_LIB_DIR}/glfw3.lib)
 
+# link GLM
+include_directories(external/glm-0.9.9.8)
+
 include_directories(src/include)
 add_subdirectory(src/cpp)
 
