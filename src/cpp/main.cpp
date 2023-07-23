@@ -1,15 +1,19 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include <iostream>
 
 // window size
 static const GLint WIDTH = 800, HEIGHT = 600;
 
-GLuint VAO, VBO, shader;
+GLuint VAO, VBO, shader, uniformModel;
 
 // vertex shader
-static const char* vertexShader = "#version 330\n layout (location = 0) in vec3 pos; void main() {gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);}";
+static const char* vertexShader = "#version 330\n layout (location = 0) in vec3 pos; uniform mat4 model; void main() {gl_Position = model * vec4(0.5 * pos.x, 0.5 * pos.y, 0.5 * pos.z, 1.0);}";
 // fragment shader
 static const char* fragmentShader = "#version 330\n out vec4 color; void main() {color = vec4(0.0, 1.0, 0.0, 1.0);}";
 
@@ -87,6 +91,7 @@ void compileShaders () {
         return;
     }
 
+    uniformModel = glGetUniformLocation(shader, "model");
 }
 
 int main() {
@@ -131,13 +136,29 @@ int main() {
     createTriangle();
     compileShaders();
 
+    float moveOffset = 0.f, moveDelta = 0.005f, maxMoveOffset = 0.5f;
+    bool addDelta = true;
     while (!glfwWindowShouldClose(mainWindow)) {
+        // movement calculation
+        if (addDelta) {
+            moveOffset += moveDelta;
+        } else {
+            moveOffset -= moveDelta;
+        }
+        if (moveOffset >= maxMoveOffset || moveOffset <= -maxMoveOffset) addDelta = !addDelta;
+
+
         glfwPollEvents();
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shader);
+
+        glm::mat4 model(1.f);
+        model = glm::translate(model, glm::vec3(moveOffset, 0.f, 0.f));
+        glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);
