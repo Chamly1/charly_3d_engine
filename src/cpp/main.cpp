@@ -7,6 +7,12 @@
 
 #include <iostream>
 
+#define PI 3.14159f
+
+float degreesToRadians(float degrees) {
+    return degrees * (PI / 180.f);
+}
+
 // window size
 static const GLint WIDTH = 800, HEIGHT = 600;
 
@@ -138,6 +144,8 @@ int main() {
 
     float moveOffset = 0.f, moveDelta = 0.005f, maxMoveOffset = 0.5f;
     bool addDelta = true;
+
+    float rotationAngle = 0.f, rotationAngleDelta = 0.5f;
     while (!glfwWindowShouldClose(mainWindow)) {
         // movement calculation
         if (addDelta) {
@@ -146,6 +154,12 @@ int main() {
             moveOffset -= moveDelta;
         }
         if (moveOffset >= maxMoveOffset || moveOffset <= -maxMoveOffset) addDelta = !addDelta;
+
+        // rotation calculation
+        rotationAngle += rotationAngleDelta;
+        if (rotationAngle >= 360.f) {
+            rotationAngle -= 360.f;
+        }
 
 
         glfwPollEvents();
@@ -157,6 +171,7 @@ int main() {
 
         glm::mat4 model(1.f);
         model = glm::translate(model, glm::vec3(moveOffset, 0.f, 0.f));
+        model = glm::rotate(model, degreesToRadians(rotationAngle), glm::vec3(0.f, 0.f, 1.f));
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
         glBindVertexArray(VAO);
