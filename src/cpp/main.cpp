@@ -19,9 +19,21 @@ static const GLint WIDTH = 800, HEIGHT = 600;
 GLuint VAO, VBO, shader, uniformModel;
 
 // vertex shader
-static const char* vertexShader = "#version 330\n layout (location = 0) in vec3 pos; uniform mat4 model; void main() {gl_Position = model * vec4(pos, 1.0);}";
+static const char* vertexShader = "#version 330\n "
+                                  "layout (location = 0) in vec3 pos; "
+                                  "out vec4 vertexColor;"
+                                  "uniform mat4 model; "
+                                  "void main() {"
+                                  "gl_Position = model * vec4(pos, 1.0);"
+                                  "vertexColor = vec4(clamp(pos, 0.0, 1.0), 1.0);"
+                                  "}";
 // fragment shader
-static const char* fragmentShader = "#version 330\n out vec4 color; void main() {color = vec4(0.0, 1.0, 0.0, 1.0);}";
+static const char* fragmentShader = "#version 330\n"
+                                    "in vec4 vertexColor;"
+                                    "out vec4 color; "
+                                    "void main() {"
+                                    "color = vertexColor;"
+                                    "}";
 
 void createTriangle() {
     GLfloat vertices[] = {
