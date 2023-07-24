@@ -1,3 +1,5 @@
+#include "Mesh.hpp"
+
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
@@ -6,6 +8,8 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include <iostream>
+#include <vector>
+#include <memory>
 
 #define PI 3.14159f
 
@@ -16,7 +20,8 @@ float degreesToRadians(float degrees) {
 // window size
 static const GLint WIDTH = 800, HEIGHT = 600;
 
-GLuint VAO, VBO, IBO, shader, uniformModel, uniformProjection;
+std::vector<std::unique_ptr<Mesh>> meshArray;
+GLuint shader, uniformModel, uniformProjection;
 
 // vertex shader
 static const char* vertexShader = "#version 330\n "
@@ -52,23 +57,7 @@ void createTriangle() {
             0.f, 1.f, 0.f
     };
 
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    glGenBuffers(1, &IBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    meshArray.push_back(std::make_unique<Mesh>(vertices, 12, indices, 12));
 }
 
 void addShader (GLuint program, const char* shaderCode, GLenum shaderType) {
@@ -208,13 +197,9 @@ int main() {
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-        glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-        glUseProgram(0);
+        for (std::unique_ptr<Mesh>& mesh : meshArray) {
+            mesh->render();
+        }
 
         glfwSwapBuffers(mainWindow);
     }

@@ -1,1 +1,0 @@
-add_library(main_obj_lib OBJECT main.cpp)
