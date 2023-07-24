@@ -27,3 +27,10 @@ include_directories(src/include)
 add_subdirectory(src)
 
 target_link_libraries(learn_OpenGL main_obj_lib)
+
+# copy resources
+add_custom_command(TARGET learn_OpenGL
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/resources
+        ${PROJECT_BINARY_DIR}/resources)

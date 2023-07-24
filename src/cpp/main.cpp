@@ -1,4 +1,5 @@
 #include "Mesh.hpp"
+#include "Shader.hpp"
 
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
@@ -21,27 +22,9 @@ float degreesToRadians(float degrees) {
 static const GLint WIDTH = 800, HEIGHT = 600;
 
 std::vector<std::unique_ptr<Mesh>> meshArray;
-GLuint shader, uniformModel, uniformProjection;
+std::vector<std::unique_ptr<Shader>> shaderArray;
 
-// vertex shader
-static const char* vertexShader = "#version 330\n "
-                                  "layout (location = 0) in vec3 pos; "
-                                  "out vec4 vertexColor;"
-                                  "uniform mat4 model; "
-                                  "uniform mat4 projection; "
-                                  "void main() {"
-                                  "gl_Position = projection * model * vec4(pos, 1.0);"
-                                  "vertexColor = vec4(clamp(pos, 0.0, 1.0), 1.0);"
-                                  "}";
-// fragment shader
-static const char* fragmentShader = "#version 330\n"
-                                    "in vec4 vertexColor;"
-                                    "out vec4 color; "
-                                    "void main() {"
-                                    "color = vertexColor;"
-                                    "}";
-
-void createTriangle() {
+void createMeshes() {
 
     unsigned int indices[] = {
             0, 3, 1,
@@ -60,61 +43,8 @@ void createTriangle() {
     meshArray.push_back(std::make_unique<Mesh>(vertices, 12, indices, 12));
 }
 
-void addShader (GLuint program, const char* shaderCode, GLenum shaderType) {
-    GLuint shader = glCreateShader(shaderType);
-
-    const GLchar* code[1];
-    code[0] = shaderCode;
-
-    GLint codeLength[1];
-    codeLength[0] = strlen(shaderCode);
-
-    glShaderSource(shader, 1, code, codeLength);
-    glCompileShader(shader);
-
-    GLint res = 0;
-    GLchar log[1024] = { 0 };
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &res);
-    if (!res) {
-        glGetShaderInfoLog(shader, sizeof(log), NULL, log);
-        std::cout << "Error shader compiling: " << log << "\n";
-        return;
-    }
-
-    glAttachShader(program, shader);
-}
-
-void compileShaders () {
-    shader = glCreateProgram();
-    if (!shader) {
-        std::cout << "Create shader program error!\n";
-        return;
-    }
-
-    addShader(shader, vertexShader, GL_VERTEX_SHADER);
-    addShader(shader, fragmentShader, GL_FRAGMENT_SHADER);
-
-    GLint res = 0;
-    GLchar log[1024] = { 0 };
-
-    glLinkProgram(shader);
-    glGetProgramiv(shader, GL_LINK_STATUS, &res);
-    if (!res) {
-        glGetProgramInfoLog(shader, sizeof(log), NULL, log);
-        std::cout << "Error linking program: " << log << "\n";
-        return;
-    }
-
-    glValidateProgram(shader);
-    glGetProgramiv(shader, GL_VALIDATE_STATUS, &res);
-    if (!res) {
-        glGetProgramInfoLog(shader, sizeof(log), NULL, log);
-        std::cout << "Error validation program: " << log << "\n";
-        return;
-    }
-
-    uniformModel = glGetUniformLocation(shader, "model");
-    uniformProjection = glGetUniformLocation(shader, "projection");
+void createShaders() {
+    shaderArray.push_back(std::make_unique<Shader>("resources/shaders/base_shader.vert", "resources/shaders/base_shader.frag"));
 }
 
 int main() {
@@ -157,9 +87,10 @@ int main() {
     // setup viewport size
     glViewport(0, 0, bufferWidth, bufferHeight);
 
-    createTriangle();
-    compileShaders();
+    createMeshes();
+    createShaders();
 
+    GLuint uniformModel, uniformProjection;
     glm::mat4 projection = glm::perspective(45.f, static_cast<GLfloat>(bufferWidth) / static_cast<GLfloat>(bufferHeight), 0.1f, 100.f);
 
     float moveOffset = 0.f, moveDelta = 0.005f, maxMoveOffset = 0.5f;
@@ -187,7 +118,9 @@ int main() {
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glUseProgram(shader);
+        shaderArray[0]->useShader();
+        uniformModel = shaderArray[0]->getUniformModel();
+        uniformProjection = shaderArray[0]->getUniformProjection();
 
         glm::mat4 model(1.f);
         model = glm::translate(model, glm::vec3(0.f, 0.f, -2.5f));
@@ -200,6 +133,8 @@ int main() {
         for (std::unique_ptr<Mesh>& mesh : meshArray) {
             mesh->render();
         }
+
+        glUseProgram(0);
 
         glfwSwapBuffers(mainWindow);
     }
