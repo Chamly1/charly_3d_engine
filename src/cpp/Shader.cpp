@@ -16,11 +16,14 @@ void Shader::compileAndAttachShader(const char* shaderCode, GLenum shaderType) {
     glCompileShader(shader);
 
     GLint res = 0;
-    GLchar log[1024] = { 0 };
     glGetShaderiv(shader, GL_COMPILE_STATUS, &res);
     if (!res) {
-        glGetShaderInfoLog(shader, sizeof(log), NULL, log);
-        std::cout << "Error shader compiling: " << log << "\n";
+        GLint logLength;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+        char *log = new char[logLength];
+        glGetShaderInfoLog(shader, logLength, NULL, log);
+        std::cout << "Shader compiling error!\n" << log << "\n";
+        delete[] log;
         return;
     }
 
@@ -29,21 +32,28 @@ void Shader::compileAndAttachShader(const char* shaderCode, GLenum shaderType) {
 
 void Shader::linkAndValidateProgram() {
     GLint res = 0;
-    GLchar log[1024] = { 0 };
 
     glLinkProgram(mShaderID);
     glGetProgramiv(mShaderID, GL_LINK_STATUS, &res);
     if (!res) {
-        glGetProgramInfoLog(mShaderID, sizeof(log), NULL, log);
-        std::cout << "Error linking program: " << log << "\n";
+        GLint logLength;
+        glGetProgramiv(mShaderID, GL_INFO_LOG_LENGTH, &logLength);
+        char *log = new char[logLength];
+        glGetProgramInfoLog(mShaderID, logLength, NULL, log);
+        std::cout << "Linking program error!\n" << log << "\n";
+        delete[] log;
         return;
     }
 
     glValidateProgram(mShaderID);
     glGetProgramiv(mShaderID, GL_VALIDATE_STATUS, &res);
     if (!res) {
-        glGetProgramInfoLog(mShaderID, sizeof(log), NULL, log);
+        GLint logLength;
+        glGetProgramiv(mShaderID, GL_INFO_LOG_LENGTH, &logLength);
+        char *log = new char[logLength];
+        glGetProgramInfoLog(mShaderID, logLength, NULL, log);
         std::cout << "Error validation program: " << log << "\n";
+        delete[] log;
         return;
     }
 }
@@ -53,7 +63,7 @@ std::string Shader::loadShaderFromFile(const char* filePath) {
     std::ifstream fileStream(filePath, std::ios::in);
 
     if (!fileStream) {
-        std::cout << "Shader file read error: " << filePath << '\n';
+        std::cout << "Shader file read error! File: " << filePath << '\n';
         return "";
     }
 
