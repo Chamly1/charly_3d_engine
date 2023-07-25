@@ -1,15 +1,10 @@
 #include "OpenGLapp.hpp"
+#include "utils.hpp"
 
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
 #include <iostream>
-
-#define PI 3.14159f
-
-float degreesToRadians(float degrees) {
-    return degrees * (PI / 180.f);
-}
 
 // window size
 static const GLint DEFAULT_WINDOW_WIDTH = 800, DEFAULT_WINDOW_HEIGHT = 600;
