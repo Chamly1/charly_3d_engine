@@ -1,7 +1,8 @@
 #version 330
 
 layout (location = 0) in vec3 pos;
-out vec4 vertexColor;uniform mat4 model;
+out vec4 vertexColor;
+uniform mat4 model;
 uniform mat4 projection;
 
 void main() {
