@@ -11,8 +11,8 @@ private:
     GLuint mUniformModel;
     GLuint mUniformProjection;
 
-    void addShader(const char* shaderCode, GLenum shaderType);
-    void compileShader();
+    void compileAndAttachShader(const char* shaderCode, GLenum shaderType);
+    void linkAndValidateProgram();
     std::string loadShaderFromFile(const char* filePath);
 
 public:

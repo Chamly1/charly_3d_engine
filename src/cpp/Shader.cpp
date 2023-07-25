@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-void Shader::addShader(const char* shaderCode, GLenum shaderType) {
+void Shader::compileAndAttachShader(const char* shaderCode, GLenum shaderType) {
     GLuint shader = glCreateShader(shaderType);
 
     const GLchar* code[1];
@@ -27,7 +27,7 @@ void Shader::addShader(const char* shaderCode, GLenum shaderType) {
     glAttachShader(mShaderID, shader);
 }
 
-void Shader::compileShader() {
+void Shader::linkAndValidateProgram() {
     GLint res = 0;
     GLchar log[1024] = { 0 };
 
@@ -80,9 +80,9 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
         return;
     }
 
-    addShader(vertexShaderCode, GL_VERTEX_SHADER);
-    addShader(fragmentShaderCode, GL_FRAGMENT_SHADER);
-    compileShader();
+    compileAndAttachShader(vertexShaderCode, GL_VERTEX_SHADER);
+    compileAndAttachShader(fragmentShaderCode, GL_FRAGMENT_SHADER);
+    linkAndValidateProgram();
 
     mUniformModel = glGetUniformLocation(mShaderID, "model");
     mUniformProjection = glGetUniformLocation(mShaderID, "projection");
