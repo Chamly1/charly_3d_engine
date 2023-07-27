@@ -14,16 +14,31 @@ struct InputEvent {
         MouseMoved,
     };
 
+    struct MouseMoveEvent
+    {
+        double posX;
+        double posY;
+        double moveDeltaX;
+        double moveDeltaY;
+    };
+
     InputEventType type;
+
     int code;
+    MouseMoveEvent moveEvent;
 };
 
 class GLFWinputHandler {
 private:
     std::queue<InputEvent> mInputEventQueue;
 
+    bool mMouseFirstMove;
+    double mMousePosX;
+    double mMousePosY;
+
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void museButtonCallback(GLFWwindow* window, int button, int action, int mods);
+    static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
 
 public:
     GLFWinputHandler();
