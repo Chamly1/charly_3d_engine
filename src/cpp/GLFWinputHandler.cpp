@@ -1,7 +1,5 @@
 #include "GLFWinputHandler.hpp"
 
-#include <iostream>
-
 void GLFWinputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     GLFWinputHandler* thisHandler = static_cast<GLFWinputHandler*>(glfwGetWindowUserPointer(window));
 
@@ -10,11 +8,15 @@ void GLFWinputHandler::keyCallback(GLFWwindow* window, int key, int scancode, in
     switch (action) {
         case GLFW_PRESS:
         case GLFW_REPEAT:
+            thisHandler->mIsKeyOrButtonPressed[key] = true;
+
             inputEvent.type = InputEvent::KeyPressed;
             inputEvent.code = key;
             thisHandler->mInputEventQueue.push(inputEvent);
             break;
         case GLFW_RELEASE:
+            thisHandler->mIsKeyOrButtonPressed[key] = false;
+
             inputEvent.type = InputEvent::KeyReleased;
             inputEvent.code = key;
             thisHandler->mInputEventQueue.push(inputEvent);
@@ -29,11 +31,15 @@ void GLFWinputHandler::museButtonCallback(GLFWwindow* window, int button, int ac
 
     switch (action) {
         case GLFW_PRESS:
+            thisHandler->mIsKeyOrButtonPressed[button] = true;
+
             inputEvent.type = InputEvent::MouseButtonPressed;
             inputEvent.code = button;
             thisHandler->mInputEventQueue.push(inputEvent);
             break;
         case GLFW_RELEASE:
+            thisHandler->mIsKeyOrButtonPressed[button] = false;
+
             inputEvent.type = InputEvent::MouseButtonReleased;
             inputEvent.code = button;
             thisHandler->mInputEventQueue.push(inputEvent);
@@ -75,6 +81,7 @@ GLFWinputHandler::~GLFWinputHandler() {
 
 void GLFWinputHandler::init(GLFWwindow *window) {
     glfwSetWindowUserPointer(window, this);
+    memset(mIsKeyOrButtonPressed, 0, sizeof(mIsKeyOrButtonPressed));
 
     glfwSetKeyCallback(window, keyCallback);
     glfwSetMouseButtonCallback(window, museButtonCallback);
@@ -91,4 +98,12 @@ bool GLFWinputHandler::pullInputEvent(InputEvent& event) {
         return true;
     }
     return false;
+}
+
+bool GLFWinputHandler::isKeyPressed(int key) {
+    return mIsKeyOrButtonPressed[key];
+}
+
+bool GLFWinputHandler::isMouseButtonPressed(int button) {
+    return mIsKeyOrButtonPressed[button];
 }

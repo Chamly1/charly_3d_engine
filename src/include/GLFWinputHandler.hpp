@@ -36,6 +36,8 @@ private:
     double mMousePosX;
     double mMousePosY;
 
+    bool mIsKeyOrButtonPressed[GLFW_KEY_LAST];
+
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void museButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
@@ -53,6 +55,18 @@ public:
      * @return true if an event was returned
      */
     bool pullInputEvent(InputEvent& event);
+    /**
+     *
+     * @param key use GLFW_KEY_
+     * @return
+     */
+    bool isKeyPressed(int key);
+    /**
+     *
+     * @param button use GLFW_MOUSE_BUTTON_
+     * @return
+     */
+    bool isMouseButtonPressed(int button);
 
     // delete implicit methods
     GLFWinputHandler(GLFWinputHandler const &) = delete;
