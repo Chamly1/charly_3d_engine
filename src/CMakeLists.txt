@@ -1,6 +1,7 @@
 include_directories(include)
 
 add_library(main_obj_lib OBJECT
+        cpp/GLFWinputHandler.cpp
         cpp/OpenGLapp.cpp
         cpp/Mesh.cpp
         cpp/Shader.cpp
