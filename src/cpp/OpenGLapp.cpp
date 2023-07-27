@@ -72,6 +72,11 @@ void OpenGLapp::createShaders() {
 
 void OpenGLapp::handleEvents() {
     glfwPollEvents();
+
+    InputEvent event;
+    while (mInputHandel.pullInputEvent(event)) {
+        
+    }
 }
 void OpenGLapp::update() {
 
@@ -105,6 +110,8 @@ OpenGLapp::OpenGLapp() {
     createAndSetupWindow();
     createMeshes();
     createShaders();
+
+    mInputHandel.init(mWindow);
 
     GLfloat projectionAspectRation = static_cast<GLfloat>(mFramebufferWidth) / static_cast<GLfloat>(mFramebufferHeight);
     mProjectionMatrix = glm::perspective(45.f, projectionAspectRation, 0.1f, 100.f);

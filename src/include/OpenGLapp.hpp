@@ -3,6 +3,7 @@
 
 #include "Mesh.hpp"
 #include "Shader.hpp"
+#include "GLFWinputHandler.hpp"
 
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
@@ -13,6 +14,7 @@
 class OpenGLapp {
 private:
     GLFWwindow *mWindow;
+    GLFWinputHandler mInputHandel;
 
     int mFramebufferWidth, mFramebufferHeight;
 
