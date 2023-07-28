@@ -10,6 +10,7 @@ private:
     GLuint mShaderID;
     GLuint mUniformModel;
     GLuint mUniformProjection;
+    GLuint mUniformView;
 
     void compileAndAttachShader(const char* shaderCode, GLenum shaderType);
     void linkAndValidateProgram();
@@ -21,6 +22,7 @@ public:
 
     GLuint getUniformModel() const;
     GLuint getUniformProjection() const;
+    GLuint getUniformView() const;
     void useShader();
 
     // delete implicit methods

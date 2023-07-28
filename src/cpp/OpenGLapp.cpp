@@ -75,11 +75,24 @@ void OpenGLapp::handleEvents() {
 
     InputEvent event;
     while (mInputHandel.pullInputEvent(event)) {
-        
+
+    }
+
+    if (mInputHandel.isKeyPressed(GLFW_KEY_W)) {
+        mCamera.move(MoveDirection::Forward);
+    }
+    if (mInputHandel.isKeyPressed(GLFW_KEY_S)) {
+        mCamera.move(MoveDirection::Backward);
+    }
+    if (mInputHandel.isKeyPressed(GLFW_KEY_A)) {
+        mCamera.move(MoveDirection::Left);
+    }
+    if (mInputHandel.isKeyPressed(GLFW_KEY_D)) {
+        mCamera.move(MoveDirection::Right);
     }
 }
 void OpenGLapp::update() {
-
+    mCamera.update();
 }
 
 void OpenGLapp::render() {
@@ -89,6 +102,7 @@ void OpenGLapp::render() {
     mShaderArray[0]->useShader();
     GLuint uniformModel = mShaderArray[0]->getUniformModel();
     GLuint uniformProjection = mShaderArray[0]->getUniformProjection();
+    GLuint uniformView = mShaderArray[0]->getUniformView();
 
     glm::mat4 model(1.f);
     model = glm::translate(model, glm::vec3(0.f, 0.f, -2.5f));
@@ -97,6 +111,7 @@ void OpenGLapp::render() {
 
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(mProjectionMatrix));
+    glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(mCamera.calculateViewMatrix()));
 
     for (std::unique_ptr<Mesh>& mesh : mMeshArray) {
         mesh->render();
@@ -106,7 +121,8 @@ void OpenGLapp::render() {
     glfwSwapBuffers(mWindow);
 }
 
-OpenGLapp::OpenGLapp() {
+OpenGLapp::OpenGLapp()
+: mCamera(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
     createAndSetupWindow();
     createMeshes();
     createShaders();
