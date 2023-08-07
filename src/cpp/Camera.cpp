@@ -6,13 +6,13 @@ Camera::Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch
 , mYaw(yaw)
 , mPitch(pitch)
 , mFront(0.f, 0.f, -1.f)
-, mMoveSpeed(0.1f)
+, mMoveSpeed(2.5f)
 , mTurnSpeed(0.1f)
 , mMoveDirection(0.f) {
 
 }
 
-void Camera::update() {
+void Camera::update(float dt) {
     // update rotation
     mFront.x = cos(glm::radians(mYaw)) * cos(glm::radians(mPitch));
     mFront.y = sin(glm::radians(mPitch));
@@ -28,7 +28,7 @@ void Camera::update() {
         mMoveDirection.x != 0.f) {
 
         mMoveDirection = glm::normalize(mMoveDirection);
-        mPosition += mMoveDirection * mMoveSpeed;
+        mPosition += mMoveDirection * mMoveSpeed * dt;
         mMoveDirection = glm::vec3(0.f);
     }
 

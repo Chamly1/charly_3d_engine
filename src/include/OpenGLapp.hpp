@@ -30,7 +30,7 @@ private:
     void createShaders();
 
     void handleEvents();
-    void update();
+    void update(float dt);
     void render();
 
 public:

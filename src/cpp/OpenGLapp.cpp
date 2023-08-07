@@ -91,8 +91,8 @@ void OpenGLapp::handleEvents() {
         mCamera.move(MoveDirection::Right);
     }
 }
-void OpenGLapp::update() {
-    mCamera.update();
+void OpenGLapp::update(float dt) {
+    mCamera.update(dt);
 }
 
 void OpenGLapp::render() {
@@ -139,9 +139,17 @@ OpenGLapp::~OpenGLapp() {
 }
 
 void OpenGLapp::run() {
+    float prevTime;
+    float currTime = static_cast<float>(glfwGetTime());
+    float deltaTime = 0.f;
+
     while (!glfwWindowShouldClose(mWindow)) {
+        prevTime = currTime;
+        currTime = static_cast<float>(glfwGetTime());
+        deltaTime = currTime - prevTime;
+
         handleEvents();
-        update();
+        update(deltaTime);
         render();
     }
 }
