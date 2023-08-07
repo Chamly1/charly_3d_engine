@@ -37,19 +37,15 @@ void Camera::update(float dt) {
 void Camera::move(MoveDirection direction) {
     switch(direction) {
         case MoveDirection::Forward:
-//            mPosition += mFront * mMoveSpeed;
             mMoveDirection += mFront;
             break;
         case MoveDirection::Backward:
-//            mPosition -= mFront * mMoveSpeed;
             mMoveDirection -= mFront;
             break;
         case MoveDirection::Left:
-//            mPosition -= mRight * mMoveSpeed;
             mMoveDirection -= mRight;
             break;
         case MoveDirection::Right:
-//            mPosition += mRight * mMoveSpeed;
             mMoveDirection += mRight;
             break;
     }
