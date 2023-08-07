@@ -33,6 +33,7 @@ public:
 
     void update(float dt);
     void move(MoveDirection direction);
+    void rotate(GLfloat xChange, GLfloat yChange);
     glm::mat4 calculateViewMatrix();
 };
 

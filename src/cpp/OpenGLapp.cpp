@@ -75,9 +75,13 @@ void OpenGLapp::handleEvents() {
 
     InputEvent event;
     while (mInputHandel.pullInputEvent(event)) {
-
+        if (event.type == InputEvent::InputEventType::MouseMoved) {
+            mCamera.rotate(static_cast<float>(event.moveEvent.moveDeltaX),
+                           static_cast<float>(-event.moveEvent.moveDeltaY));
+        }
     }
 
+    // camera movement
     if (mInputHandel.isKeyPressed(GLFW_KEY_W)) {
         mCamera.move(MoveDirection::Forward);
     }

@@ -51,6 +51,17 @@ void Camera::move(MoveDirection direction) {
     }
 }
 
+void Camera::rotate(GLfloat xChange, GLfloat yChange) {
+    mYaw += xChange * mTurnSpeed;
+    mPitch += yChange * mTurnSpeed;
+
+    if (mPitch > 89.f) {
+        mPitch = 89.f;
+    } else if (mPitch < -89.f) {
+        mPitch = -89.f;
+    }
+}
+
 glm::mat4 Camera::calculateViewMatrix() {
     return glm::lookAt(mPosition, mPosition + mFront, mUp);
 }
