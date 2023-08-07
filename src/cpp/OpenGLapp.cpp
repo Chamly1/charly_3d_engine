@@ -135,6 +135,8 @@ OpenGLapp::OpenGLapp()
 
     GLfloat projectionAspectRation = static_cast<GLfloat>(mFramebufferWidth) / static_cast<GLfloat>(mFramebufferHeight);
     mProjectionMatrix = glm::perspective(45.f, projectionAspectRation, 0.1f, 100.f);
+
+//    glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 OpenGLapp::~OpenGLapp() {
