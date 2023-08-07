@@ -24,8 +24,8 @@ void Camera::update(float dt) {
 
     // update movement
     if (mMoveDirection.x != 0.f ||
-        mMoveDirection.x != 0.f ||
-        mMoveDirection.x != 0.f) {
+        mMoveDirection.y != 0.f ||
+        mMoveDirection.z != 0.f) {
 
         mMoveDirection = glm::normalize(mMoveDirection);
         mPosition += mMoveDirection * mMoveSpeed * dt;
