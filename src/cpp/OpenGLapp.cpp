@@ -109,7 +109,7 @@ void OpenGLapp::render() {
     GLuint uniformView = mShaderArray[0]->getUniformView();
 
     glm::mat4 model(1.f);
-    model = glm::translate(model, glm::vec3(0.f, 0.f, -2.5f));
+    model = glm::translate(model, glm::vec3(0.f, 0.f, 0.f));
     model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
     model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -126,7 +126,7 @@ void OpenGLapp::render() {
 }
 
 OpenGLapp::OpenGLapp()
-: mCamera(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
+: mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
     createAndSetupWindow();
     createMeshes();
     createShaders();
