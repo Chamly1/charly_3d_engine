@@ -5,9 +5,10 @@ Camera::Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch
 , mWorldUp(worldUp)
 , mYaw(yaw)
 , mPitch(pitch)
+, mRotationSphereRadius(2.5f)
 , mFront(0.f, 0.f, -1.f)
 , mMoveSpeed(2.5f)
-, mTurnSpeed(0.1f)
+, mTurnSpeed(0.4f)
 , mMoveDirection(0.f) {
 
 }
@@ -60,6 +61,21 @@ void Camera::rotate(GLfloat xChange, GLfloat yChange) {
     } else if (mPitch < -89.f) {
         mPitch = -89.f;
     }
+}
+
+void Camera::rotateOnSphere(GLfloat xChange, GLfloat yChange) {
+    mYaw += xChange * mTurnSpeed;
+    mPitch += yChange * mTurnSpeed;
+
+    if (mPitch > 89.9f) {
+        mPitch = 89.9f;
+    } else if (mPitch < -89.9f) {
+        mPitch = -89.9f;
+    }
+
+    mPosition.x = -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));
+    mPosition.y = -mRotationSphereRadius * sin(glm::radians(mPitch));
+    mPosition.z = -mRotationSphereRadius * cos(glm::radians(mPitch)) * sin(glm::radians(mYaw));
 }
 
 glm::mat4 Camera::calculateViewMatrix() {

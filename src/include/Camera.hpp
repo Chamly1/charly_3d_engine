@@ -14,14 +14,16 @@ enum class MoveDirection {
 
 class Camera {
 private:
-    glm::vec3 mPosition;
-    glm::vec3 mFront;
+    glm::vec3 mPosition; // camera position
+    glm::vec3 mFront; // camera look direction vector
     glm::vec3 mUp;
     glm::vec3 mRight;
     glm::vec3 mWorldUp;
 
     GLfloat mYaw;
     GLfloat mPitch;
+
+    GLfloat mRotationSphereRadius;
 
     GLfloat mMoveSpeed;
     GLfloat mTurnSpeed;
@@ -34,6 +36,7 @@ public:
     void update(float dt);
     void move(MoveDirection direction);
     void rotate(GLfloat xChange, GLfloat yChange);
+    void rotateOnSphere(GLfloat xChange, GLfloat yChange);
     glm::mat4 calculateViewMatrix();
 };
 

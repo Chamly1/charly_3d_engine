@@ -75,9 +75,11 @@ void OpenGLapp::handleEvents() {
 
     InputEvent event;
     while (mInputHandel.pullInputEvent(event)) {
-        if (event.type == InputEvent::InputEventType::MouseMoved) {
-            mCamera.rotate(static_cast<float>(event.moveEvent.moveDeltaX),
-                           static_cast<float>(-event.moveEvent.moveDeltaY));
+        if (mInputHandel.isMouseButtonPressed(GLFW_MOUSE_BUTTON_3)) {
+            if (event.type == InputEvent::InputEventType::MouseMoved) {
+                mCamera.rotateOnSphere(static_cast<float>(event.moveEvent.moveDeltaX),
+                                       static_cast<float>(-event.moveEvent.moveDeltaY));
+            }
         }
     }
 
