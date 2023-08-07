@@ -63,5 +63,5 @@ void Camera::rotate(GLfloat xChange, GLfloat yChange) {
 }
 
 glm::mat4 Camera::calculateViewMatrix() {
-    return glm::lookAt(mPosition, mPosition + mFront, mUp);
+    return glm::lookAt(mPosition, mPosition + mFront, mWorldUp);
 }
