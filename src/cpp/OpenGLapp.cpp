@@ -56,18 +56,24 @@ void OpenGLapp::createMeshes() {
     };
 
     GLfloat vertices[] = {
-            -1.f, -1.f, 0.f,
-            0.f, -1.f, 1.f,
-            1.f, -1.f, 0.f,
-            0.f, 1.f, 0.f
+            -1.f, -1.f, 0.f, 0.f, 0.f,
+            0.f, -1.f, 1.f, 0.5f, 0.f,
+            1.f, -1.f, 0.f, 1.f, 0.f,
+            0.f, 1.f, 0.f, 0.5f, 1.f
     };
 
-    mMeshArray.push_back(std::make_unique<Mesh>(vertices, 12, indices, 12));
+    mMeshArray.push_back(std::make_unique<Mesh>(vertices, 20, indices, 12, true));
 }
 
 void OpenGLapp::createShaders() {
     mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/base_shader.vert",
                                                     "resources/shaders/base_shader.frag"));
+    mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/texturing.vert",
+                                                    "resources/shaders/texturing.frag"));
+}
+
+void OpenGLapp::createTextures() {
+    mTextureArray.push_back(std::make_unique<Texture>("resources/textures/stone_texture.jpg", false));
 }
 
 void OpenGLapp::handleEvents() {
@@ -105,10 +111,11 @@ void OpenGLapp::render() {
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    mShaderArray[0]->useShader();
-    GLuint uniformModel = mShaderArray[0]->getUniformModel();
-    GLuint uniformProjection = mShaderArray[0]->getUniformProjection();
-    GLuint uniformView = mShaderArray[0]->getUniformView();
+    int shaderNum = 0;
+    mShaderArray[shaderNum]->useShader();
+    GLuint uniformModel = mShaderArray[shaderNum]->getUniformModel();
+    GLuint uniformProjection = mShaderArray[shaderNum]->getUniformProjection();
+    GLuint uniformView = mShaderArray[shaderNum]->getUniformView();
 
     glm::mat4 model(1.f);
     model = glm::translate(model, glm::vec3(0.f, 0.f, 0.f));
@@ -119,6 +126,7 @@ void OpenGLapp::render() {
     glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(mProjectionMatrix));
     glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(mCamera.calculateViewMatrix()));
 
+    mTextureArray[0]->useTexture();
     for (std::unique_ptr<Mesh>& mesh : mMeshArray) {
         mesh->render();
     }
@@ -132,6 +140,7 @@ OpenGLapp::OpenGLapp()
     createAndSetupWindow();
     createMeshes();
     createShaders();
+    createTextures();
 
     mInputHandel.init(mWindow);
 
