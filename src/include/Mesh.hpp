@@ -9,7 +9,7 @@ private:
     GLsizei mIndexCount;
 
 public:
-    Mesh(GLfloat *vertices, unsigned int verticesNum, unsigned int *indices, unsigned int indicesNum);
+    Mesh(GLfloat *vertices, unsigned int verticesNum, unsigned int *indices, unsigned int indicesNum, bool includeUVCoordinate);
     ~Mesh();
 
     void render();
