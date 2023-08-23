@@ -23,6 +23,9 @@ target_link_libraries(learn_OpenGL ${GLFW_LIB_DIR}/glfw3.lib)
 # link GLM
 include_directories(external/glm-0.9.9.8)
 
+# link STB
+include_directories(external/stb)
+
 include_directories(src/include)
 add_subdirectory(src)
 
