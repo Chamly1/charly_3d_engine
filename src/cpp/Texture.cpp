@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Texture::Texture(const char* filePath) {
+Texture::Texture(const char* filePath, bool includeAlphaChanel) {
     unsigned char* textureData = stbi_load(filePath, &mWidth, &mHeight, &mBitDepth, 0);
 
     if (!textureData) {
@@ -19,7 +19,13 @@ Texture::Texture(const char* filePath) {
     glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+    GLint internalformat;
+    if (includeAlphaChanel) {
+        internalformat = GL_RGBA;
+    } else {
+        internalformat = GL_RGB;
+    }
+    glTexImage2D(GL_TEXTURE_2D, 0, internalformat, mWidth, mHeight, 0, internalformat, GL_UNSIGNED_BYTE, textureData);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glBindTexture(GL_TEXTURE_2D, 0);

@@ -10,7 +10,7 @@ private:
     int mWidth, mHeight, mBitDepth;
 
 public:
-    Texture(const char* filePath);
+    Texture(const char* filePath, bool includeAlphaChanel);
     ~Texture();
 
     void useTexture();
