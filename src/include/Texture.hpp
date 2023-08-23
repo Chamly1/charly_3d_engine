@@ -2,7 +2,6 @@
 #define LEARN_OPENGL_TEXTURE_HPP
 
 #include "GL/glew.h"
-#define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
 class Texture {

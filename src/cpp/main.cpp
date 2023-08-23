@@ -1,3 +1,4 @@
+#define STB_IMAGE_IMPLEMENTATION
 #include "OpenGLapp.hpp"
 
 int main() {
