@@ -1,6 +1,7 @@
 include_directories(include)
 
 add_library(main_obj_lib OBJECT
+        cpp/Texture.cpp
         cpp/Camera.cpp
         cpp/GLFWinputHandler.cpp
         cpp/OpenGLapp.cpp
