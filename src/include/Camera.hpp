@@ -24,6 +24,7 @@ private:
     GLfloat mPitch;
 
     GLfloat mRotationSphereRadius;
+    glm::vec3 mRotationSphereCenter;
 
     glm::vec3 mMoveDirection;
 
@@ -38,6 +39,7 @@ public:
 
     void rotateOnSphere(GLfloat xChange, GLfloat yChange);
     void changeRotationSphereRadius(GLfloat delta);
+    void changeRotationSphereCenterPosition(GLfloat xChange, GLfloat yChange);
 
     glm::mat4 calculateViewMatrix();
 };

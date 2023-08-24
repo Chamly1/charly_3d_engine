@@ -2,7 +2,7 @@
 
 static const float ROTATION_SPEED = 0.4f;
 static const float SCROLL_SPEED = 0.1f;
-static const float MOVE_SPEED = 2.5f;
+static const float MOVE_SPEED = 0.00185f;
 
 Camera::Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch)
 : mPosition(position)
@@ -10,6 +10,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch
 , mYaw(yaw)
 , mPitch(pitch)
 , mRotationSphereRadius(2.5f)
+, mRotationSphereCenter(0.f)
 , mFront(0.f, 0.f, -1.f)
 , mMoveDirection(0.f) {
 
@@ -66,9 +67,9 @@ void Camera::rotate(GLfloat xChange, GLfloat yChange) {
 }
 
 void Camera::updateCameraPosition() {
-    mPosition.x = -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));
-    mPosition.y = -mRotationSphereRadius * sin(glm::radians(mPitch));
-    mPosition.z = -mRotationSphereRadius * cos(glm::radians(mPitch)) * sin(glm::radians(mYaw));
+    mPosition.x = mRotationSphereCenter.x + -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));
+    mPosition.y = mRotationSphereCenter.y + -mRotationSphereRadius * sin(glm::radians(mPitch));
+    mPosition.z = mRotationSphereCenter.z + -mRotationSphereRadius * cos(glm::radians(mPitch)) * sin(glm::radians(mYaw));
 }
 
 void Camera::rotateOnSphere(GLfloat xChange, GLfloat yChange) {
@@ -86,6 +87,13 @@ void Camera::rotateOnSphere(GLfloat xChange, GLfloat yChange) {
 
 void Camera::changeRotationSphereRadius(GLfloat delta) {
     mRotationSphereRadius += delta * SCROLL_SPEED;
+
+    updateCameraPosition();
+}
+
+void Camera::changeRotationSphereCenterPosition(GLfloat xChange, GLfloat yChange) {
+    mRotationSphereCenter += mRight * xChange * MOVE_SPEED * mRotationSphereRadius;
+    mRotationSphereCenter += mUp * yChange * MOVE_SPEED * mRotationSphereRadius;
 
     updateCameraPosition();
 }
