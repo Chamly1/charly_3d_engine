@@ -65,6 +65,12 @@ void Camera::rotate(GLfloat xChange, GLfloat yChange) {
     }
 }
 
+void Camera::updateCameraPosition() {
+    mPosition.x = -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));
+    mPosition.y = -mRotationSphereRadius * sin(glm::radians(mPitch));
+    mPosition.z = -mRotationSphereRadius * cos(glm::radians(mPitch)) * sin(glm::radians(mYaw));
+}
+
 void Camera::rotateOnSphere(GLfloat xChange, GLfloat yChange) {
     mYaw += xChange * ROTATION_SPEED;
     mPitch += yChange * ROTATION_SPEED;
@@ -75,17 +81,13 @@ void Camera::rotateOnSphere(GLfloat xChange, GLfloat yChange) {
         mPitch = -89.9f;
     }
 
-    mPosition.x = -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));
-    mPosition.y = -mRotationSphereRadius * sin(glm::radians(mPitch));
-    mPosition.z = -mRotationSphereRadius * cos(glm::radians(mPitch)) * sin(glm::radians(mYaw));
+    updateCameraPosition();
 }
 
 void Camera::changeRotationSphereRadius(GLfloat delta) {
     mRotationSphereRadius += delta * SCROLL_SPEED;
 
-    mPosition.x = -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));
-    mPosition.y = -mRotationSphereRadius * sin(glm::radians(mPitch));
-    mPosition.z = -mRotationSphereRadius * cos(glm::radians(mPitch)) * sin(glm::radians(mYaw));
+    updateCameraPosition();
 }
 
 glm::mat4 Camera::calculateViewMatrix() {

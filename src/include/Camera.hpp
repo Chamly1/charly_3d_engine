@@ -27,6 +27,8 @@ private:
 
     glm::vec3 mMoveDirection;
 
+    void updateCameraPosition();
+
 public:
     Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch);
 
