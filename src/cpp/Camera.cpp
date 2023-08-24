@@ -86,7 +86,7 @@ void Camera::rotateOnSphere(GLfloat xChange, GLfloat yChange) {
 }
 
 void Camera::changeRotationSphereRadius(GLfloat delta) {
-    mRotationSphereRadius += delta * SCROLL_SPEED;
+    mRotationSphereRadius += delta * SCROLL_SPEED * mRotationSphereRadius;
 
     updateCameraPosition();
 }
