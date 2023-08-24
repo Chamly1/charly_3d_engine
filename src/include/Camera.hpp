@@ -25,9 +25,6 @@ private:
 
     GLfloat mRotationSphereRadius;
 
-    GLfloat mMoveSpeed;
-    GLfloat mTurnSpeed;
-
     glm::vec3 mMoveDirection;
 
 public:

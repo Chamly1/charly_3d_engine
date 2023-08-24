@@ -1,6 +1,8 @@
 #include "Camera.hpp"
 
+static const float ROTATION_SPEED = 0.4f;
 static const float SCROLL_SPEED = 0.1f;
+static const float MOVE_SPEED = 2.5f;
 
 Camera::Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch)
 : mPosition(position)
@@ -9,8 +11,6 @@ Camera::Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch
 , mPitch(pitch)
 , mRotationSphereRadius(2.5f)
 , mFront(0.f, 0.f, -1.f)
-, mMoveSpeed(2.5f)
-, mTurnSpeed(0.4f)
 , mMoveDirection(0.f) {
 
 }
@@ -31,7 +31,7 @@ void Camera::update(float dt) {
         mMoveDirection.z != 0.f) {
 
         mMoveDirection = glm::normalize(mMoveDirection);
-        mPosition += mMoveDirection * mMoveSpeed * dt;
+        mPosition += mMoveDirection * MOVE_SPEED * dt;
         mMoveDirection = glm::vec3(0.f);
     }
 
@@ -55,8 +55,8 @@ void Camera::move(MoveDirection direction) {
 }
 
 void Camera::rotate(GLfloat xChange, GLfloat yChange) {
-    mYaw += xChange * mTurnSpeed;
-    mPitch += yChange * mTurnSpeed;
+    mYaw += xChange * ROTATION_SPEED;
+    mPitch += yChange * ROTATION_SPEED;
 
     if (mPitch > 89.f) {
         mPitch = 89.f;
@@ -66,8 +66,8 @@ void Camera::rotate(GLfloat xChange, GLfloat yChange) {
 }
 
 void Camera::rotateOnSphere(GLfloat xChange, GLfloat yChange) {
-    mYaw += xChange * mTurnSpeed;
-    mPitch += yChange * mTurnSpeed;
+    mYaw += xChange * ROTATION_SPEED;
+    mPitch += yChange * ROTATION_SPEED;
 
     if (mPitch > 89.9f) {
         mPitch = 89.9f;
