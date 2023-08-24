@@ -67,6 +67,17 @@ void GLFWinputHandler::cursorPosCallback(GLFWwindow* window, double xpos, double
     thisHandler->mMousePosY = ypos;
 }
 
+void GLFWinputHandler::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+    GLFWinputHandler* thisHandler = static_cast<GLFWinputHandler*>(glfwGetWindowUserPointer(window));
+
+    InputEvent inputEvent;
+    inputEvent.type = InputEvent::MouseWheelScrolled;
+
+    inputEvent.scrollEvent.xoffset = xoffset;
+    inputEvent.scrollEvent.yoffset = yoffset;
+    thisHandler->mInputEventQueue.push(inputEvent);
+}
+
 GLFWinputHandler::GLFWinputHandler() {
 
 }
@@ -89,6 +100,7 @@ void GLFWinputHandler::init(GLFWwindow *window) {
     mMousePosX = 0.f;
     mMousePosY = 0.f;
     glfwSetCursorPosCallback(window, cursorPosCallback);
+    glfwSetScrollCallback(window, scrollCallback);
 }
 
 bool GLFWinputHandler::pullInputEvent(InputEvent& event) {

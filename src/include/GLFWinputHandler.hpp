@@ -11,21 +11,27 @@ struct InputEvent {
         KeyReleased,
         MouseButtonPressed,
         MouseButtonReleased,
-        MouseMoved,
+        MouseMoved, // data in .moveEvent
+        MouseWheelScrolled // data in .scrollEvent
     };
 
-    struct MouseMoveEvent
-    {
+    struct MouseMoveEvent {
         double posX;
         double posY;
         double moveDeltaX;
         double moveDeltaY;
     };
 
+    struct MouseWheelScrollEvent {
+        double xoffset;
+        double yoffset;
+    };
+
     InputEventType type;
 
     int code;
     MouseMoveEvent moveEvent;
+    MouseWheelScrollEvent scrollEvent;
 };
 
 class GLFWinputHandler {
@@ -41,6 +47,7 @@ private:
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void museButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
+    static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 public:
     GLFWinputHandler();
