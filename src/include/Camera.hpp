@@ -36,7 +36,10 @@ public:
     void update(float dt);
     void move(MoveDirection direction);
     void rotate(GLfloat xChange, GLfloat yChange);
+
     void rotateOnSphere(GLfloat xChange, GLfloat yChange);
+    void changeRotationSphereRadius(GLfloat delta);
+
     glm::mat4 calculateViewMatrix();
 };
 

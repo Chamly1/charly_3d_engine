@@ -1,5 +1,7 @@
 #include "Camera.hpp"
 
+static const float SCROLL_SPEED = 0.1f;
+
 Camera::Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch)
 : mPosition(position)
 , mWorldUp(worldUp)
@@ -72,6 +74,14 @@ void Camera::rotateOnSphere(GLfloat xChange, GLfloat yChange) {
     } else if (mPitch < -89.9f) {
         mPitch = -89.9f;
     }
+
+    mPosition.x = -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));
+    mPosition.y = -mRotationSphereRadius * sin(glm::radians(mPitch));
+    mPosition.z = -mRotationSphereRadius * cos(glm::radians(mPitch)) * sin(glm::radians(mYaw));
+}
+
+void Camera::changeRotationSphereRadius(GLfloat delta) {
+    mRotationSphereRadius += delta * SCROLL_SPEED;
 
     mPosition.x = -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));
     mPosition.y = -mRotationSphereRadius * sin(glm::radians(mPitch));

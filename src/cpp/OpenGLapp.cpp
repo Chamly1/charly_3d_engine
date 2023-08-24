@@ -87,6 +87,10 @@ void OpenGLapp::handleEvents() {
                                        static_cast<float>(-event.moveEvent.moveDeltaY));
             }
         }
+
+        if (event.type == InputEvent::InputEventType::MouseWheelScrolled) {
+            mCamera.changeRotationSphereRadius(static_cast<float>(-event.scrollEvent.yoffset));
+        }
     }
 
     // camera movement
