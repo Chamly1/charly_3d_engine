@@ -5,6 +5,26 @@
 #include <iostream>
 #include <fstream>
 
+std::string Shader::loadShaderFromFile(const char* filePath) {
+    std::string shaderStr = "";
+    std::ifstream fileStream(filePath, std::ios::in);
+
+    if (!fileStream) {
+        std::cout << "Shader file read error! File: " << filePath << '\n';
+        return "";
+    }
+
+    std::string line = "";
+    while (!fileStream.eof()) {
+        std::getline(fileStream, line);
+        shaderStr.append(line + "\n");
+    }
+
+    fileStream.close();
+
+    return shaderStr;
+}
+
 void Shader::compileAndAttachShader(const char* shaderCode, GLenum shaderType) {
     GLuint shader = glCreateShader(shaderType);
 
@@ -58,26 +78,6 @@ void Shader::linkAndValidateProgram() {
         delete[] log;
         return;
     }
-}
-
-std::string Shader::loadShaderFromFile(const char* filePath) {
-    std::string shaderStr = "";
-    std::ifstream fileStream(filePath, std::ios::in);
-
-    if (!fileStream) {
-        std::cout << "Shader file read error! File: " << filePath << '\n';
-        return "";
-    }
-
-    std::string line = "";
-    while (!fileStream.eof()) {
-        std::getline(fileStream, line);
-        shaderStr.append(line + "\n");
-    }
-
-    fileStream.close();
-
-    return shaderStr;
 }
 
 Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {

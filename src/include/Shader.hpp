@@ -10,9 +10,9 @@ class Shader {
 private:
     GLuint mShaderID;
 
+    std::string loadShaderFromFile(const char* filePath);
     void compileAndAttachShader(const char* shaderCode, GLenum shaderType);
     void linkAndValidateProgram();
-    std::string loadShaderFromFile(const char* filePath);
 
 public:
     Shader(const char* vertexShaderPath, const char* fragmentShaderPath);
