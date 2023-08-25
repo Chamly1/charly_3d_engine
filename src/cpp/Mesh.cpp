@@ -24,9 +24,12 @@ Mesh::Mesh(GLfloat *vertices, unsigned int verticesNum, unsigned int *indices, u
         glEnableVertexAttribArray(0);
     }
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//    A VAO stores the glBindBuffer calls when the target is GL_ELEMENT_ARRAY_BUFFER. This
+//    also means it stores its unbind calls so make sure you don't unbind the element array buffer before
+//    unbinding your VAO, otherwise it doesn't have an IBO configured.
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 Mesh::~Mesh() {
@@ -37,8 +40,6 @@ Mesh::~Mesh() {
 
 void Mesh::render() {
     glBindVertexArray(mVAO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
     glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
