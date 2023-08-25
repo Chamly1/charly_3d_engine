@@ -70,6 +70,8 @@ void OpenGLapp::createShaders() {
                                                     "resources/shaders/base_shader.frag"));
     mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/texturing.vert",
                                                     "resources/shaders/texturing.frag"));
+    mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/flat_color.vert",
+                                                    "resources/shaders/flat_color.frag"));
 }
 
 void OpenGLapp::createTextures() {
@@ -128,11 +130,12 @@ void OpenGLapp::render() {
     model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
     model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
-    int shaderNum = 1;
+    int shaderNum = 2;
     mShaderArray[shaderNum]->bind();
     mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
     mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrix);
     mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
+    mShaderArray[shaderNum]->uploadUniform4f("uniformColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
 
     mTextureArray[0]->useTexture();
     for (std::unique_ptr<Mesh>& mesh : mMeshArray) {

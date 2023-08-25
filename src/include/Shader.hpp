@@ -21,6 +21,7 @@ public:
     void bind() const;
     void unbind() const;
 
+    void uploadUniform4f(const std::string& name, const glm::vec4& value);
     void uploadUniformMatrix4f(const std::string& name, const glm::mat4& value);
 
     // delete implicit methods
