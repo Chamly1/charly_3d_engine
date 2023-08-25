@@ -1,5 +1,7 @@
 #include "Shader.hpp"
 
+#include "glm/gtc/type_ptr.hpp"
+
 #include <iostream>
 #include <fstream>
 
@@ -93,28 +95,21 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
     compileAndAttachShader(vertexShaderCode, GL_VERTEX_SHADER);
     compileAndAttachShader(fragmentShaderCode, GL_FRAGMENT_SHADER);
     linkAndValidateProgram();
-
-    mUniformModel = glGetUniformLocation(mShaderID, "model");
-    mUniformProjection = glGetUniformLocation(mShaderID, "projection");
-    mUniformView = glGetUniformLocation(mShaderID, "view");
 }
 
 Shader::~Shader() {
     glDeleteProgram(mShaderID);
 }
 
-GLuint Shader::getUniformModel() const {
-    return mUniformModel;
-}
-
-GLuint Shader::getUniformProjection() const {
-    return mUniformProjection;
-}
-
-GLuint Shader::getUniformView() const {
-    return mUniformView;
-}
-
-void Shader::useShader() {
+void Shader::bind() const {
     glUseProgram(mShaderID);
+}
+
+void Shader::unbind() const {
+    glUseProgram(0);
+}
+
+void Shader::uploadUniformMatrix4f(const std::string& name, const glm::mat4& value) {
+    GLuint uniformLocation = glGetUniformLocation(mShaderID, name.c_str());
+    glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 }

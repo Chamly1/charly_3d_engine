@@ -2,15 +2,13 @@
 #define LEARN_OPENGL_SHADER_HPP
 
 #include "GL/glew.h"
+#include "glm/matrix.hpp"
 
 #include <string>
 
 class Shader {
 private:
     GLuint mShaderID;
-    GLuint mUniformModel;
-    GLuint mUniformProjection;
-    GLuint mUniformView;
 
     void compileAndAttachShader(const char* shaderCode, GLenum shaderType);
     void linkAndValidateProgram();
@@ -20,10 +18,10 @@ public:
     Shader(const char* vertexShaderPath, const char* fragmentShaderPath);
     ~Shader();
 
-    GLuint getUniformModel() const;
-    GLuint getUniformProjection() const;
-    GLuint getUniformView() const;
-    void useShader();
+    void bind() const;
+    void unbind() const;
+
+    void uploadUniformMatrix4f(const std::string& name, const glm::mat4& value);
 
     // delete implicit methods
     Shader(Shader const &) = delete;

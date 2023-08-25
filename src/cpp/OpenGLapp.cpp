@@ -123,20 +123,16 @@ void OpenGLapp::render() {
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    int shaderNum = 0;
-    mShaderArray[shaderNum]->useShader();
-    GLuint uniformModel = mShaderArray[shaderNum]->getUniformModel();
-    GLuint uniformProjection = mShaderArray[shaderNum]->getUniformProjection();
-    GLuint uniformView = mShaderArray[shaderNum]->getUniformView();
-
     glm::mat4 model(1.f);
     model = glm::translate(model, glm::vec3(0.f, 0.f, 0.f));
     model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
     model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
-    glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(mProjectionMatrix));
-    glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(mCamera.calculateViewMatrix()));
+    int shaderNum = 1;
+    mShaderArray[shaderNum]->bind();
+    mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
+    mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrix);
+    mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
 
     mTextureArray[0]->useTexture();
     for (std::unique_ptr<Mesh>& mesh : mMeshArray) {
