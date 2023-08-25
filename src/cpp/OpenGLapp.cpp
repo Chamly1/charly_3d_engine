@@ -135,7 +135,7 @@ void OpenGLapp::render() {
     mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
     mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrix);
     mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
-    mShaderArray[shaderNum]->uploadUniform4f("uniformColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
+    mShaderArray[shaderNum]->uploadUniform4f("uColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
 
     mTextureArray[0]->useTexture();
     for (std::unique_ptr<Mesh>& mesh : mMeshArray) {
