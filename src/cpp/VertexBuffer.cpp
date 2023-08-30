@@ -17,3 +17,11 @@ void VertexBuffer::bind() const {
 void VertexBuffer::unbind() const {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
+const BufferLayout& VertexBuffer::getLayout() const {
+    return mLayout;
+}
+
+void VertexBuffer::setLayout(const BufferLayout& layout) {
+    mLayout = layout;
+}
