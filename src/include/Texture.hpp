@@ -1,5 +1,5 @@
-#ifndef LEARN_OPENGL_TEXTURE_HPP
-#define LEARN_OPENGL_TEXTURE_HPP
+#ifndef CHAMLY_3D_ENGINE_TEXTURE_HPP
+#define CHAMLY_3D_ENGINE_TEXTURE_HPP
 
 #include "GL/glew.h"
 #include "stb/stb_image.h"
@@ -26,4 +26,4 @@ namespace Charly {
 
 }
 
-#endif //LEARN_OPENGL_TEXTURE_HPP
+#endif //CHAMLY_3D_ENGINE_TEXTURE_HPP

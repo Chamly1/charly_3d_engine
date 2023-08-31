@@ -1,5 +1,5 @@
-#ifndef LEARN_OPENGL_MESH_HPP
-#define LEARN_OPENGL_MESH_HPP
+#ifndef CHAMLY_3D_ENGINE_MESH_HPP
+#define CHAMLY_3D_ENGINE_MESH_HPP
 
 #include "GL/glew.h"
 
@@ -25,4 +25,4 @@ namespace Charly {
 
 }
 
-#endif //LEARN_OPENGL_MESH_HPP
+#endif //CHAMLY_3D_ENGINE_MESH_HPP

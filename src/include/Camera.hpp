@@ -1,5 +1,5 @@
-#ifndef LEARN_OPENGL_CAMERA_HPP
-#define LEARN_OPENGL_CAMERA_HPP
+#ifndef CHAMLY_3D_ENGINE_CAMERA_HPP
+#define CHAMLY_3D_ENGINE_CAMERA_HPP
 
 #include "GL/glew.h"
 #include "glm/glm.hpp"
@@ -48,4 +48,4 @@ namespace Charly {
 
 }
 
-#endif //LEARN_OPENGL_CAMERA_HPP
+#endif //CHAMLY_3D_ENGINE_CAMERA_HPP

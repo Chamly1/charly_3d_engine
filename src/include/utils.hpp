@@ -1,5 +1,5 @@
-#ifndef LEARN_OPENGL_UTILS_HPP
-#define LEARN_OPENGL_UTILS_HPP
+#ifndef CHAMLY_3D_ENGINE_UTILS_HPP
+#define CHAMLY_3D_ENGINE_UTILS_HPP
 
 namespace Charly {
 
@@ -9,4 +9,4 @@ namespace Charly {
 
 }
 
-#endif //LEARN_OPENGL_UTILS_HPP
+#endif //CHAMLY_3D_ENGINE_UTILS_HPP

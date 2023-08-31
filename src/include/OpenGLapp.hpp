@@ -1,5 +1,5 @@
-#ifndef LEARN_OPENGL_OPENGLAPP_HPP
-#define LEARN_OPENGL_OPENGLAPP_HPP
+#ifndef CHAMLY_3D_ENGINE_OPENGLAPP_HPP
+#define CHAMLY_3D_ENGINE_OPENGLAPP_HPP
 
 #include "Mesh.hpp"
 #include "Shader.hpp"
@@ -48,4 +48,4 @@ namespace Charly {
 
 }
 
-#endif //LEARN_OPENGL_OPENGLAPP_HPP
+#endif //CHAMLY_3D_ENGINE_OPENGLAPP_HPP

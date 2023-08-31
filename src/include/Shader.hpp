@@ -1,5 +1,5 @@
-#ifndef LEARN_OPENGL_SHADER_HPP
-#define LEARN_OPENGL_SHADER_HPP
+#ifndef CHAMLY_3D_ENGINE_SHADER_HPP
+#define CHAMLY_3D_ENGINE_SHADER_HPP
 
 #include "GL/glew.h"
 #include "glm/matrix.hpp"
@@ -35,4 +35,4 @@ namespace Charly {
 
 }
 
-#endif //LEARN_OPENGL_SHADER_HPP
+#endif //CHAMLY_3D_ENGINE_SHADER_HPP
