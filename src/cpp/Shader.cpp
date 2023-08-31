@@ -112,13 +112,23 @@ namespace Charly {
         glUseProgram(0);
     }
 
+    void Shader::uploadUniform1f(const std::string& name, float value) {
+        GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str());
+        glUniform1f(uniformLocation, value);
+    }
+
+    void Shader::uploadUniform3f(const std::string& name, const glm::vec3& value) {
+        GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str());
+        glUniform3fv(uniformLocation, 1, glm::value_ptr(value));
+    }
+
     void Shader::uploadUniform4f(const std::string& name, const glm::vec4& value) {
-        GLuint uniformLocation = glGetUniformLocation(mShaderID, name.c_str());
+        GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str());
         glUniform4fv(uniformLocation, 1, glm::value_ptr(value));
     }
 
     void Shader::uploadUniformMatrix4f(const std::string& name, const glm::mat4& value) {
-        GLuint uniformLocation = glGetUniformLocation(mShaderID, name.c_str());
+        GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str());
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
     }
 

@@ -23,6 +23,8 @@ namespace Charly {
         void bind() const;
         void unbind() const;
 
+        void uploadUniform1f(const std::string& name, float value);
+        void uploadUniform3f(const std::string& name, const glm::vec3& value);
         void uploadUniform4f(const std::string& name, const glm::vec4& value);
         void uploadUniformMatrix4f(const std::string& name, const glm::mat4& value);
 
