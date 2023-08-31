@@ -6,6 +6,7 @@
 #include "GLFWinputHandler.hpp"
 #include "Camera.hpp"
 #include "Texture.hpp"
+#include "VertexArray.hpp"
 
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
@@ -23,14 +24,14 @@ namespace Charly {
 
         int mFramebufferWidth, mFramebufferHeight;
 
-        std::vector<std::unique_ptr<Mesh>> mMeshArray;
+        std::vector<std::unique_ptr<VertexArray>> mVertexArrays;
         std::vector<std::unique_ptr<Shader>> mShaderArray;
         std::vector<std::unique_ptr<Texture>> mTextureArray;
 
         glm::mat4 mProjectionMatrix;
 
         void createAndSetupWindow();
-        void createMeshes();
+        void createVertexArrays();
         void createShaders();
         void createTextures();
 

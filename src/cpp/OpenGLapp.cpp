@@ -49,7 +49,7 @@ namespace Charly {
         glViewport(0, 0, mFramebufferWidth, mFramebufferHeight);
     }
 
-    void OpenGLapp::createMeshes() {
+    void OpenGLapp::createVertexArrays() {
         unsigned int indices[] = {
                 0, 3, 1,
                 1, 3, 2,
@@ -64,7 +64,13 @@ namespace Charly {
                 0.f, 1.f, 0.f, 0.5f, 1.f
         };
 
-        mMeshArray.push_back(std::make_unique<Mesh>(vertices, 20, indices, 12, true));
+        BufferLayout bufferLayout = {
+                {ShaderDataType::Float3, "pos"},
+                {ShaderDataType::Float2, "tex"}
+        };
+        std::shared_ptr<VertexBuffer> vertexBuffer = std::make_shared<VertexBuffer>(vertices, sizeof(vertices) * sizeof(float), bufferLayout);
+        std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices) / sizeof(unsigned int));
+        mVertexArrays.push_back(std::make_unique<VertexArray>(vertexBuffer, indexBuffer));
     }
 
 //void OpenGLapp::createMeshes() {
@@ -171,8 +177,10 @@ namespace Charly {
         mShaderArray[shaderNum]->uploadUniform4f("uColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
 
         mTextureArray[0]->useTexture();
-        for (std::unique_ptr<Mesh>& mesh : mMeshArray) {
-            mesh->render();
+        for (std::unique_ptr<VertexArray>& vertexArray : mVertexArrays) {
+            vertexArray->bind();
+            glDrawElements(GL_TRIANGLES, vertexArray->getIndicesCount(), GL_UNSIGNED_INT, 0);
+            vertexArray->unbind();
         }
 
         glUseProgram(0);
@@ -182,7 +190,7 @@ namespace Charly {
     OpenGLapp::OpenGLapp()
             : mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
         createAndSetupWindow();
-        createMeshes();
+        createVertexArrays();
         createShaders();
         createTextures();
 
