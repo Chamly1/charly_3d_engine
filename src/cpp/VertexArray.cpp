@@ -31,8 +31,10 @@ namespace Charly {
 
     VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer) {
         glCreateVertexArrays(1, &mVAO);
+        glBindVertexArray(mVAO);
         setVertexBuffer(vertexBuffer);
         setIndexBuffer(indexBuffer);
+        glBindVertexArray(0);
     }
 
     void VertexArray::bind() const {
