@@ -108,6 +108,9 @@ namespace Charly {
                                                         "resources/shaders/texturing.frag"));
         mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/flat_color.vert",
                                                         "resources/shaders/flat_color.frag"));
+
+        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/ambient_light.vert",
+                                                        "resources/shaders/ambient_light.frag"));
     }
 
     void OpenGLapp::createTextures() {
@@ -185,12 +188,14 @@ namespace Charly {
         model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
-        shaderNum = 2;
+        shaderNum = 3;
         mShaderArray[shaderNum]->bind();
         mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
         mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrix);
         mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
-        mShaderArray[shaderNum]->uploadUniform4f("uColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
+        mShaderArray[shaderNum]->uploadUniform3f("uColor", glm::vec3(0.2f, 0.3f, 0.8f));
+        mShaderArray[shaderNum]->uploadUniform3f("uLightColor", glm::vec3(1.f, 1.f, 1.f));
+        mShaderArray[shaderNum]->uploadUniform1f("uLightStrength", 0.2f);
 
         mVertexArrays[1]->bind();
         glDrawElements(GL_TRIANGLES, mVertexArrays[1]->getIndicesCount(), GL_UNSIGNED_INT, 0);
