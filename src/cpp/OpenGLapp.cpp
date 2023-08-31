@@ -50,59 +50,56 @@ namespace Charly {
     }
 
     void OpenGLapp::createVertexArrays() {
-        unsigned int indices[] = {
+        unsigned int pyramidIndices[] = {
                 0, 3, 1,
                 1, 3, 2,
                 2, 3, 0,
                 0, 1, 2
         };
 
-        GLfloat vertices[] = {
+        GLfloat pyramidVertices[] = {
                 -1.f, -1.f, 0.f, 0.f, 0.f,
                 0.f, -1.f, 1.f, 0.5f, 0.f,
                 1.f, -1.f, 0.f, 1.f, 0.f,
                 0.f, 1.f, 0.f, 0.5f, 1.f
         };
 
-        BufferLayout bufferLayout = {
+        BufferLayout pyramidBufferLayout = {
                 {ShaderDataType::Float3, "pos"},
                 {ShaderDataType::Float2, "tex"}
         };
-        std::shared_ptr<VertexBuffer> vertexBuffer = std::make_shared<VertexBuffer>(vertices, sizeof(vertices) * sizeof(float), bufferLayout);
-        std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices) / sizeof(unsigned int));
-        mVertexArrays.push_back(std::make_unique<VertexArray>(vertexBuffer, indexBuffer));
-    }
+        std::shared_ptr<VertexBuffer> pyramidVertexBuffer = std::make_shared<VertexBuffer>(pyramidVertices, sizeof(pyramidVertices) * sizeof(float), pyramidBufferLayout);
+        std::shared_ptr<IndexBuffer> pyramidIndexBuffer = std::make_shared<IndexBuffer>(pyramidIndices, sizeof(pyramidIndices) / sizeof(unsigned int));
+        mVertexArrays.push_back(std::make_unique<VertexArray>(pyramidVertexBuffer, pyramidIndexBuffer));
 
-//void OpenGLapp::createMeshes() {
-//    unsigned int indices[] = {
-//            0, 1, 2,
-//            0, 2, 3,
-//            0, 3, 7,
-//            0, 7, 4,
-//            4, 7, 6,
-//            4, 6, 5,
-//            6, 5, 1,
-//            6, 1, 2,
-//            6, 2, 3,
-//            6, 3, 7,
-//            4, 5, 0,
-//            5, 0, 1
-//    };
-//
-//    GLfloat vertices[] = {
-//            -1.f, -1.f, -1.f,
-//            1.f, -1.f, -1.f,
-//            1.f, 1.f, -1.f,
-//            -1.f, 1.f, -1.f,
-//
-//            -1.f, -1.f, 1.f,
-//            1.f, -1.f, 1.f,
-//            1.f, 1.f, 1.f,
-//            -1.f, 1.f, 1.f
-//    };
-//
-//    mMeshArray.push_back(std::make_unique<Mesh>(vertices, 24, indices, 36, false));
-//}
+        unsigned int cubeIndices[] = {
+                0, 1, 3, 3, 1, 2,
+                1, 5, 2, 2, 5, 6,
+                5, 4, 6, 6, 4, 7,
+                4, 0, 7, 7, 0, 3,
+                3, 2, 7, 7, 2, 6,
+                4, 5, 0, 0, 5, 1
+        };
+
+        GLfloat cubeVertices[] = {
+                -1.f, -1.f, -1.f,
+                1.f, -1.f, -1.f,
+                1.f, 1.f, -1.f,
+                -1.f, 1.f, -1.f,
+
+                -1.f, -1.f, 1.f,
+                1.f, -1.f, 1.f,
+                1.f, 1.f, 1.f,
+                -1.f, 1.f, 1.f
+        };
+
+        BufferLayout cubeBufferLayout = {
+                {ShaderDataType::Float3, "pos"}
+        };
+        std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices) * sizeof(float), cubeBufferLayout);
+        std::shared_ptr<IndexBuffer> cubeIndexBuffer = std::make_shared<IndexBuffer>(cubeIndices, sizeof(cubeIndices) / sizeof(unsigned int));
+        mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer, cubeIndexBuffer));
+    }
 
     void OpenGLapp::createShaders() {
         mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/base_shader.vert",
@@ -164,6 +161,7 @@ namespace Charly {
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // draw pyramid
         glm::mat4 model(1.f);
         model = glm::translate(model, glm::vec3(0.f, 0.f, 0.f));
         model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
@@ -177,11 +175,26 @@ namespace Charly {
         mShaderArray[shaderNum]->uploadUniform4f("uColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
 
         mTextureArray[0]->useTexture();
-        for (std::unique_ptr<VertexArray>& vertexArray : mVertexArrays) {
-            vertexArray->bind();
-            glDrawElements(GL_TRIANGLES, vertexArray->getIndicesCount(), GL_UNSIGNED_INT, 0);
-            vertexArray->unbind();
-        }
+        mVertexArrays[0]->bind();
+        glDrawElements(GL_TRIANGLES, mVertexArrays[0]->getIndicesCount(), GL_UNSIGNED_INT, 0);
+        mVertexArrays[0]->unbind();
+
+        // draw cube
+        model = glm::mat4(1.f);
+        model = glm::translate(model, glm::vec3(2.f, 0.f, 0.f));
+        model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+
+        shaderNum = 2;
+        mShaderArray[shaderNum]->bind();
+        mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
+        mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrix);
+        mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
+        mShaderArray[shaderNum]->uploadUniform4f("uColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
+
+        mVertexArrays[1]->bind();
+        glDrawElements(GL_TRIANGLES, mVertexArrays[1]->getIndicesCount(), GL_UNSIGNED_INT, 0);
+        mVertexArrays[1]->unbind();
 
         glUseProgram(0);
         glfwSwapBuffers(mWindow);
