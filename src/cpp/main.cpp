@@ -3,7 +3,7 @@
 
 int main() {
 
-    OpenGLapp openGLapp;
+    Charly::OpenGLapp openGLapp;
     openGLapp.run();
 
     return 0;

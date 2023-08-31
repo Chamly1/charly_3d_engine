@@ -3,17 +3,21 @@
 
 #include "GL/glew.h"
 
-class IndexBuffer {
-private:
-    GLuint mIBO;
-    unsigned int mCount;
+namespace Charly {
 
-public:
-    IndexBuffer(unsigned int* indices, unsigned int count);
-    ~IndexBuffer();
+    class IndexBuffer {
+    private:
+        GLuint mIBO;
+        unsigned int mCount;
 
-    void bind() const;
-    void unbind() const;
-};
+    public:
+        IndexBuffer(unsigned int* indices, unsigned int count);
+        ~IndexBuffer();
+
+        void bind() const;
+        void unbind() const;
+    };
+
+}
 
 #endif //LEARN_OPENGL_INDEXBUFFER_HPP

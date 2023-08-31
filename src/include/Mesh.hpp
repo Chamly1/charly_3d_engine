@@ -3,22 +3,26 @@
 
 #include "GL/glew.h"
 
-class Mesh {
-private:
-    GLuint mVAO, mVBO, mIBO;
-    GLsizei mIndexCount;
+namespace Charly {
 
-public:
-    Mesh(GLfloat *vertices, unsigned int verticesNum, unsigned int *indices, unsigned int indicesNum, bool includeUVCoordinate);
-    ~Mesh();
+    class Mesh {
+    private:
+        GLuint mVAO, mVBO, mIBO;
+        GLsizei mIndexCount;
 
-    void render();
+    public:
+        Mesh(GLfloat *vertices, unsigned int verticesNum, unsigned int *indices, unsigned int indicesNum, bool includeUVCoordinate);
+        ~Mesh();
 
-    // delete implicit methods
-    Mesh(Mesh const &) = delete;
-    Mesh & operator = (Mesh const &) = delete;
-    Mesh(Mesh &&) = delete;
-    Mesh & operator = (Mesh &&) = delete;
-};
+        void render();
+
+        // delete implicit methods
+        Mesh(Mesh const &) = delete;
+        Mesh & operator = (Mesh const &) = delete;
+        Mesh(Mesh &&) = delete;
+        Mesh & operator = (Mesh &&) = delete;
+    };
+
+}
 
 #endif //LEARN_OPENGL_MESH_HPP

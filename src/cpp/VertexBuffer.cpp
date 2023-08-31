@@ -1,27 +1,31 @@
 #include "VertexBuffer.hpp"
 
-VertexBuffer::VertexBuffer(float* vertices, unsigned int size) {
-    glCreateBuffers(1, &mVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
-}
+namespace Charly {
 
-VertexBuffer::~VertexBuffer() {
-    glDeleteBuffers(1, &mVBO);
-}
+    VertexBuffer::VertexBuffer(float* vertices, unsigned int size) {
+        glCreateBuffers(1, &mVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+        glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+    }
 
-void VertexBuffer::bind() const {
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-}
+    VertexBuffer::~VertexBuffer() {
+        glDeleteBuffers(1, &mVBO);
+    }
 
-void VertexBuffer::unbind() const {
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
+    void VertexBuffer::bind() const {
+        glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+    }
 
-const BufferLayout& VertexBuffer::getLayout() const {
-    return mLayout;
-}
+    void VertexBuffer::unbind() const {
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 
-void VertexBuffer::setLayout(const BufferLayout& layout) {
-    mLayout = layout;
+    const BufferLayout& VertexBuffer::getLayout() const {
+        return mLayout;
+    }
+
+    void VertexBuffer::setLayout(const BufferLayout& layout) {
+        mLayout = layout;
+    }
+
 }

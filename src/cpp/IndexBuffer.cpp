@@ -1,20 +1,24 @@
 #include "IndexBuffer.hpp"
 
-IndexBuffer::IndexBuffer(unsigned int* indices, unsigned int count)
-: mCount(count) {
-    glCreateBuffers(1, &mIBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-}
+namespace Charly {
 
-IndexBuffer::~IndexBuffer() {
-    glDeleteBuffers(1, &mIBO);
-}
+    IndexBuffer::IndexBuffer(unsigned int* indices, unsigned int count)
+            : mCount(count) {
+        glCreateBuffers(1, &mIBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+    }
 
-void IndexBuffer::bind() const {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-}
+    IndexBuffer::~IndexBuffer() {
+        glDeleteBuffers(1, &mIBO);
+    }
 
-void IndexBuffer::unbind() const {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    void IndexBuffer::bind() const {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+    }
+
+    void IndexBuffer::unbind() const {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
+
 }

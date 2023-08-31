@@ -5,43 +5,47 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-enum class MoveDirection {
-    Forward,
-    Backward,
-    Left,
-    Right
-};
+namespace Charly {
 
-class Camera {
-private:
-    glm::vec3 mPosition; // camera position
-    glm::vec3 mFront; // camera look direction vector
-    glm::vec3 mUp;
-    glm::vec3 mRight;
-    glm::vec3 mWorldUp;
+    enum class MoveDirection {
+        Forward,
+        Backward,
+        Left,
+        Right
+    };
 
-    GLfloat mYaw;
-    GLfloat mPitch;
+    class Camera {
+    private:
+        glm::vec3 mPosition; // camera position
+        glm::vec3 mFront; // camera look direction vector
+        glm::vec3 mUp;
+        glm::vec3 mRight;
+        glm::vec3 mWorldUp;
 
-    GLfloat mRotationSphereRadius;
-    glm::vec3 mRotationSphereCenter;
+        GLfloat mYaw;
+        GLfloat mPitch;
 
-    glm::vec3 mMoveDirection;
+        GLfloat mRotationSphereRadius;
+        glm::vec3 mRotationSphereCenter;
 
-    void updateCameraPosition();
+        glm::vec3 mMoveDirection;
 
-public:
-    Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch);
+        void updateCameraPosition();
 
-    void update(float dt);
-    void move(MoveDirection direction);
-    void rotate(GLfloat xChange, GLfloat yChange);
+    public:
+        Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch);
 
-    void rotateOnSphere(GLfloat xChange, GLfloat yChange);
-    void changeRotationSphereRadius(GLfloat delta);
-    void changeRotationSphereCenterPosition(GLfloat xChange, GLfloat yChange);
+        void update(float dt);
+        void move(MoveDirection direction);
+        void rotate(GLfloat xChange, GLfloat yChange);
 
-    glm::mat4 calculateViewMatrix();
-};
+        void rotateOnSphere(GLfloat xChange, GLfloat yChange);
+        void changeRotationSphereRadius(GLfloat delta);
+        void changeRotationSphereCenterPosition(GLfloat xChange, GLfloat yChange);
+
+        glm::mat4 calculateViewMatrix();
+    };
+
+}
 
 #endif //LEARN_OPENGL_CAMERA_HPP

@@ -6,29 +6,33 @@
 
 #include <string>
 
-class Shader {
-private:
-    GLuint mShaderID;
+namespace Charly {
 
-    std::string loadShaderFromFile(const char* filePath);
-    void compileAndAttachShader(const char* shaderCode, GLenum shaderType);
-    void linkAndValidateProgram();
+    class Shader {
+    private:
+        GLuint mShaderID;
 
-public:
-    Shader(const char* vertexShaderPath, const char* fragmentShaderPath);
-    ~Shader();
+        std::string loadShaderFromFile(const char* filePath);
+        void compileAndAttachShader(const char* shaderCode, GLenum shaderType);
+        void linkAndValidateProgram();
 
-    void bind() const;
-    void unbind() const;
+    public:
+        Shader(const char* vertexShaderPath, const char* fragmentShaderPath);
+        ~Shader();
 
-    void uploadUniform4f(const std::string& name, const glm::vec4& value);
-    void uploadUniformMatrix4f(const std::string& name, const glm::mat4& value);
+        void bind() const;
+        void unbind() const;
 
-    // delete implicit methods
-    Shader(Shader const &) = delete;
-    Shader & operator = (Shader const &) = delete;
-    Shader(Shader &&) = delete;
-    Shader & operator = (Shader &&) = delete;
-};
+        void uploadUniform4f(const std::string& name, const glm::vec4& value);
+        void uploadUniformMatrix4f(const std::string& name, const glm::mat4& value);
+
+        // delete implicit methods
+        Shader(Shader const &) = delete;
+        Shader & operator = (Shader const &) = delete;
+        Shader(Shader &&) = delete;
+        Shader & operator = (Shader &&) = delete;
+    };
+
+}
 
 #endif //LEARN_OPENGL_SHADER_HPP

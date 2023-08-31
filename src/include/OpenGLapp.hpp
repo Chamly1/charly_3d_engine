@@ -13,35 +13,39 @@
 #include <vector>
 #include <memory>
 
-class OpenGLapp {
-private:
-    GLFWwindow *mWindow;
-    GLFWinputHandler mInputHandel;
-    Camera mCamera;
+namespace Charly {
 
-    int mFramebufferWidth, mFramebufferHeight;
+    class OpenGLapp {
+    private:
+        GLFWwindow *mWindow;
+        GLFWinputHandler mInputHandel;
+        Camera mCamera;
 
-    std::vector<std::unique_ptr<Mesh>> mMeshArray;
-    std::vector<std::unique_ptr<Shader>> mShaderArray;
-    std::vector<std::unique_ptr<Texture>> mTextureArray;
+        int mFramebufferWidth, mFramebufferHeight;
 
-    glm::mat4 mProjectionMatrix;
+        std::vector<std::unique_ptr<Mesh>> mMeshArray;
+        std::vector<std::unique_ptr<Shader>> mShaderArray;
+        std::vector<std::unique_ptr<Texture>> mTextureArray;
 
-    void createAndSetupWindow();
-    void createMeshes();
-    void createShaders();
-    void createTextures();
+        glm::mat4 mProjectionMatrix;
 
-    void handleEvents();
-    void update(float dt);
-    void render();
+        void createAndSetupWindow();
+        void createMeshes();
+        void createShaders();
+        void createTextures();
 
-public:
-    OpenGLapp();
-    ~OpenGLapp();
+        void handleEvents();
+        void update(float dt);
+        void render();
 
-    void run();
+    public:
+        OpenGLapp();
+        ~OpenGLapp();
 
-};
+        void run();
+
+    };
+
+}
 
 #endif //LEARN_OPENGL_OPENGLAPP_HPP

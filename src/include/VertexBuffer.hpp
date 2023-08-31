@@ -5,20 +5,24 @@
 
 #include "GL/glew.h"
 
-class VertexBuffer {
-private:
-    GLuint mVBO;
-    BufferLayout mLayout;
+namespace Charly {
 
-public:
-    VertexBuffer(float* vertices, unsigned int size);
-    ~VertexBuffer();
+    class VertexBuffer {
+    private:
+        GLuint mVBO;
+        BufferLayout mLayout;
 
-    void bind() const;
-    void unbind() const;
+    public:
+        VertexBuffer(float* vertices, unsigned int size);
+        ~VertexBuffer();
 
-    const BufferLayout& getLayout() const;
-    void setLayout(const BufferLayout& layout);
-};
+        void bind() const;
+        void unbind() const;
+
+        const BufferLayout& getLayout() const;
+        void setLayout(const BufferLayout& layout);
+    };
+
+}
 
 #endif //LEARN_OPENGL_VERTEXBUFFER_HPP

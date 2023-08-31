@@ -4,22 +4,26 @@
 #include "GL/glew.h"
 #include "stb/stb_image.h"
 
-class Texture {
-private:
-    GLuint mTextureID;
-    int mWidth, mHeight, mBitDepth;
+namespace Charly {
 
-public:
-    Texture(const char* filePath, bool includeAlphaChanel);
-    ~Texture();
+    class Texture {
+    private:
+        GLuint mTextureID;
+        int mWidth, mHeight, mBitDepth;
 
-    void useTexture();
+    public:
+        Texture(const char* filePath, bool includeAlphaChanel);
+        ~Texture();
 
-    // delete implicit methods
-    Texture(Texture const &) = delete;
-    Texture & operator = (Texture const &) = delete;
-    Texture(Texture &&) = delete;
-    Texture & operator = (Texture &&) = delete;
-};
+        void useTexture();
+
+        // delete implicit methods
+        Texture(Texture const &) = delete;
+        Texture & operator = (Texture const &) = delete;
+        Texture(Texture &&) = delete;
+        Texture & operator = (Texture &&) = delete;
+    };
+
+}
 
 #endif //LEARN_OPENGL_TEXTURE_HPP
