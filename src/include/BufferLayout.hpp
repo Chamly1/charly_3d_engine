@@ -59,7 +59,7 @@ namespace Charly {
         return 0;
     }
 
-    unsigned int getshaderDataTypeElementCount(ShaderDataType type) {
+    unsigned int getShaderDataTypeElementCount(ShaderDataType type) {
         switch (type) {
             case ShaderDataType::Float:     return 1;
             case ShaderDataType::Float2:    return 2;
