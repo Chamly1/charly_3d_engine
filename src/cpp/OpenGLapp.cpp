@@ -82,19 +82,20 @@ namespace Charly {
         };
 
         GLfloat cubeVertices[] = {
-                -1.f, -1.f, -1.f,
-                1.f, -1.f, -1.f,
-                1.f, 1.f, -1.f,
-                -1.f, 1.f, -1.f,
+                -1.f, -1.f, -1.f, -0.57735f, -0.57735f, -0.57735f,
+                1.f, -1.f, -1.f, 0.57735f, -0.57735f, -0.57735f,
+                1.f, 1.f, -1.f, 0.57735f, 0.57735f, -0.57735f,
+                -1.f, 1.f, -1.f, -0.57735f, 0.57735f, -0.57735f,
 
-                -1.f, -1.f, 1.f,
-                1.f, -1.f, 1.f,
-                1.f, 1.f, 1.f,
-                -1.f, 1.f, 1.f
+                -1.f, -1.f, 1.f, -0.57735f, -0.57735f, 0.57735f,
+                1.f, -1.f, 1.f, 0.57735f, -0.57735f, 0.57735f,
+                1.f, 1.f, 1.f, 0.57735f, 0.57735f, 0.57735f,
+                -1.f, 1.f, 1.f, -0.57735f, 0.57735f, 0.57735f
         };
 
         BufferLayout cubeBufferLayout = {
-                {ShaderDataType::Float3, "pos"}
+                {ShaderDataType::Float3, "pos"},
+                {ShaderDataType::Float3, "normal"}
         };
         std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices) * sizeof(float), cubeBufferLayout);
         std::shared_ptr<IndexBuffer> cubeIndexBuffer = std::make_shared<IndexBuffer>(cubeIndices, sizeof(cubeIndices) / sizeof(unsigned int));
@@ -111,6 +112,8 @@ namespace Charly {
 
         mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/ambient_light.vert",
                                                         "resources/shaders/ambient_light.frag"));
+        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/diffuse_light.vert",
+                                                        "resources/shaders/diffuse_light.frag"));
     }
 
     void OpenGLapp::createTextures() {
@@ -168,7 +171,7 @@ namespace Charly {
         glm::mat4 model(1.f);
         model = glm::translate(model, glm::vec3(0.f, 0.f, 0.f));
         model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+//        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
         int shaderNum = 2;
         mShaderArray[shaderNum]->bind();
@@ -186,16 +189,16 @@ namespace Charly {
         model = glm::mat4(1.f);
         model = glm::translate(model, glm::vec3(2.f, 0.f, 0.f));
         model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+//        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
-        shaderNum = 3;
+        shaderNum = 4;
         mShaderArray[shaderNum]->bind();
         mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
         mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrix);
         mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
         mShaderArray[shaderNum]->uploadUniform3f("uColor", glm::vec3(0.2f, 0.3f, 0.8f));
         mShaderArray[shaderNum]->uploadUniform3f("uLightColor", glm::vec3(1.f, 1.f, 1.f));
-        mShaderArray[shaderNum]->uploadUniform1f("uLightStrength", 0.2f);
+        mShaderArray[shaderNum]->uploadUniform3f("uLightPosition", glm::vec3(2.f, 4.f, 0.f));
 
         mVertexArrays[1]->bind();
         glDrawElements(GL_TRIANGLES, mVertexArrays[1]->getIndicesCount(), GL_UNSIGNED_INT, 0);
