@@ -46,6 +46,7 @@ void Shader::compileAndAttachShader(const char* shaderCode, GLenum shaderType) {
         glGetShaderInfoLog(shader, logLength, NULL, log);
         std::cout << "Shader compiling error!\n" << log << "\n";
         delete[] log;
+//        glDeleteShader(shader);
         return;
     }
 

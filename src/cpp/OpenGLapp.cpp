@@ -65,6 +65,37 @@ void OpenGLapp::createMeshes() {
     mMeshArray.push_back(std::make_unique<Mesh>(vertices, 20, indices, 12, true));
 }
 
+//void OpenGLapp::createMeshes() {
+//    unsigned int indices[] = {
+//            0, 1, 2,
+//            0, 2, 3,
+//            0, 3, 7,
+//            0, 7, 4,
+//            4, 7, 6,
+//            4, 6, 5,
+//            6, 5, 1,
+//            6, 1, 2,
+//            6, 2, 3,
+//            6, 3, 7,
+//            4, 5, 0,
+//            5, 0, 1
+//    };
+//
+//    GLfloat vertices[] = {
+//            -1.f, -1.f, -1.f,
+//            1.f, -1.f, -1.f,
+//            1.f, 1.f, -1.f,
+//            -1.f, 1.f, -1.f,
+//
+//            -1.f, -1.f, 1.f,
+//            1.f, -1.f, 1.f,
+//            1.f, 1.f, 1.f,
+//            -1.f, 1.f, 1.f
+//    };
+//
+//    mMeshArray.push_back(std::make_unique<Mesh>(vertices, 24, indices, 36, false));
+//}
+
 void OpenGLapp::createShaders() {
     mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/base_shader.vert",
                                                     "resources/shaders/base_shader.frag"));
