@@ -13,14 +13,14 @@ namespace Charly {
         BufferLayout mLayout;
 
     public:
-        VertexBuffer(float* vertices, unsigned int size);
+        VertexBuffer(float* vertices, unsigned int size, const BufferLayout& layout);
         ~VertexBuffer();
 
         void bind() const;
         void unbind() const;
 
         const BufferLayout& getLayout() const;
-        void setLayout(const BufferLayout& layout);
+//        void setLayout(const BufferLayout& layout);
     };
 
 }

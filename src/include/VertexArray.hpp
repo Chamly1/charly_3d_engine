@@ -16,14 +16,16 @@ namespace Charly {
         std::shared_ptr<VertexBuffer> mVertexBuffer;
         std::shared_ptr<IndexBuffer> mIndexBuffer;
 
+        void setVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer);
+        void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer);
+
     public:
-        VertexArray();
+        VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer);
 
         void bind() const;
         void unbind() const;
 
-        void setVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer);
-        void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer);
+        unsigned int getIndicesCount() const;
     };
 
 }

@@ -16,6 +16,8 @@ namespace Charly {
 
         void bind() const;
         void unbind() const;
+
+        unsigned int getCount() const;
     };
 
 }

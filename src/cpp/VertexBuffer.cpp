@@ -2,7 +2,8 @@
 
 namespace Charly {
 
-    VertexBuffer::VertexBuffer(float* vertices, unsigned int size) {
+    VertexBuffer::VertexBuffer(float* vertices, unsigned int size, const BufferLayout& layout)
+    : mLayout(layout) {
         glCreateBuffers(1, &mVBO);
         glBindBuffer(GL_ARRAY_BUFFER, mVBO);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
@@ -24,8 +25,8 @@ namespace Charly {
         return mLayout;
     }
 
-    void VertexBuffer::setLayout(const BufferLayout& layout) {
-        mLayout = layout;
-    }
+//    void VertexBuffer::setLayout(const BufferLayout& layout) {
+//        mLayout = layout;
+//    }
 
 }

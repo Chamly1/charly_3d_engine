@@ -41,7 +41,7 @@ namespace Charly {
         return 0;
     }
 
-    GLenum shaderDataTypeToOpenGLBaseType(ShaderDataType type) {
+    inline GLenum shaderDataTypeToOpenGLBaseType(ShaderDataType type) {
         switch (type) {
             case ShaderDataType::Float:     return GL_FLOAT;
             case ShaderDataType::Float2:    return GL_FLOAT;
@@ -59,7 +59,7 @@ namespace Charly {
         return 0;
     }
 
-    unsigned int getShaderDataTypeElementCount(ShaderDataType type) {
+    inline unsigned int getShaderDataTypeElementCount(ShaderDataType type) {
         switch (type) {
             case ShaderDataType::Float:     return 1;
             case ShaderDataType::Float2:    return 2;

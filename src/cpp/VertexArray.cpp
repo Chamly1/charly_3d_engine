@@ -1,18 +1,7 @@
 #include "VertexArray.hpp"
+#include "BufferLayout.hpp"
 
 namespace Charly {
-
-    VertexArray::VertexArray() {
-        glCreateVertexArrays(1, &mVAO);
-    }
-
-    void VertexArray::bind() const {
-        glBindVertexArray(mVAO);
-    }
-
-    void VertexArray::unbind() const {
-        glBindVertexArray(0);
-    }
 
     void VertexArray::setVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
         glBindVertexArray(mVAO);
@@ -38,6 +27,24 @@ namespace Charly {
         indexBuffer->bind();
 
         mIndexBuffer = indexBuffer;
+    }
+
+    VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer) {
+        glCreateVertexArrays(1, &mVAO);
+        setVertexBuffer(vertexBuffer);
+        setIndexBuffer(indexBuffer);
+    }
+
+    void VertexArray::bind() const {
+        glBindVertexArray(mVAO);
+    }
+
+    void VertexArray::unbind() const {
+        glBindVertexArray(0);
+    }
+
+    unsigned int VertexArray::getIndicesCount() const {
+        return mIndexBuffer->getCount();
     }
 
 }
