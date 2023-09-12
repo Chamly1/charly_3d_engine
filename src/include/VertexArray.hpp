@@ -27,6 +27,8 @@ namespace Charly {
         void bind() const;
         void unbind() const;
 
+        void draw() const;
+
         unsigned int getIndicesCount() const;
     };
 

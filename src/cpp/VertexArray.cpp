@@ -54,6 +54,16 @@ namespace Charly {
         glBindVertexArray(0);
     }
 
+    void VertexArray::draw() const {
+        glBindVertexArray(mVAO);
+        if (mIndexBuffer) {
+            glDrawElements(GL_TRIANGLES, mCount, GL_UNSIGNED_INT, 0);
+        } else {
+            glDrawArrays(GL_TRIANGLES, 0, mCount);
+        }
+        glBindVertexArray(0);
+    }
+
     unsigned int VertexArray::getIndicesCount() const {
         return mIndexBuffer->getCount();
     }
