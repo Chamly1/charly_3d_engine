@@ -68,9 +68,9 @@ namespace Charly {
                 {ShaderDataType::Float3, "pos"},
                 {ShaderDataType::Float2, "tex"}
         };
-        std::shared_ptr<VertexBuffer> pyramidVertexBuffer = std::make_shared<VertexBuffer>(pyramidVertices, sizeof(pyramidVertices) * sizeof(float), pyramidBufferLayout);
+        std::shared_ptr<VertexBuffer> pyramidVertexBuffer = std::make_shared<VertexBuffer>(pyramidVertices, sizeof(pyramidVertices) * sizeof(float));
         std::shared_ptr<IndexBuffer> pyramidIndexBuffer = std::make_shared<IndexBuffer>(pyramidIndices, sizeof(pyramidIndices) / sizeof(unsigned int));
-        mVertexArrays.push_back(std::make_unique<VertexArray>(pyramidVertexBuffer, pyramidIndexBuffer));
+        mVertexArrays.push_back(std::make_unique<VertexArray>(pyramidVertexBuffer, pyramidIndexBuffer, pyramidBufferLayout));
 
         unsigned int cubeIndices[] = {
                 0, 1, 3, 3, 1, 2,
@@ -97,9 +97,60 @@ namespace Charly {
                 {ShaderDataType::Float3, "pos"},
                 {ShaderDataType::Float3, "normal"}
         };
-        std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices) * sizeof(float), cubeBufferLayout);
+        std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices) * sizeof(float));
         std::shared_ptr<IndexBuffer> cubeIndexBuffer = std::make_shared<IndexBuffer>(cubeIndices, sizeof(cubeIndices) / sizeof(unsigned int));
-        mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer, cubeIndexBuffer));
+        mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer, cubeIndexBuffer, cubeBufferLayout));
+
+        GLfloat cubeVertices2[] = {
+                -1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
+                1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
+                1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,
+                1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,
+                -1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,
+                -1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
+
+                -1.f, -1.f,  1.f,  0.0f,  0.0f,  1.0f,
+                1.f, -1.f,  1.f,  0.0f,  0.0f,  1.0f,
+                1.f,  1.f,  1.f,  0.0f,  0.0f,  1.0f,
+                1.f,  1.f,  1.f,  0.0f,  0.0f,  1.0f,
+                -1.f,  1.f,  1.f,  0.0f,  0.0f,  1.0f,
+                -1.f, -1.f,  1.f,  0.0f,  0.0f,  1.0f,
+
+                -1.f,  1.f,  1.f, -1.0f,  0.0f,  0.0f,
+                -1.f,  1.f, -1.f, -1.0f,  0.0f,  0.0f,
+                -1.f, -1.f, -1.f, -1.0f,  0.0f,  0.0f,
+                -1.f, -1.f, -1.f, -1.0f,  0.0f,  0.0f,
+                -1.f, -1.f,  1.f, -1.0f,  0.0f,  0.0f,
+                -1.f,  1.f,  1.f, -1.0f,  0.0f,  0.0f,
+
+                1.f,  1.f,  1.f,  1.0f,  0.0f,  0.0f,
+                1.f,  1.f, -1.f,  1.0f,  0.0f,  0.0f,
+                1.f, -1.f, -1.f,  1.0f,  0.0f,  0.0f,
+                1.f, -1.f, -1.f,  1.0f,  0.0f,  0.0f,
+                1.f, -1.f,  1.f,  1.0f,  0.0f,  0.0f,
+                1.f,  1.f,  1.f,  1.0f,  0.0f,  0.0f,
+
+                -1.f, -1.f, -1.f,  0.0f, -1.0f,  0.0f,
+                1.f, -1.f, -1.f,  0.0f, -1.0f,  0.0f,
+                1.f, -1.f,  1.f,  0.0f, -1.0f,  0.0f,
+                1.f, -1.f,  1.f,  0.0f, -1.0f,  0.0f,
+                -1.f, -1.f,  1.f,  0.0f, -1.0f,  0.0f,
+                -1.f, -1.f, -1.f,  0.0f, -1.0f,  0.0f,
+
+                -1.f,  1.f, -1.f,  0.0f,  1.0f,  0.0f,
+                1.f,  1.f, -1.f,  0.0f,  1.0f,  0.0f,
+                1.f,  1.f,  1.f,  0.0f,  1.0f,  0.0f,
+                1.f,  1.f,  1.f,  0.0f,  1.0f,  0.0f,
+                -1.f,  1.f,  1.f,  0.0f,  1.0f,  0.0f,
+                -1.f,  1.f, -1.f,  0.0f,  1.0f,  0.0f
+        };
+
+        BufferLayout cubeBufferLayout2 = {
+                {ShaderDataType::Float3, "pos"},
+                {ShaderDataType::Float3, "normal"}
+        };
+        std::shared_ptr<VertexBuffer> cubeVertexBuffer2 = std::make_shared<VertexBuffer>(cubeVertices2, sizeof(cubeVertices2) * sizeof(float));
+        mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer2, cubeBufferLayout2, sizeof(cubeVertices2) / cubeBufferLayout2.getStride()));
     }
 
     void OpenGLapp::createShaders() {
@@ -200,9 +251,10 @@ namespace Charly {
         mShaderArray[shaderNum]->uploadUniform3f("uLightColor", glm::vec3(1.f, 1.f, 1.f));
         mShaderArray[shaderNum]->uploadUniform3f("uLightPosition", glm::vec3(2.f, 4.f, 0.f));
 
-        mVertexArrays[1]->bind();
-        glDrawElements(GL_TRIANGLES, mVertexArrays[1]->getIndicesCount(), GL_UNSIGNED_INT, 0);
-        mVertexArrays[1]->unbind();
+//        mVertexArrays[1]->bind();
+//        glDrawElements(GL_TRIANGLES, mVertexArrays[1]->getIndicesCount(), GL_UNSIGNED_INT, 0);
+//        mVertexArrays[1]->unbind();
+        mVertexArrays[2]->draw();
 
         glUseProgram(0);
         glfwSwapBuffers(mWindow);
