@@ -10,17 +10,14 @@ namespace Charly {
     class VertexBuffer {
     private:
         GLuint mVBO;
-        BufferLayout mLayout;
 
     public:
-        VertexBuffer(float* vertices, unsigned int size, const BufferLayout& layout);
+        VertexBuffer(float* vertices, unsigned int size);
         ~VertexBuffer();
 
         void bind() const;
         void unbind() const;
 
-        const BufferLayout& getLayout() const;
-//        void setLayout(const BufferLayout& layout);
     };
 
 }

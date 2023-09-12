@@ -3,11 +3,10 @@
 
 namespace Charly {
 
-    void VertexArray::setVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
+    void VertexArray::setVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer, const BufferLayout& layout) {
         glBindVertexArray(mVAO);
         vertexBuffer->bind();
         unsigned int index = 0;
-        const auto& layout = vertexBuffer->getLayout();
         for (const auto& element : layout.getElements()) {
             glEnableVertexAttribArray(index);
             glVertexAttribPointer(index,
@@ -29,11 +28,21 @@ namespace Charly {
         mIndexBuffer = indexBuffer;
     }
 
-    VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer) {
+    VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer, const BufferLayout& layout)
+    : mCount(indexBuffer->getCount()) {
         glCreateVertexArrays(1, &mVAO);
         glBindVertexArray(mVAO);
-        setVertexBuffer(vertexBuffer);
+        setVertexBuffer(vertexBuffer, layout);
         setIndexBuffer(indexBuffer);
+        glBindVertexArray(0);
+    }
+
+    VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const BufferLayout& layout, unsigned int count)
+    : mIndexBuffer(nullptr)
+    , mCount(count) {
+        glCreateVertexArrays(1, &mVAO);
+        glBindVertexArray(mVAO);
+        setVertexBuffer(vertexBuffer, layout);
         glBindVertexArray(0);
     }
 
