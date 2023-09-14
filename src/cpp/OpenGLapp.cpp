@@ -68,7 +68,7 @@ namespace Charly {
                 {ShaderDataType::Float3, "pos"},
                 {ShaderDataType::Float2, "tex"}
         };
-        std::shared_ptr<VertexBuffer> pyramidVertexBuffer = std::make_shared<VertexBuffer>(pyramidVertices, sizeof(pyramidVertices) * sizeof(float));
+        std::shared_ptr<VertexBuffer> pyramidVertexBuffer = std::make_shared<VertexBuffer>(pyramidVertices, sizeof(pyramidVertices));
         std::shared_ptr<IndexBuffer> pyramidIndexBuffer = std::make_shared<IndexBuffer>(pyramidIndices, sizeof(pyramidIndices) / sizeof(unsigned int));
         mVertexArrays.push_back(std::make_unique<VertexArray>(pyramidVertexBuffer, pyramidIndexBuffer, pyramidBufferLayout));
 
@@ -97,7 +97,7 @@ namespace Charly {
                 {ShaderDataType::Float3, "pos"},
                 {ShaderDataType::Float3, "normal"}
         };
-        std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices) * sizeof(float));
+        std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices));
         std::shared_ptr<IndexBuffer> cubeIndexBuffer = std::make_shared<IndexBuffer>(cubeIndices, sizeof(cubeIndices) / sizeof(unsigned int));
         mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer, cubeIndexBuffer, cubeBufferLayout));
 
@@ -149,7 +149,7 @@ namespace Charly {
                 {ShaderDataType::Float3, "pos"},
                 {ShaderDataType::Float3, "normal"}
         };
-        std::shared_ptr<VertexBuffer> cubeVertexBuffer2 = std::make_shared<VertexBuffer>(cubeVertices2, sizeof(cubeVertices2) * sizeof(float));
+        std::shared_ptr<VertexBuffer> cubeVertexBuffer2 = std::make_shared<VertexBuffer>(cubeVertices2, sizeof(cubeVertices2));
         mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer2, cubeBufferLayout2, sizeof(cubeVertices2) / cubeBufferLayout2.getStride()));
     }
 
