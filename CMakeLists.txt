@@ -41,6 +41,11 @@ else()
     target_link_libraries(charly_3d_engine ${ASSIMP_LIB_DIR}/release/assimp-vc142-mt.lib)
 endif()
 
+# link FreeType
+include_directories(external/FreeType-2.13.2/include)
+set(FREETYPE_LIB_DIR ${PROJECT_SOURCE_DIR}/external/FreeType-2.13.2/lib/release/vs2015-2022/win64)
+target_link_libraries(charly_3d_engine ${FREETYPE_LIB_DIR}/freetype.lib)
+
 include_directories(src/include)
 add_subdirectory(src)
 
