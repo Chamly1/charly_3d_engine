@@ -4,10 +4,15 @@
 #include "Texture.hpp"
 #include "VertexArray.hpp"
 
+#include "ft2build.h"
+#include FT_FREETYPE_H
+
 namespace Charly {
 
     class Font {
     private:
+        FT_Face mFtFace;
+
         Texture mGlyphAtlasTexture;
         std::unique_ptr<VertexArray> mVAO;
 

@@ -1,7 +1,5 @@
 #include "Font.hpp"
 
-#include "ft2build.h"
-#include FT_FREETYPE_H
 #include "gl/glew.h"
 
 #include <iostream>
@@ -21,8 +19,7 @@ namespace Charly {
         }
         gFreeTypeLibUserCount++;
 
-        FT_Face face;
-        if (FT_New_Face(gFreeTypeLib, fontPath, 0, &face)) {
+        if (FT_New_Face(gFreeTypeLib, fontPath, 0, &mFtFace)) {
             std::cout << "ERROR::FreeType: failed to load font\n";
 //            return 1;
         }
@@ -43,14 +40,14 @@ namespace Charly {
         int x = 0;
         int y = 0;
 
-        FT_Set_Pixel_Sizes(face, 0, fontSize);
+        FT_Set_Pixel_Sizes(mFtFace, 0, fontSize);
         for (char c = firstChar; c <= lastChar; c++) {
-            if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+            if (FT_Load_Char(mFtFace, c, FT_LOAD_RENDER)) {
                 // Handle glyph loading error
                 continue;
             }
 
-            FT_Bitmap glyphBitmap = face->glyph->bitmap;
+            FT_Bitmap glyphBitmap = mFtFace->glyph->bitmap;
             int glyphWidth = glyphBitmap.width;
             int glyphHeight = glyphBitmap.rows;
 
@@ -108,8 +105,6 @@ namespace Charly {
         };
         std::shared_ptr<VertexBuffer> vertexBuffer = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
         mVAO = std::make_unique<VertexArray>(vertexBuffer, bufferLayout, sizeof(vertices) / bufferLayout.getStride());
-
-        FT_Done_Face(face);
     }
 
     Font::~Font() {
@@ -117,6 +112,7 @@ namespace Charly {
         if (gFreeTypeLibUserCount == 0) {
             FT_Done_FreeType(gFreeTypeLib);
         }
+        FT_Done_Face(mFtFace);
     }
 
     void Font::draw() {
