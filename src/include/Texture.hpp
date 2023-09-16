@@ -16,13 +16,13 @@ namespace Charly {
         GLuint mTextureID;
         int mWidth, mHeight, mBitDepth;
 
-        void createTexture(const unsigned char* data, unsigned int width, unsigned int height, TextureDataFormat dataFormat);
-
     public:
+        Texture();
         Texture(const unsigned char* data, unsigned int width, unsigned int height, TextureDataFormat dataFormat);
         Texture(const char* filePath, TextureDataFormat dataFormat);
         ~Texture();
 
+        void init(const unsigned char* data, unsigned int width, unsigned int height, TextureDataFormat dataFormat);
         void useTexture();
 
         // delete implicit methods
@@ -30,6 +30,10 @@ namespace Charly {
         Texture & operator = (Texture const &) = delete;
         Texture(Texture &&) = delete;
         Texture & operator = (Texture &&) = delete;
+
+    private:
+        void cleanup();
+
     };
 
 }
