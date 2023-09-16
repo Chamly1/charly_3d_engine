@@ -4,13 +4,18 @@
 
 namespace Charly {
 
-    Texture::Texture(const char* filePath, bool includeAlphaChanel) {
-        unsigned char* textureData = stbi_load(filePath, &mWidth, &mHeight, &mBitDepth, 0);
-
-        if (!textureData) {
-            std::cout << "Texture file read error! File: " << filePath << '\n';
-            return;
+    static GLenum textureDataFormatToOpenGLType(TextureDataFormat type) {
+        switch (type) {
+            case TextureDataFormat::RGB:     return GL_RGB;
+            case TextureDataFormat::RGBA:    return GL_RGBA;
         }
+
+        return 0;
+    }
+
+    void Texture::createTexture(const unsigned char* data, unsigned int width, unsigned int height, TextureDataFormat dataFormat) {
+        mWidth = width;
+        mHeight = height;
 
         glGenTextures(1, &mTextureID);
         glBindTexture(GL_TEXTURE_2D, mTextureID);
@@ -21,16 +26,26 @@ namespace Charly {
         glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        GLint internalformat;
-        if (includeAlphaChanel) {
-            internalformat = GL_RGBA;
-        } else {
-            internalformat = GL_RGB;
-        }
-        glTexImage2D(GL_TEXTURE_2D, 0, internalformat, mWidth, mHeight, 0, internalformat, GL_UNSIGNED_BYTE, textureData);
+        glTexImage2D(GL_TEXTURE_2D, 0, textureDataFormatToOpenGLType(dataFormat), mWidth, mHeight, 0, textureDataFormatToOpenGLType(dataFormat), GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
 
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    Texture::Texture(const unsigned char* data, unsigned int width, unsigned int height, TextureDataFormat dataFormat) {
+        createTexture(data, width, height, dataFormat);
+    }
+
+    Texture::Texture(const char* filePath, TextureDataFormat dataFormat) {
+        int width, height;
+        unsigned char* textureData = stbi_load(filePath, &width, &height, &mBitDepth, 0);
+
+        if (!textureData) {
+            std::cout << "Texture file read error! File: " << filePath << '\n';
+            return;
+        }
+
+        createTexture(textureData, width, height, dataFormat);
 
         stbi_image_free(textureData);
     }

@@ -6,13 +6,21 @@
 
 namespace Charly {
 
+    enum class TextureDataFormat {
+        RGB,
+        RGBA
+    };
+
     class Texture {
     private:
         GLuint mTextureID;
         int mWidth, mHeight, mBitDepth;
 
+        void createTexture(const unsigned char* data, unsigned int width, unsigned int height, TextureDataFormat dataFormat);
+
     public:
-        Texture(const char* filePath, bool includeAlphaChanel);
+        Texture(const unsigned char* data, unsigned int width, unsigned int height, TextureDataFormat dataFormat);
+        Texture(const char* filePath, TextureDataFormat dataFormat);
         ~Texture();
 
         void useTexture();

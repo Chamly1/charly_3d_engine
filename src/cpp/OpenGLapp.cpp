@@ -168,7 +168,7 @@ namespace Charly {
     }
 
     void OpenGLapp::createTextures() {
-        mTextureArray.push_back(std::make_unique<Texture>("resources/textures/stone_texture.jpg", false));
+        mTextureArray.push_back(std::make_unique<Texture>("resources/textures/stone_texture.jpg", TextureDataFormat::RGB));
     }
 
     void OpenGLapp::handleEvents() {
