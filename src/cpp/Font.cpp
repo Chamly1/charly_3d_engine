@@ -108,11 +108,11 @@ namespace Charly {
     }
 
     Font::~Font() {
+        FT_Done_Face(mFtFace);
         gFreeTypeLibUserCount--;
         if (gFreeTypeLibUserCount == 0) {
             FT_Done_FreeType(gFreeTypeLib);
         }
-        FT_Done_Face(mFtFace);
     }
 
     void Font::draw() {
