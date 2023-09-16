@@ -26,8 +26,8 @@ namespace Charly {
         std::map<char, CharInfo> mCharInfos;
 
     public:
-        GlyphAtlas(FT_Face& mFtFace, char firstChar, char lastChar, unsigned int fontSize);
-
+        GlyphAtlas(FT_Face& ftFace, char firstChar, char lastChar, unsigned int fontSize);
+        std::shared_ptr<Texture> getGlyphAtlasTexture() const;
     };
 
 }
