@@ -13,6 +13,8 @@ namespace Charly {
 
     public:
         Font(const char* fontPath);
+        ~Font();
+
         void draw();
 
     };

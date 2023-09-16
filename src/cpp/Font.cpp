@@ -7,18 +7,22 @@
 #include <iostream>
 
 static const unsigned int DEFAULT_FONT_SIZE = 24;
+static FT_Library gFreeTypeLib;
+static int gFreeTypeLibUserCount;
 
 namespace Charly {
 
     Font::Font(const char* fontPath) {
-        FT_Library ftLib;
-        if (FT_Init_FreeType(&ftLib)) {
-            std::cout << "ERROR::FreeType: could not init FreeType library\n";
+        if (gFreeTypeLibUserCount == 0) {
+            if (FT_Init_FreeType(&gFreeTypeLib)) {
+                std::cout << "ERROR::FreeType: could not init FreeType library\n";
 //            return 1;
+            }
         }
+        gFreeTypeLibUserCount++;
 
         FT_Face face;
-        if (FT_New_Face(ftLib, fontPath, 0, &face)) {
+        if (FT_New_Face(gFreeTypeLib, fontPath, 0, &face)) {
             std::cout << "ERROR::FreeType: failed to load font\n";
 //            return 1;
         }
@@ -106,7 +110,13 @@ namespace Charly {
         mVAO = std::make_unique<VertexArray>(vertexBuffer, bufferLayout, sizeof(vertices) / bufferLayout.getStride());
 
         FT_Done_Face(face);
-        FT_Done_FreeType(ftLib);
+    }
+
+    Font::~Font() {
+        gFreeTypeLibUserCount--;
+        if (gFreeTypeLibUserCount == 0) {
+            FT_Done_FreeType(gFreeTypeLib);
+        }
     }
 
     void Font::draw() {
