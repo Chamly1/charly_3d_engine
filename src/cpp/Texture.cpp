@@ -64,7 +64,7 @@ namespace Charly {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    void Texture::useTexture() {
+    void Texture::bind() {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mTextureID);
     }

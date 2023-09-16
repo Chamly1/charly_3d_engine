@@ -231,7 +231,7 @@ namespace Charly {
         mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
         mShaderArray[shaderNum]->uploadUniform4f("uColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
 
-        mTextureArray[0]->useTexture();
+        mTextureArray[0]->bind();
         mVertexArrays[0]->bind();
         glDrawElements(GL_TRIANGLES, mVertexArrays[0]->getIndicesCount(), GL_UNSIGNED_INT, 0);
         mVertexArrays[0]->unbind();

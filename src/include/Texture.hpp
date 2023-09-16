@@ -23,7 +23,7 @@ namespace Charly {
         ~Texture();
 
         void init(const unsigned char* data, unsigned int width, unsigned int height, TextureDataFormat dataFormat);
-        void useTexture();
+        void bind();
 
         // delete implicit methods
         Texture(Texture const &) = delete;
