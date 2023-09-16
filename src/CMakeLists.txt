@@ -1,6 +1,7 @@
 include_directories(include)
 
 add_library(main_obj_lib OBJECT
+        cpp/Font.cpp
         cpp/VertexArray.cpp
         cpp/IndexBuffer.cpp
         cpp/VertexBuffer.cpp
