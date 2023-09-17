@@ -2,7 +2,15 @@
 
 #include <iostream>
 
+static const unsigned int VERTICES_PER_GLYPH = 6;
+static const unsigned int POINTS_PER_VERTEX = 4;
+
 namespace Charly {
+
+    const BufferLayout GlyphAtlas::bufferLayout = {
+            {ShaderDataType::Float2, "vertexPos"},
+            {ShaderDataType::Float2, "texturePos"}
+    };
 
     GlyphAtlas::GlyphAtlas(FT_Face& ftFace, char firstChar, char lastChar, unsigned int fontSize) {
         mFontSize = fontSize;
@@ -53,6 +61,48 @@ namespace Charly {
 
         mGlyphAtlasTexture = std::make_shared<Texture>(atlasData, atlasWidth, atlasHeight, TextureDataFormat::RGBA);
         delete[] atlasData;
+    }
+
+    std::shared_ptr<VertexBuffer> GlyphAtlas::createTextVBO(const char* str) {
+
+        unsigned int bufferCount = strlen(str) * POINTS_PER_VERTEX * VERTICES_PER_GLYPH;
+        float* buffer = new float[bufferCount];
+
+        //TODO set start point
+        float x = 100, y = 100;
+
+        float xPos, yPos, w, h;
+        CharInfo charInfo;
+        for (int i = 0; str[i] != '\0'; i++) {
+            charInfo = mCharInfos[str[i]];
+
+            //TODO add new line formation;
+            xPos = x + charInfo.bearing.x;
+            yPos = y - (charInfo.size.y - charInfo.bearing.y);
+
+            w = charInfo.size.x;
+            h = charInfo.size.y;
+
+            float tmpGlyphVertices[POINTS_PER_VERTEX * VERTICES_PER_GLYPH] = {
+                xPos,     yPos + h, 0.0f, 0.0f,
+                xPos,     yPos,     0.0f, 1.0f,
+                xPos + w, yPos,     1.0f, 1.0f,
+
+                xPos,     yPos + h, 0.0f, 0.0f,
+                xPos + w, yPos,     1.0f, 1.0f,
+                xPos + w, yPos + h, 1.0f, 0.0f
+            };
+
+            memcpy(&buffer[i * POINTS_PER_VERTEX * VERTICES_PER_GLYPH], tmpGlyphVertices, sizeof(tmpGlyphVertices));
+
+            // advance is number of 1/64 pixels, bitshift by 6 to get value in pixels (2^6 = 64
+            x += charInfo.advance >> 6;
+        }
+
+        std::shared_ptr<VertexBuffer> res = std::make_shared<VertexBuffer>(buffer, bufferCount * sizeof(float));
+        delete[] buffer;
+
+        return res;
     }
 
     std::shared_ptr<Texture> GlyphAtlas::getGlyphAtlasTexture() const {

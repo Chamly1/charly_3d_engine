@@ -3,24 +3,27 @@
 
 #include "Texture.hpp"
 #include "VertexArray.hpp"
+#include "GlyphAtlas.hpp"
 
 #include "ft2build.h"
 #include FT_FREETYPE_H
+
+#include <map>
+#include <memory>
 
 namespace Charly {
 
     class Font {
     private:
         FT_Face mFtFace;
-
-        Texture mGlyphAtlasTexture;
-        std::unique_ptr<VertexArray> mVAO;
+        std::map<unsigned int, std::shared_ptr<GlyphAtlas>> mGlyphAtlases;
 
     public:
         Font(const char* fontPath);
         ~Font();
 
-        void draw();
+        std::unique_ptr<VertexArray> createTextVAO(const char* str, unsigned int fontSize);
+        std::shared_ptr<Texture> getGlyphAtlasTexture(unsigned int fontSize) const;
 
     };
 
