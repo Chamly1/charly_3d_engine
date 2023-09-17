@@ -21,6 +21,7 @@ namespace Charly {
     private:
         std::shared_ptr<Texture> mGlyphAtlasTexture;
         unsigned int mFontSize;
+        unsigned int mLineSpacing;
         char mFirstChar;
         char mLastChar;
         unsigned int mCharCount;

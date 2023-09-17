@@ -24,6 +24,8 @@ namespace Charly {
         unsigned char* atlasData = new unsigned char[atlasWidth * atlasHeight * 4](); // RGBA format
 
         FT_Set_Pixel_Sizes(ftFace, 0, fontSize);
+        // is number of 1/64 pixels, bitshift by 6 to get value in pixels (2^6 = 64)
+        mLineSpacing = ftFace->size->metrics.height >> 6;
 
         int x = 0;
         int y = 0;
@@ -69,14 +71,21 @@ namespace Charly {
         float* buffer = new float[bufferCount];
 
         //TODO set start point
-        float x = 100, y = 100;
+        const float xDefault = 0, yDefault = 100;
+        float x = xDefault, y = yDefault;
 
         float xPos, yPos, w, h;
         CharInfo charInfo;
         for (int i = 0; str[i] != '\0'; i++) {
+            if (str[i] == '\n') {
+                //TODO add face->ascender and face->descender?
+                y -= mLineSpacing;
+                x = xDefault;
+                continue;
+            }
+
             charInfo = mCharInfos[str[i]];
 
-            //TODO add new line formation;
             xPos = x + charInfo.bearing.x;
             yPos = y - (charInfo.size.y - charInfo.bearing.y);
 
@@ -95,7 +104,7 @@ namespace Charly {
 
             memcpy(&buffer[i * POINTS_PER_VERTEX * VERTICES_PER_GLYPH], tmpGlyphVertices, sizeof(tmpGlyphVertices));
 
-            // advance is number of 1/64 pixels, bitshift by 6 to get value in pixels (2^6 = 64
+            // advance is number of 1/64 pixels, bitshift by 6 to get value in pixels (2^6 = 64)
             x += charInfo.advance >> 6;
         }
 
