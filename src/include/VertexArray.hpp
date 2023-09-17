@@ -22,7 +22,7 @@ namespace Charly {
 
     public:
         VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer, const BufferLayout& layout);
-        VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const BufferLayout& layout, unsigned int count);
+        VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const BufferLayout& layout);
 
         void bind() const;
         void unbind() const;

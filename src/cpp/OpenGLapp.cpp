@@ -150,7 +150,7 @@ namespace Charly {
                 {ShaderDataType::Float3, "normal"}
         };
         std::shared_ptr<VertexBuffer> cubeVertexBuffer2 = std::make_shared<VertexBuffer>(cubeVertices2, sizeof(cubeVertices2));
-        mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer2, cubeBufferLayout2, sizeof(cubeVertices2) / cubeBufferLayout2.getStride()));
+        mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer2, cubeBufferLayout2));
     }
 
     void OpenGLapp::createShaders() {

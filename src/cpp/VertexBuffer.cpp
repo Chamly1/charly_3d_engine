@@ -2,7 +2,8 @@
 
 namespace Charly {
 
-    VertexBuffer::VertexBuffer(float* vertices, unsigned int size) {
+    VertexBuffer::VertexBuffer(float* vertices, unsigned int size)
+    : mSize(size) {
         glCreateBuffers(1, &mVBO);
         glBindBuffer(GL_ARRAY_BUFFER, mVBO);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
@@ -18,6 +19,10 @@ namespace Charly {
 
     void VertexBuffer::unbind() const {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
+    unsigned int VertexBuffer::getSize() const {
+        return mSize;
     }
 
 }

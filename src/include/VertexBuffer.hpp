@@ -10,6 +10,7 @@ namespace Charly {
     class VertexBuffer {
     private:
         GLuint mVBO;
+        unsigned int mSize;
 
     public:
         VertexBuffer(float* vertices, unsigned int size);
@@ -17,6 +18,8 @@ namespace Charly {
 
         void bind() const;
         void unbind() const;
+
+        unsigned int getSize() const;
 
     };
 

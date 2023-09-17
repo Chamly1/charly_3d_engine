@@ -37,9 +37,9 @@ namespace Charly {
         glBindVertexArray(0);
     }
 
-    VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const BufferLayout& layout, unsigned int count)
+    VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const BufferLayout& layout)
     : mIndexBuffer(nullptr)
-    , mCount(count) {
+    , mCount(vertexBuffer->getSize() / layout.getStride()) {
         glCreateVertexArrays(1, &mVAO);
         glBindVertexArray(mVAO);
         setVertexBuffer(vertexBuffer, layout);
