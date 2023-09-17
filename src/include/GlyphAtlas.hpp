@@ -15,13 +15,16 @@ namespace Charly {
         glm::ivec2   size;       // Size of glyph
         glm::ivec2   bearing;    // Offset from baseline to left/top of glyph
         unsigned int advance;    // Offset to advance to next glyph
+
+        glm::fvec2 uvPos;   // glyph texture position on atlas
+        glm::fvec2 uvSize;  // glyph texture size on atlas
     };
 
     class GlyphAtlas {
     private:
         std::shared_ptr<Texture> mGlyphAtlasTexture;
-        unsigned int mFontSize;
-        unsigned int mLineSpacing;
+        unsigned int mFontSize; // in pixels
+        unsigned int mLineSpacing; // in pixels
         char mFirstChar;
         char mLastChar;
         unsigned int mCharCount;

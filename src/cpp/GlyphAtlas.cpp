@@ -29,6 +29,10 @@ namespace Charly {
 
         int x = 0;
         int y = 0;
+        float u = 0.f;
+        float v = 0.f;
+        glm::fvec2 fontUVSize(1.f / mCharCount, 1.f); // size of one glyph slot in UV coordinates
+        glm::fvec2 UVPixelSize(fontUVSize / static_cast<float>(fontSize)); // size of one pixel in UV coordinates
         for (char c = firstChar; c <= lastChar; c++) {
             if (FT_Load_Char(ftFace, c, FT_LOAD_RENDER)) {
                 std::cout << "ERROR::FreeType: failed to load glyph\n";
@@ -55,10 +59,14 @@ namespace Charly {
             mCharInfos[c] = CharInfo{
                     glm::ivec2(glyphBitmap.width, glyphBitmap.rows),
                     glm::ivec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top),
-                    static_cast<unsigned int>(ftFace->glyph->advance.x)
+                    static_cast<unsigned int>(ftFace->glyph->advance.x),
+
+                    glm::fvec2(u, v + 1.f - ((fontUVSize.y / mFontSize) * glyphBitmap.rows)),
+                    glm::fvec2(UVPixelSize.x * glyphBitmap.width, UVPixelSize.y * glyphBitmap.rows)
             };
 
             x += fontSize;
+            u += fontUVSize.x;
         }
 
         mGlyphAtlasTexture = std::make_shared<Texture>(atlasData, atlasWidth, atlasHeight, TextureDataFormat::RGBA);
@@ -93,13 +101,13 @@ namespace Charly {
             h = charInfo.size.y;
 
             float tmpGlyphVertices[POINTS_PER_VERTEX * VERTICES_PER_GLYPH] = {
-                xPos,     yPos + h, 0.0f, 0.0f,
-                xPos,     yPos,     0.0f, 1.0f,
-                xPos + w, yPos,     1.0f, 1.0f,
+                xPos,     yPos + h, charInfo.uvPos.x,                     charInfo.uvPos.y + charInfo.uvSize.y,
+                xPos,     yPos,     charInfo.uvPos.x,                     charInfo.uvPos.y,
+                xPos + w, yPos,     charInfo.uvPos.x + charInfo.uvSize.x, charInfo.uvPos.y,
 
-                xPos,     yPos + h, 0.0f, 0.0f,
-                xPos + w, yPos,     1.0f, 1.0f,
-                xPos + w, yPos + h, 1.0f, 0.0f
+                xPos,     yPos + h, charInfo.uvPos.x,                     charInfo.uvPos.y + charInfo.uvSize.y,
+                xPos + w, yPos,     charInfo.uvPos.x + charInfo.uvSize.x, charInfo.uvPos.y,
+                xPos + w, yPos + h, charInfo.uvPos.x + charInfo.uvSize.x, charInfo.uvPos.y + charInfo.uvSize.y
             };
 
             memcpy(&buffer[i * POINTS_PER_VERTEX * VERTICES_PER_GLYPH], tmpGlyphVertices, sizeof(tmpGlyphVertices));
