@@ -1,6 +1,7 @@
 include_directories(include)
 
 add_library(main_obj_lib OBJECT
+        cpp/Text.cpp
         cpp/GlyphAtlas.cpp
         cpp/Font.cpp
         cpp/VertexArray.cpp
