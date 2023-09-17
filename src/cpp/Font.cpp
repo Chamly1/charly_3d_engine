@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-static const char DEFAULT_ATLAS_FIRST_CHAR = 'A';
-static const char DEFAULT_ATLAS_LAST_CHAR = 'z';
+static const char DEFAULT_ATLAS_FIRST_CHAR = ' ';
+static const char DEFAULT_ATLAS_LAST_CHAR = '~';
 static const unsigned int DEFAULT_FONT_SIZE = 24;
 
 static FT_Library gFreeTypeLib;
