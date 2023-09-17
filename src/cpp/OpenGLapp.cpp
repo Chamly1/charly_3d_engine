@@ -1,5 +1,7 @@
 #include "OpenGLapp.hpp"
 #include "utils.hpp"
+#include "Font.hpp"
+#include "Text.hpp"
 
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -45,6 +47,8 @@ namespace Charly {
         }
 
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         // setup viewport size
         glViewport(0, 0, mFramebufferWidth, mFramebufferHeight);
     }
@@ -165,6 +169,9 @@ namespace Charly {
                                                         "resources/shaders/ambient_light.frag"));
         mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/diffuse_light.vert",
                                                         "resources/shaders/diffuse_light.frag"));
+
+        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/text.vert",
+                                                        "resources/shaders/text.frag"));
     }
 
     void OpenGLapp::createTextures() {
@@ -227,7 +234,7 @@ namespace Charly {
         int shaderNum = 2;
         mShaderArray[shaderNum]->bind();
         mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrix);
+        mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrixPerspective);
         mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
         mShaderArray[shaderNum]->uploadUniform4f("uColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
 
@@ -245,7 +252,7 @@ namespace Charly {
         shaderNum = 4;
         mShaderArray[shaderNum]->bind();
         mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrix);
+        mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrixPerspective);
         mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
         mShaderArray[shaderNum]->uploadUniform3f("uColor", glm::vec3(0.2f, 0.3f, 0.8f));
         mShaderArray[shaderNum]->uploadUniform3f("uLightColor", glm::vec3(1.f, 1.f, 1.f));
@@ -255,6 +262,17 @@ namespace Charly {
 //        glDrawElements(GL_TRIANGLES, mVertexArrays[1]->getIndicesCount(), GL_UNSIGNED_INT, 0);
 //        mVertexArrays[1]->unbind();
         mVertexArrays[2]->draw();
+
+        shaderNum = 5;
+        mShaderArray[shaderNum]->bind();
+        mShaderArray[shaderNum]->uploadUniformMatrix4f("u_Projection", mProjectionMatrixOrthographic);
+        mShaderArray[shaderNum]->uploadUniform3f("u_TextColor", glm::vec3(0.f, 1.f, 0.f));
+        Font font("resources/fonts/CONSOLA.TTF");
+        Text text(font, "The quick brown fox jumps over the lazy dog\n11111111111111 .....", 15);
+        text.draw();
+
+
+
 
         glUseProgram(0);
         glfwSwapBuffers(mWindow);
@@ -270,7 +288,8 @@ namespace Charly {
         mInputHandel.init(mWindow);
 
         GLfloat projectionAspectRation = static_cast<GLfloat>(mFramebufferWidth) / static_cast<GLfloat>(mFramebufferHeight);
-        mProjectionMatrix = glm::perspective(45.f, projectionAspectRation, 0.1f, 100.f);
+        mProjectionMatrixPerspective = glm::perspective(45.f, projectionAspectRation, 0.1f, 100.f);
+        mProjectionMatrixOrthographic = glm::ortho(0.0f, static_cast<float>(mFramebufferWidth), 0.0f, static_cast<float>(mFramebufferHeight));
 
 //    glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }

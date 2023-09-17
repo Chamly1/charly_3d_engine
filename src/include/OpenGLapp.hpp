@@ -28,7 +28,8 @@ namespace Charly {
         std::vector<std::unique_ptr<Shader>> mShaderArray;
         std::vector<std::unique_ptr<Texture>> mTextureArray;
 
-        glm::mat4 mProjectionMatrix;
+        glm::mat4 mProjectionMatrixPerspective;
+        glm::mat4 mProjectionMatrixOrthographic;
 
         void createAndSetupWindow();
         void createVertexArrays();
