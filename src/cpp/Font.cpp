@@ -1,4 +1,5 @@
 #include "Font.hpp"
+#include "Logger.hpp"
 
 #include <iostream>
 
@@ -14,14 +15,14 @@ namespace Charly {
     Font::Font(const char* fontPath) {
         if (gFreeTypeLibUserCount == 0) {
             if (FT_Init_FreeType(&gFreeTypeLib)) {
-                std::cout << "ERROR::FreeType: could not init FreeType library\n";
+                LOG_ERROR("FreeType: could not init FreeType library!")
 //            return 1;
             }
         }
         gFreeTypeLibUserCount++;
 
         if (FT_New_Face(gFreeTypeLib, fontPath, 0, &mFtFace)) {
-            std::cout << "ERROR::FreeType: failed to load font\n";
+            LOG_ERROR("FreeType: failed to load font file \"" << fontPath << "\"!")
 //            return 1;
         }
 

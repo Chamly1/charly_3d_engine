@@ -1,4 +1,5 @@
 #include "Texture.hpp"
+#include "Logger.hpp"
 
 #include <iostream>
 
@@ -30,7 +31,7 @@ namespace Charly {
         unsigned char* textureData = stbi_load(filePath, &width, &height, &mBitDepth, 0);
 
         if (!textureData) {
-            std::cout << "Texture file read error! File: " << filePath << '\n';
+            LOG_ERROR("Texture file read error! File: " << filePath)
             return;
         }
 

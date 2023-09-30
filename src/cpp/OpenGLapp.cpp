@@ -2,6 +2,7 @@
 #include "utils.hpp"
 #include "Font.hpp"
 #include "Text.hpp"
+#include "Logger.hpp"
 
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -15,7 +16,7 @@ namespace Charly {
 
     void OpenGLapp::createAndSetupWindow() {
         if (!glfwInit()) {
-            std::cout << "GLFW initialization failed!\n";
+            LOG_ERROR("GLFW initialization failed!")
 //        return 1;
         }
 
@@ -27,7 +28,7 @@ namespace Charly {
 
         mWindow = glfwCreateWindow(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, "title", NULL, NULL);
         if (!mWindow) {
-            std::cout << "GLFW window creation failed!\n";
+            LOG_ERROR("GLFW window creation failed!")
             glfwTerminate();
 //        return 1;
         }
@@ -40,7 +41,7 @@ namespace Charly {
         glewExperimental = GL_TRUE;
 
         if (glewInit() != GLEW_OK) {
-            std::cout << "GLEW initialization failed!\n";
+            LOG_ERROR("GLEW initialization failed!")
             glfwDestroyWindow(mWindow);
             glfwTerminate();
 //        return 1;

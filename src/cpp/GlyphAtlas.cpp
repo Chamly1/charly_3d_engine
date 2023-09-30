@@ -1,4 +1,5 @@
 #include "GlyphAtlas.hpp"
+#include "Logger.hpp"
 
 #include <iostream>
 
@@ -35,7 +36,7 @@ namespace Charly {
         glm::fvec2 UVPixelSize(fontUVSize / static_cast<float>(fontSize)); // size of one pixel in UV coordinates
         for (char c = firstChar; c <= lastChar; c++) {
             if (FT_Load_Char(ftFace, c, FT_LOAD_RENDER)) {
-                std::cout << "ERROR::FreeType: failed to load glyph\n";
+                LOG_ERROR("FreeType: failed to load glyph " << "\'" << c << "\'!")
 //                return 1;
             }
 

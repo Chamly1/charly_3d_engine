@@ -1,4 +1,5 @@
 #include "Shader.hpp"
+#include "Logger.hpp"
 
 #include "glm/gtc/type_ptr.hpp"
 
@@ -12,7 +13,7 @@ namespace Charly {
         std::ifstream fileStream(filePath, std::ios::in);
 
         if (!fileStream) {
-            std::cout << "Shader file read error! File: " << filePath << '\n';
+            LOG_ERROR("Shader file read error! File: " << filePath)
             return "";
         }
 
@@ -46,7 +47,7 @@ namespace Charly {
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
             char *log = new char[logLength];
             glGetShaderInfoLog(shader, logLength, NULL, log);
-            std::cout << "Shader compiling error!\n" << log << "\n";
+            LOG_ERROR("Shader compiling error!\n" << log)
             delete[] log;
 //        glDeleteShader(shader);
             return;
@@ -65,7 +66,7 @@ namespace Charly {
             glGetProgramiv(mShaderID, GL_INFO_LOG_LENGTH, &logLength);
             char *log = new char[logLength];
             glGetProgramInfoLog(mShaderID, logLength, NULL, log);
-            std::cout << "Linking program error!\n" << log << "\n";
+            LOG_ERROR("Linking program error!\n" << log)
             delete[] log;
             return;
         }
@@ -77,7 +78,7 @@ namespace Charly {
             glGetProgramiv(mShaderID, GL_INFO_LOG_LENGTH, &logLength);
             char *log = new char[logLength];
             glGetProgramInfoLog(mShaderID, logLength, NULL, log);
-            std::cout << "Error validation program: " << log << "\n";
+            LOG_ERROR("Error validation program: " << log)
             delete[] log;
             return;
         }
@@ -91,7 +92,7 @@ namespace Charly {
 
         mShaderID = glCreateProgram();
         if (!mShaderID) {
-            std::cout << "Create shader program error!\n";
+            LOG_ERROR("Create shader program error!")
             return;
         }
 
