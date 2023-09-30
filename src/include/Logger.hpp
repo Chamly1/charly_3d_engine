@@ -2,14 +2,17 @@
 #define CHARLY_3D_ENGINE_LOGGER_HPP
 
 #include <string>
+#include <iostream>
 
 #ifdef ENABLE_LOGGING
 
-#define LOG_ERROR(str) \
-    Charly::Logger::log(Charly::LogLevel::Error, __FILE__, __LINE__, str);
+#define LOG_ERROR(message) \
+    Charly::Logger::getInstance().logPrefix(Charly::LogLevel::Error, __FILE__, __LINE__); \
+    Charly::Logger::getInstance() << message << '\n';
 
-#define LOG_WARNING(str) \
-    Charly::Logger::log(Charly::LogLevel::Warning, __FILE__, __LINE__, str);
+#define LOG_WARNING(message) \
+    Charly::Logger::getInstance().logPrefix(Charly::LogLevel::Message, __FILE__, __LINE__); \
+    Charly::Logger::getInstance() << message << '\n';
 
 #else
 
@@ -40,10 +43,19 @@ namespace Charly {
 
     class Logger {
     private:
+        std::ostream& mStream;
 
+        Logger();
 
     public:
-        static void log(LogLevel logLevel, const std::string& file, int line, const std::string& message);
+        static Logger& getInstance();
+
+        void logPrefix(LogLevel logLevel, const std::string& file, int line);
+        template <typename T>
+        Logger& operator<<(const T& messageElement) {
+            mStream << messageElement;
+            return *this;
+        }
 
         // delete implicit methods
         Logger(Logger const &) = delete;

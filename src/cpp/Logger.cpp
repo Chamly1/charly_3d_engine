@@ -6,8 +6,16 @@
 
 namespace Charly {
 
-    void Logger::log(LogLevel logLevel, const std::string& file, int line, const std::string& message) {
+    Logger::Logger() : mStream(std::cout) {
 
+    }
+
+    Logger& Logger::getInstance() {
+        static Logger instance;
+        return instance;
+    }
+
+    void Logger::logPrefix(LogLevel logLevel, const std::string& file, int line) {
         // Get the current system time with milliseconds
         auto now = std::chrono::system_clock::now();
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
@@ -24,7 +32,7 @@ namespace Charly {
         strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S.", &tm);
 
         // Print the formatted time with milliseconds
-        std::cout << "[" << buffer << ms % 1000 << "] [" << getLogLevelStr(logLevel) << "] [" << file << ":" << line << "] " << message << std::endl;
+        mStream << "[" << buffer << ms % 1000 << "] [" << getLogLevelStr(logLevel) << "] [" << file << ":" << line << "] ";
     }
 
 }
