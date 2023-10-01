@@ -31,7 +31,7 @@ namespace Charly {
         unsigned char* textureData = stbi_load(filePath, &width, &height, &mBitDepth, 0);
 
         if (!textureData) {
-            LOG_ERROR("Texture file read error! File: " << filePath)
+            LOG_ERROR("Texture file \"%s\" read error!", filePath)
             return;
         }
 

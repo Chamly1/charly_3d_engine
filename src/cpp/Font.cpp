@@ -22,7 +22,7 @@ namespace Charly {
         gFreeTypeLibUserCount++;
 
         if (FT_New_Face(gFreeTypeLib, fontPath, 0, &mFtFace)) {
-            LOG_ERROR("FreeType: failed to load font file \"" << fontPath << "\"!")
+            LOG_ERROR("FreeType: failed to load font file \"%s\"!", fontPath)
 //            return 1;
         }
 

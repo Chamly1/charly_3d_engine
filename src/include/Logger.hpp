@@ -6,18 +6,16 @@
 
 #ifdef ENABLE_LOGGING
 
-#define LOG_ERROR(message) \
-    Charly::Logger::getInstance().logPrefix(Charly::LogLevel::Error, __FILE__, __LINE__); \
-    Charly::Logger::getInstance() << message << '\n';
+#define LOG_ERROR(...) \
+    Charly::Logger::getInstance().log(Charly::LogLevel::Error, __FILE__, __LINE__, __VA_ARGS__);
 
-#define LOG_WARNING(message) \
-    Charly::Logger::getInstance().logPrefix(Charly::LogLevel::Message, __FILE__, __LINE__); \
-    Charly::Logger::getInstance() << message << '\n';
+#define LOG_WARNING(...) \
+    Charly::Logger::getInstance().log(Charly::LogLevel::Warning, __FILE__, __LINE__, __VA_ARGS__);
 
 #else
 
-#define LOG_ERROR(str)
-#define LOG_WARNING(str)
+#define LOG_ERROR(...)
+#define LOG_WARNING(...)
 
 #endif
 
@@ -44,18 +42,16 @@ namespace Charly {
     class Logger {
     private:
         std::ostream& mStream;
+        char mTimeBuff[80];
+        char mMessageBuff[1024];
 
         Logger();
+        void prepareTimeBuff();
 
     public:
         static Logger& getInstance();
 
-        void logPrefix(LogLevel logLevel, const std::string& file, int line);
-        template <typename T>
-        Logger& operator<<(const T& messageElement) {
-            mStream << messageElement;
-            return *this;
-        }
+        void log(LogLevel logLevel, const char* fileName, int line, const char* messageFormat, ...);
 
         // delete implicit methods
         Logger(Logger const &) = delete;

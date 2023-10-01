@@ -13,7 +13,7 @@ namespace Charly {
         std::ifstream fileStream(filePath, std::ios::in);
 
         if (!fileStream) {
-            LOG_ERROR("Shader file read error! File: " << filePath)
+            LOG_ERROR("Shader file \"%s\" read error!", filePath)
             return "";
         }
 
@@ -47,7 +47,7 @@ namespace Charly {
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
             char *log = new char[logLength];
             glGetShaderInfoLog(shader, logLength, NULL, log);
-            LOG_ERROR("Shader compiling error!\n" << log)
+            LOG_ERROR("Shader compiling error!\n%s\n", log)
             delete[] log;
 //        glDeleteShader(shader);
             return;
@@ -66,7 +66,7 @@ namespace Charly {
             glGetProgramiv(mShaderID, GL_INFO_LOG_LENGTH, &logLength);
             char *log = new char[logLength];
             glGetProgramInfoLog(mShaderID, logLength, NULL, log);
-            LOG_ERROR("Linking program error!\n" << log)
+            LOG_ERROR("Linking program error!\n%s\n", log)
             delete[] log;
             return;
         }
@@ -78,7 +78,7 @@ namespace Charly {
             glGetProgramiv(mShaderID, GL_INFO_LOG_LENGTH, &logLength);
             char *log = new char[logLength];
             glGetProgramInfoLog(mShaderID, logLength, NULL, log);
-            LOG_ERROR("Error validation program: " << log)
+            LOG_ERROR("Error validation program!\n%s\n", log)
             delete[] log;
             return;
         }
