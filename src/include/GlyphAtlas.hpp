@@ -31,7 +31,7 @@ namespace Charly {
         std::map<char, CharInfo> mCharInfos;
 
     public:
-        static const BufferLayout bufferLayout;
+        static const BufferLayout bufferLayout; // buffer layout for generated text
 
         GlyphAtlas(FT_Face& ftFace, char firstChar, char lastChar, unsigned int fontSize);
 

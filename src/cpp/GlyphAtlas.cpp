@@ -19,55 +19,84 @@ namespace Charly {
         mLastChar = lastChar;
         mCharCount = static_cast<int>(lastChar) - static_cast<int>(firstChar) + 1;
 
-        int atlasWidth = fontSize * mCharCount;
-        int atlasHeight = fontSize;
+        int atlasWidth;
+        int atlasHeight;
+        unsigned char* atlasData;
 
-        unsigned char* atlasData = new unsigned char[atlasWidth * atlasHeight * 4](); // RGBA format
+        if (ftFace != nullptr) {
 
-        FT_Set_Pixel_Sizes(ftFace, 0, fontSize);
-        // is number of 1/64 pixels, bitshift by 6 to get value in pixels (2^6 = 64)
-        mLineSpacing = ftFace->size->metrics.height >> 6;
+            atlasWidth = fontSize * mCharCount;
+            atlasHeight = fontSize;
+            atlasData = new unsigned char[atlasWidth * atlasHeight * 4](); // RGBA format
 
-        int x = 0;
-        int y = 0;
-        float u = 0.f;
-        float v = 0.f;
-        glm::fvec2 fontUVSize(1.f / mCharCount, 1.f); // size of one glyph slot in UV coordinates
-        glm::fvec2 UVPixelSize(fontUVSize / static_cast<float>(fontSize)); // size of one pixel in UV coordinates
-        for (char c = firstChar; c <= lastChar; c++) {
-            if (FT_Load_Char(ftFace, c, FT_LOAD_RENDER)) {
-                LOG_ERROR("FreeType: failed to load glyph \'c\'!", c)
+            FT_Set_Pixel_Sizes(ftFace, 0, fontSize);
+            // is number of 1/64 pixels, bitshift by 6 to get value in pixels (2^6 = 64)
+            mLineSpacing = ftFace->size->metrics.height >> 6;
+
+            int x = 0;
+            int y = 0;
+            float u = 0.f;
+            float v = 0.f;
+            glm::fvec2 fontUVSize(1.f / mCharCount, 1.f); // size of one glyph slot in UV coordinates
+            glm::fvec2 UVPixelSize(fontUVSize / static_cast<float>(fontSize)); // size of one pixel in UV coordinates
+            for (char c = firstChar; c <= lastChar; c++) {
+                if (FT_Load_Char(ftFace, c, FT_LOAD_RENDER)) {
+                    LOG_ERROR("FreeType: failed to load glyph \'c\'!", c)
 //                return 1;
-            }
-
-            FT_Bitmap glyphBitmap = ftFace->glyph->bitmap;
-
-            // Copy glyph bitmap data to the atlas image at position (x, y)
-            for (int i = 0; i < glyphBitmap.rows; i++) {
-                for (int j = 0; j < glyphBitmap.width; j++) {
-//                    int atlasIndex = ((y + i) * atlasWidth + (x + j)) * 4;
-                    // fontSize - 1 - i added to flip atlas upside-down because OpenGL flips textures, but we want to UV's (0, 0) be at left bottom corner
-                    int atlasIndex = ((y + fontSize - 1 - i) * atlasWidth + (x + j)) * 4;
-                    int glyphIndex = i * glyphBitmap.width + j;
-
-                    atlasData[atlasIndex + 0] = 255; // Red channel
-                    atlasData[atlasIndex + 1] = 255; // Green channel
-                    atlasData[atlasIndex + 2] = 255; // Blue channel
-                    atlasData[atlasIndex + 3] = glyphBitmap.buffer[glyphIndex]; // Alpha channel
                 }
+
+                FT_Bitmap glyphBitmap = ftFace->glyph->bitmap;
+
+                // Copy glyph bitmap data to the atlas image at position (x, y)
+                for (int i = 0; i < glyphBitmap.rows; i++) {
+                    for (int j = 0; j < glyphBitmap.width; j++) {
+//                    int atlasIndex = ((y + i) * atlasWidth + (x + j)) * 4;
+                        // fontSize - 1 - i added to flip atlas upside-down because OpenGL flips textures, but we want to UV's (0, 0) be at left bottom corner
+                        int atlasIndex = ((y + fontSize - 1 - i) * atlasWidth + (x + j)) * 4;
+                        int glyphIndex = i * glyphBitmap.width + j;
+
+                        atlasData[atlasIndex + 0] = 255; // Red channel
+                        atlasData[atlasIndex + 1] = 255; // Green channel
+                        atlasData[atlasIndex + 2] = 255; // Blue channel
+                        atlasData[atlasIndex + 3] = glyphBitmap.buffer[glyphIndex]; // Alpha channel
+                    }
+                }
+
+                mCharInfos[c] = CharInfo{
+                        glm::ivec2(glyphBitmap.width, glyphBitmap.rows),
+                        glm::ivec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top),
+                        static_cast<unsigned int>(ftFace->glyph->advance.x),
+
+                        glm::fvec2(u, v + 1.f - ((fontUVSize.y / mFontSize) * glyphBitmap.rows)),
+                        glm::fvec2(UVPixelSize.x * glyphBitmap.width, UVPixelSize.y * glyphBitmap.rows)
+                };
+
+                x += fontSize;
+                u += fontUVSize.x;
             }
 
-            mCharInfos[c] = CharInfo{
-                    glm::ivec2(glyphBitmap.width, glyphBitmap.rows),
-                    glm::ivec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top),
-                    static_cast<unsigned int>(ftFace->glyph->advance.x),
+        } else {
+            LOG_WARNING("Passed empty FT_Face for creating glyph atlas. Create fully fill with color stub atlas!")
 
-                    glm::fvec2(u, v + 1.f - ((fontUVSize.y / mFontSize) * glyphBitmap.rows)),
-                    glm::fvec2(UVPixelSize.x * glyphBitmap.width, UVPixelSize.y * glyphBitmap.rows)
-            };
+            atlasWidth = fontSize;
+            atlasHeight = fontSize;
+            atlasData = new unsigned char[atlasWidth * atlasHeight * 4]; // RGBA format
+            memset(atlasData, 255, atlasWidth * atlasHeight * 4);
 
-            x += fontSize;
-            u += fontUVSize.x;
+            mLineSpacing = fontSize;
+
+            for (char c = firstChar; c <= lastChar; c++) {
+
+                mCharInfos[c] = CharInfo{
+                        glm::ivec2(fontSize, fontSize),
+                        glm::ivec2(fontSize, fontSize),
+                        fontSize << 6,
+
+                        glm::fvec2(0.f, 0.f),
+                        glm::fvec2(1.f, 1.f),
+                };
+
+            }
         }
 
         mGlyphAtlasTexture = std::make_shared<Texture>(atlasData, atlasWidth, atlasHeight, TextureDataFormat::RGBA);

@@ -12,27 +12,30 @@ static int gFreeTypeLibUserCount;
 
 namespace Charly {
 
-    Font::Font(const char* fontPath) {
+    Font::Font(const char* fontPath)
+    : mFtFace(nullptr) {
         if (gFreeTypeLibUserCount == 0) {
             if (FT_Init_FreeType(&gFreeTypeLib)) {
                 LOG_ERROR("FreeType: could not init FreeType library!")
-//            return 1;
             }
         }
         gFreeTypeLibUserCount++;
 
         if (FT_New_Face(gFreeTypeLib, fontPath, 0, &mFtFace)) {
             LOG_ERROR("FreeType: failed to load font file \"%s\"!", fontPath)
-//            return 1;
         }
 
     }
 
     Font::~Font() {
-        FT_Done_Face(mFtFace);
+        if (mFtFace != nullptr && FT_Done_Face(mFtFace) != 0) {
+            LOG_ERROR("FreeType: error during discarding a face object!")
+        }
         gFreeTypeLibUserCount--;
         if (gFreeTypeLibUserCount == 0) {
-            FT_Done_FreeType(gFreeTypeLib);
+            if (FT_Done_FreeType(gFreeTypeLib) != 0) {
+                LOG_ERROR("FreeType: error during destroying a FreeType library object!")
+            }
         }
     }
 

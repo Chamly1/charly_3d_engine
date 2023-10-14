@@ -13,12 +13,22 @@
 
 namespace Charly {
 
+    /**
+     * Class to load a font from a file and use it to generate a text mesh.
+     */
     class Font {
     private:
         FT_Face mFtFace;
-        std::map<unsigned int, std::shared_ptr<GlyphAtlas>> mGlyphAtlases;
+        std::map<unsigned int, std::shared_ptr<GlyphAtlas>> mGlyphAtlases; // map<font size, glyph atlas>
 
     public:
+        /**
+         * Construct a Font object with a font file.
+         * If there will be an error during the file loading, the object steel will be created but with the internal
+         * stub state which will allow to use this object, but glyphs will be replaced with simple fill color.
+         *
+         * @param fontPath path to a font file.
+         */
         Font(const char* fontPath);
         ~Font();
 
