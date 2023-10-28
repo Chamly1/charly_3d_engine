@@ -1,5 +1,6 @@
 #include "Texture.hpp"
 #include "Logger.hpp"
+#include "OpenGLUtils.hpp"
 
 #include <iostream>
 
@@ -50,29 +51,29 @@ namespace Charly {
         mWidth = width;
         mHeight = height;
 
-        glGenTextures(1, &mTextureID);
-        glBindTexture(GL_TEXTURE_2D, mTextureID);
+        GL_CALL(glGenTextures(1, &mTextureID))
+        GL_CALL(glBindTexture(GL_TEXTURE_2D, mTextureID))
 
-        glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        GL_CALL(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT))
+        GL_CALL(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT))
 //    glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        GL_CALL(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR))
+        GL_CALL(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR))
 
-        glTexImage2D(GL_TEXTURE_2D, 0, textureDataFormatToOpenGLType(dataFormat), mWidth, mHeight, 0, textureDataFormatToOpenGLType(dataFormat), GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, textureDataFormatToOpenGLType(dataFormat), mWidth, mHeight, 0, textureDataFormatToOpenGLType(dataFormat), GL_UNSIGNED_BYTE, data))
+        GL_CALL(glGenerateMipmap(GL_TEXTURE_2D))
 
-        glBindTexture(GL_TEXTURE_2D, 0);
+        GL_CALL(glBindTexture(GL_TEXTURE_2D, 0))
     }
 
     void Texture::bind() {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, mTextureID);
+        GL_CALL(glActiveTexture(GL_TEXTURE0))
+        GL_CALL(glBindTexture(GL_TEXTURE_2D, mTextureID))
     }
 
     void Texture::cleanup() {
         if (mTextureID != 0) {
-            glDeleteTextures(1, &mTextureID);
+            GL_CALL(glDeleteTextures(1, &mTextureID))
             mTextureID = 0;
             mHeight = 0;
             mWidth = 0;

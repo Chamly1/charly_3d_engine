@@ -1,20 +1,21 @@
 #include "VertexArray.hpp"
 #include "BufferLayout.hpp"
+#include "OpenGLUtils.hpp"
 
 namespace Charly {
 
     void VertexArray::setVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer, const BufferLayout& layout) {
-        glBindVertexArray(mVAO);
+        GL_CALL(glBindVertexArray(mVAO))
         vertexBuffer->bind();
         unsigned int index = 0;
         for (const auto& element : layout.getElements()) {
-            glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index,
+            GL_CALL(glEnableVertexAttribArray(index))
+            GL_CALL(glVertexAttribPointer(index,
                                   getShaderDataTypeElementCount(element.type),
                                   shaderDataTypeToOpenGLBaseType(element.type),
                                   element.normalized ? GL_TRUE : GL_FALSE,
                                   layout.getStride(),
-                                  reinterpret_cast<void*>(element.offset));
+                                  reinterpret_cast<void*>(element.offset)))
             index++;
         }
 
@@ -22,7 +23,7 @@ namespace Charly {
     }
 
     void VertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
-        glBindVertexArray(mVAO);
+        GL_CALL(glBindVertexArray(mVAO))
         indexBuffer->bind();
 
         mIndexBuffer = indexBuffer;
@@ -30,38 +31,38 @@ namespace Charly {
 
     VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer, const BufferLayout& layout)
     : mCount(indexBuffer->getCount()) {
-        glCreateVertexArrays(1, &mVAO);
-        glBindVertexArray(mVAO);
+        GL_CALL(glCreateVertexArrays(1, &mVAO))
+        GL_CALL(glBindVertexArray(mVAO))
         setVertexBuffer(vertexBuffer, layout);
         setIndexBuffer(indexBuffer);
-        glBindVertexArray(0);
+        GL_CALL(glBindVertexArray(0))
     }
 
     VertexArray::VertexArray(const std::shared_ptr<VertexBuffer>& vertexBuffer, const BufferLayout& layout)
     : mIndexBuffer(nullptr)
     , mCount(vertexBuffer->getSize() / layout.getStride()) {
-        glCreateVertexArrays(1, &mVAO);
-        glBindVertexArray(mVAO);
+        GL_CALL(glCreateVertexArrays(1, &mVAO))
+        GL_CALL(glBindVertexArray(mVAO))
         setVertexBuffer(vertexBuffer, layout);
-        glBindVertexArray(0);
+        GL_CALL(glBindVertexArray(0))
     }
 
     void VertexArray::bind() const {
-        glBindVertexArray(mVAO);
+        GL_CALL(glBindVertexArray(mVAO))
     }
 
     void VertexArray::unbind() const {
-        glBindVertexArray(0);
+        GL_CALL(glBindVertexArray(0))
     }
 
     void VertexArray::draw() const {
-        glBindVertexArray(mVAO);
+        GL_CALL(glBindVertexArray(mVAO))
         if (mIndexBuffer) {
-            glDrawElements(GL_TRIANGLES, mCount, GL_UNSIGNED_INT, 0);
+            GL_CALL(glDrawElements(GL_TRIANGLES, mCount, GL_UNSIGNED_INT, 0))
         } else {
-            glDrawArrays(GL_TRIANGLES, 0, mCount);
+            GL_CALL(glDrawArrays(GL_TRIANGLES, 0, mCount))
         }
-        glBindVertexArray(0);
+        GL_CALL(glBindVertexArray(0))
     }
 
     unsigned int VertexArray::getIndicesCount() const {
