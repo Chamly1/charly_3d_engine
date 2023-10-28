@@ -54,11 +54,11 @@ namespace Charly {
         GL_CALL(glGenTextures(1, &mTextureID))
         GL_CALL(glBindTexture(GL_TEXTURE_2D, mTextureID))
 
-        GL_CALL(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT))
-        GL_CALL(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT))
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT))
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT))
 //    glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        GL_CALL(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR))
-        GL_CALL(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR))
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR))
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR))
 
         GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, textureDataFormatToOpenGLType(dataFormat), mWidth, mHeight, 0, textureDataFormatToOpenGLType(dataFormat), GL_UNSIGNED_BYTE, data))
         GL_CALL(glGenerateMipmap(GL_TEXTURE_2D))
