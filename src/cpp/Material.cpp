@@ -2,6 +2,12 @@
 
 namespace Charly {
 
+    Material::Material()
+    : mTexture(nullptr)
+    , mColor(0.f) {
+
+    }
+
     Material::Material(const std::shared_ptr<Texture>& texture)
     : mTexture(texture)
     , mColor(0.f) {
@@ -17,7 +23,9 @@ namespace Charly {
     }
 
     void Material::bind() const {
-        mTexture->bind();
+        if (mTexture != nullptr) {
+            mTexture->bind();
+        }
     }
 
 }

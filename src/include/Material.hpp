@@ -15,6 +15,7 @@ namespace Charly {
         glm::vec3 mColor;
 
     public:
+        Material();
         Material(const std::shared_ptr<Texture>& texture);
 
         void setColor(const glm::vec3& color);
