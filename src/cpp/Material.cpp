@@ -2,18 +2,22 @@
 
 namespace Charly {
 
-    Material::Material(const char* vertexShaderPath, const char* fragmentShaderPath)
-    : mShader(vertexShaderPath, fragmentShaderPath)
+    Material::Material(const std::shared_ptr<Texture>& texture)
+    : mTexture(texture)
     , mColor(0.f) {
 
     }
 
-    void Material::bind() const {
-        mShader.bind();
+    void Material::setColor(const glm::vec3& color) {
+        mColor = color;
     }
 
-    void Material::unbind() const {
-        mShader.unbind();
+    glm::vec3 Material::getColor() const {
+        return mColor;
+    }
+
+    void Material::bind() const {
+        mTexture->bind();
     }
 
 }

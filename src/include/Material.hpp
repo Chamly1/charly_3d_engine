@@ -1,20 +1,26 @@
 #ifndef CHARLY_3D_ENGINE_MATERIAL_HPP
 #define CHARLY_3D_ENGINE_MATERIAL_HPP
 
-#include "Shader.hpp"
+#include "Texture.hpp"
+
+#include "glm/glm.hpp"
+
+#include <memory>
 
 namespace Charly {
 
     class Material {
     private:
-        Shader mShader;
+        std::shared_ptr<Texture> mTexture;
         glm::vec3 mColor;
 
     public:
-        Material(const char* vertexShaderPath, const char* fragmentShaderPath);
+        Material(const std::shared_ptr<Texture>& texture);
+
+        void setColor(const glm::vec3& color);
+        glm::vec3 getColor() const;
 
         void bind() const;
-        void unbind() const;
 
         // delete implicit methods
         Material(Material const &) = delete;
