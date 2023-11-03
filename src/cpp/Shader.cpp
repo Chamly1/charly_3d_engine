@@ -114,22 +114,22 @@ namespace Charly {
         GL_CALL(glUseProgram(0))
     }
 
-    void Shader::uploadUniform1f(const std::string& name, float value) {
+    void Shader::uploadUniform1f(const std::string& name, float value) const {
         GL_CALL(GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str()))
         GL_CALL(glUniform1f(uniformLocation, value))
     }
 
-    void Shader::uploadUniform3f(const std::string& name, const glm::vec3& value) {
+    void Shader::uploadUniform3f(const std::string& name, const glm::vec3& value) const {
         GL_CALL(GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str()))
         GL_CALL(glUniform3fv(uniformLocation, 1, glm::value_ptr(value)))
     }
 
-    void Shader::uploadUniform4f(const std::string& name, const glm::vec4& value) {
+    void Shader::uploadUniform4f(const std::string& name, const glm::vec4& value) const {
         GL_CALL(GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str()))
         GL_CALL(glUniform4fv(uniformLocation, 1, glm::value_ptr(value)))
     }
 
-    void Shader::uploadUniformMatrix4f(const std::string& name, const glm::mat4& value) {
+    void Shader::uploadUniformMatrix4f(const std::string& name, const glm::mat4& value) const {
         GL_CALL(GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str()))
         GL_CALL(glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value)))
     }
