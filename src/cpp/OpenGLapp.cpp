@@ -3,6 +3,7 @@
 #include "Font.hpp"
 #include "Text.hpp"
 #include "Logger.hpp"
+#include "OpenGLUtils.hpp"
 
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -54,59 +55,8 @@ namespace Charly {
         glViewport(0, 0, mFramebufferWidth, mFramebufferHeight);
     }
 
-    void OpenGLapp::createVertexArrays() {
-        unsigned int pyramidIndices[] = {
-                0, 3, 1,
-                1, 3, 2,
-                2, 3, 0,
-                0, 1, 2
-        };
-
-        GLfloat pyramidVertices[] = {
-                -1.f, -1.f, 0.f, 0.f, 0.f,
-                0.f, -1.f, 1.f, 0.5f, 0.f,
-                1.f, -1.f, 0.f, 1.f, 0.f,
-                0.f, 1.f, 0.f, 0.5f, 1.f
-        };
-
-        BufferLayout pyramidBufferLayout = {
-                {ShaderDataType::Float3, "pos"},
-                {ShaderDataType::Float2, "tex"}
-        };
-        std::shared_ptr<VertexBuffer> pyramidVertexBuffer = std::make_shared<VertexBuffer>(pyramidVertices, sizeof(pyramidVertices));
-        std::shared_ptr<IndexBuffer> pyramidIndexBuffer = std::make_shared<IndexBuffer>(pyramidIndices, sizeof(pyramidIndices) / sizeof(unsigned int));
-        mVertexArrays.push_back(std::make_unique<VertexArray>(pyramidVertexBuffer, pyramidIndexBuffer, pyramidBufferLayout));
-
-        unsigned int cubeIndices[] = {
-                0, 1, 3, 3, 1, 2,
-                1, 5, 2, 2, 5, 6,
-                5, 4, 6, 6, 4, 7,
-                4, 0, 7, 7, 0, 3,
-                3, 2, 7, 7, 2, 6,
-                4, 5, 0, 0, 5, 1
-        };
-
+    void OpenGLapp::createModels() {
         GLfloat cubeVertices[] = {
-                -1.f, -1.f, -1.f, -0.57735f, -0.57735f, -0.57735f,
-                1.f, -1.f, -1.f, 0.57735f, -0.57735f, -0.57735f,
-                1.f, 1.f, -1.f, 0.57735f, 0.57735f, -0.57735f,
-                -1.f, 1.f, -1.f, -0.57735f, 0.57735f, -0.57735f,
-
-                -1.f, -1.f, 1.f, -0.57735f, -0.57735f, 0.57735f,
-                1.f, -1.f, 1.f, 0.57735f, -0.57735f, 0.57735f,
-                1.f, 1.f, 1.f, 0.57735f, 0.57735f, 0.57735f,
-                -1.f, 1.f, 1.f, -0.57735f, 0.57735f, 0.57735f
-        };
-
-        BufferLayout cubeBufferLayout = {
-                {ShaderDataType::Float3, "pos"},
-                {ShaderDataType::Float3, "normal"}
-        };
-        std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices));
-        std::shared_ptr<IndexBuffer> cubeIndexBuffer = std::make_shared<IndexBuffer>(cubeIndices, sizeof(cubeIndices) / sizeof(unsigned int));
-        mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer, cubeIndexBuffer, cubeBufferLayout));
-
-        GLfloat cubeVertices2[] = {
                 -1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
                 1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
                 1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,
@@ -150,33 +100,21 @@ namespace Charly {
                 -1.f,  1.f, -1.f,  0.0f,  1.0f,  0.0f
         };
 
-        BufferLayout cubeBufferLayout2 = {
+        BufferLayout cubeBufferLayout = {
                 {ShaderDataType::Float3, "pos"},
                 {ShaderDataType::Float3, "normal"}
         };
-        std::shared_ptr<VertexBuffer> cubeVertexBuffer2 = std::make_shared<VertexBuffer>(cubeVertices2, sizeof(cubeVertices2));
-        mVertexArrays.push_back(std::make_unique<VertexArray>(cubeVertexBuffer2, cubeBufferLayout2));
-    }
+        std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices));
+        std::shared_ptr<VertexArray> cubeVertexArray = std::make_shared<VertexArray>(cubeVertexBuffer, cubeBufferLayout);
 
-    void OpenGLapp::createShaders() {
-        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/base_shader.vert",
-                                                        "resources/shaders/base_shader.frag"));
-        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/texturing.vert",
-                                                        "resources/shaders/texturing.frag"));
-        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/flat_color.vert",
-                                                        "resources/shaders/flat_color.frag"));
+        std::shared_ptr<Shader> baseShader = std::make_shared<Shader>("resources/shaders/base_shader.vert",
+                                                        "resources/shaders/base_shader.frag");
 
-        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/ambient_light.vert",
-                                                        "resources/shaders/ambient_light.frag"));
-        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/diffuse_light.vert",
-                                                        "resources/shaders/diffuse_light.frag"));
+        std::shared_ptr<Material> material = std::make_shared<Material>();
+        material->setColor(glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
 
-        mShaderArray.push_back(std::make_unique<Shader>("resources/shaders/text.vert",
-                                                        "resources/shaders/text.frag"));
-    }
-
-    void OpenGLapp::createTextures() {
-        mTextureArray.push_back(std::make_unique<Texture>("resources/textures/stone_texture.jpg", TextureDataFormat::RGB));
+        mModel = std::make_shared<Model>(cubeVertexArray, baseShader, material);
+        mModel->setPosition(glm::vec3(0.f, 0.f, 0.f));
     }
 
     void OpenGLapp::handleEvents() {
@@ -226,53 +164,16 @@ namespace Charly {
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // draw pyramid
-        glm::mat4 model(1.f);
-        model = glm::translate(model, glm::vec3(0.f, 0.f, 0.f));
-        model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
-//        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+//        shaderNum = 5;
+//        mShaderArray[shaderNum]->bind();
+//        mShaderArray[shaderNum]->uploadUniformMatrix4f("u_Projection", mProjectionMatrixOrthographic);
+//        mShaderArray[shaderNum]->uploadUniform3f("u_TextColor", glm::vec3(0.f, 1.f, 0.f));
+//        Font font("resources/fonts/asd.TTF");
+////        Font font("resources/fonts/CONSOLA.TTF");
+//        Text text(font, "The quick brown fox jumps over the lazy dog\n11111111111111 .....", 15);
+//        text.draw();
 
-        int shaderNum = 2;
-        mShaderArray[shaderNum]->bind();
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrixPerspective);
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
-        mShaderArray[shaderNum]->uploadUniform4f("uColor", glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
-
-        mTextureArray[0]->bind();
-        mVertexArrays[0]->bind();
-        glDrawElements(GL_TRIANGLES, mVertexArrays[0]->getIndicesCount(), GL_UNSIGNED_INT, 0);
-        mVertexArrays[0]->unbind();
-
-        // draw cube
-        model = glm::mat4(1.f);
-        model = glm::translate(model, glm::vec3(2.f, 0.f, 0.f));
-        model = glm::rotate(model, degreesToRadians(0), glm::vec3(0.f, 1.f, 0.f));
-//        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-
-        shaderNum = 4;
-        mShaderArray[shaderNum]->bind();
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("model", model);
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("projection", mProjectionMatrixPerspective);
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("view", mCamera.calculateViewMatrix());
-        mShaderArray[shaderNum]->uploadUniform3f("uColor", glm::vec3(0.2f, 0.3f, 0.8f));
-        mShaderArray[shaderNum]->uploadUniform3f("uLightColor", glm::vec3(1.f, 1.f, 1.f));
-        mShaderArray[shaderNum]->uploadUniform3f("uLightPosition", glm::vec3(2.f, 4.f, 0.f));
-
-//        mVertexArrays[1]->bind();
-//        glDrawElements(GL_TRIANGLES, mVertexArrays[1]->getIndicesCount(), GL_UNSIGNED_INT, 0);
-//        mVertexArrays[1]->unbind();
-        mVertexArrays[2]->draw();
-
-        shaderNum = 5;
-        mShaderArray[shaderNum]->bind();
-        mShaderArray[shaderNum]->uploadUniformMatrix4f("u_Projection", mProjectionMatrixOrthographic);
-        mShaderArray[shaderNum]->uploadUniform3f("u_TextColor", glm::vec3(0.f, 1.f, 0.f));
-        Font font("resources/fonts/CONSOLA.TTF");
-        Text text(font, "The quick brown fox jumps over the lazy dog\n11111111111111 .....", 15);
-        text.draw();
-
-
+        mModel->draw(mCamera.calculateViewMatrix(), mProjectionMatrixPerspective);
 
 
         glUseProgram(0);
@@ -282,9 +183,7 @@ namespace Charly {
     OpenGLapp::OpenGLapp()
             : mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
         createAndSetupWindow();
-        createVertexArrays();
-        createShaders();
-        createTextures();
+        createModels();
 
         mInputHandel.init(mWindow);
 
