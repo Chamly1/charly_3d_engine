@@ -9,7 +9,7 @@ namespace Charly {
     , mShader(shader)
     , mMaterial(material)
     , mPosition(0.f)
-    , mRotation(0.f)
+    , mRotation(1.f)
     , mScale(1.f) {
 
     }
