@@ -116,21 +116,33 @@ namespace Charly {
 
     void Shader::uploadUniform1f(const std::string& name, float value) const {
         GL_CALL(GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str()))
+        if (uniformLocation == -1) {
+            LOG_ERROR("OpenGL: \"%s\" does not correspond to an active uniform variable in program or name starts with the reserved prefix \"gl_\"", name.c_str())
+        }
         GL_CALL(glUniform1f(uniformLocation, value))
     }
 
     void Shader::uploadUniform3f(const std::string& name, const glm::vec3& value) const {
         GL_CALL(GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str()))
+        if (uniformLocation == -1) {
+            LOG_ERROR("OpenGL: \"%s\" does not correspond to an active uniform variable in program or name starts with the reserved prefix \"gl_\"", name.c_str())
+        }
         GL_CALL(glUniform3fv(uniformLocation, 1, glm::value_ptr(value)))
     }
 
     void Shader::uploadUniform4f(const std::string& name, const glm::vec4& value) const {
         GL_CALL(GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str()))
+        if (uniformLocation == -1) {
+            LOG_ERROR("OpenGL: \"%s\" does not correspond to an active uniform variable in program or name starts with the reserved prefix \"gl_\"", name.c_str())
+        }
         GL_CALL(glUniform4fv(uniformLocation, 1, glm::value_ptr(value)))
     }
 
     void Shader::uploadUniformMatrix4f(const std::string& name, const glm::mat4& value) const {
         GL_CALL(GLint uniformLocation = glGetUniformLocation(mShaderID, name.c_str()))
+        if (uniformLocation == -1) {
+            LOG_ERROR("OpenGL: \"%s\" does not correspond to an active uniform variable in program or name starts with the reserved prefix \"gl_\"", name.c_str())
+        }
         GL_CALL(glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value)))
     }
 
