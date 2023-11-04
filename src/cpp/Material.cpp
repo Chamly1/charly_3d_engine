@@ -10,7 +10,7 @@ namespace Charly {
 
     Material::Material(const std::shared_ptr<Texture>& texture)
     : mTexture(texture)
-    , mColor(0.f) {
+    , mColor(1.f, 0.f, 1.f) {
 
     }
 

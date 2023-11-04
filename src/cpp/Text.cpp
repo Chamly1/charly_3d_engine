@@ -7,7 +7,6 @@ namespace Charly {
         // need because the order of evaluation of function arguments is unspecified
         std::shared_ptr<VertexArray> vertexArray = mFont->createTextVAO(str, fontSize);
         std::shared_ptr<Material> material = std::make_shared<Material>(mFont->getGlyphAtlasTexture(fontSize));
-        material->setColor(glm::vec3(0.f, 1.f, 0.f));
         init(vertexArray, shader, material);
     }
 
