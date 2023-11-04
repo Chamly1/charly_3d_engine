@@ -39,7 +39,7 @@ namespace Charly {
         }
     }
 
-    std::unique_ptr<VertexArray> Font::createTextVAO(const char* str, unsigned int fontSize) {
+    std::shared_ptr<VertexArray> Font::createTextVAO(const char* str, unsigned int fontSize) {
         std::shared_ptr<GlyphAtlas> glyphAtlas;
         if (mGlyphAtlases.count(fontSize)) {
             glyphAtlas = mGlyphAtlases[fontSize];
@@ -50,11 +50,16 @@ namespace Charly {
 
         std::shared_ptr<VertexBuffer> VBO = glyphAtlas->createTextVBO(str);
 
-        return std::make_unique<VertexArray>(VBO, glyphAtlas->bufferLayout);
+        return std::make_shared<VertexArray>(VBO, glyphAtlas->bufferLayout);
     }
 
     std::shared_ptr<Texture> Font::getGlyphAtlasTexture(unsigned int fontSize) const {
-        return mGlyphAtlases.at(fontSize)->getGlyphAtlasTexture();
+        try {
+            return mGlyphAtlases.at(fontSize)->getGlyphAtlasTexture();
+        } catch (const std::out_of_range&) {
+            LOG_ERROR("There is no glyph atlases for specified font size!")
+            return nullptr;
+        }
     }
 
 }

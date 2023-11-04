@@ -9,12 +9,17 @@ namespace Charly {
 
     class Model {
     private:
-        std::shared_ptr<VertexArray> mVAO;
+        std::shared_ptr<VertexArray> mVertexArray;
         std::shared_ptr<Shader> mShader;
         std::shared_ptr<Material> mMaterial;
         glm::vec3 mPosition;
         glm::vec3 mRotation;
         glm::vec3 mScale;
+
+    protected:
+        Model();
+        void init(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const std::shared_ptr<Material>& material);
+        void setVertexArray(const std::shared_ptr<VertexArray>& vertexArray);
 
     public:
         Model(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const std::shared_ptr<Material>& material);

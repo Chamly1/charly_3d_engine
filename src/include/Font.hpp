@@ -32,7 +32,7 @@ namespace Charly {
         Font(const char* fontPath);
         ~Font();
 
-        std::unique_ptr<VertexArray> createTextVAO(const char* str, unsigned int fontSize);
+        std::shared_ptr<VertexArray> createTextVAO(const char* str, unsigned int fontSize);
         std::shared_ptr<Texture> getGlyphAtlasTexture(unsigned int fontSize) const;
 
     };

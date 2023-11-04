@@ -4,20 +4,18 @@
 #include "Texture.hpp"
 #include "VertexArray.hpp"
 #include "Font.hpp"
+#include "Model.hpp"
 
 #include <memory>
 
 namespace Charly {
 
-    class Text {
+    class Text : public Model {
     private:
-        std::shared_ptr<Texture> mGlyphAtlasTexture;
-        std::unique_ptr<VertexArray> mVAO;
+        std::shared_ptr<Font> mFont;
 
     public:
-        Text(Font& font, const char* str, unsigned int fontSize);
-
-        void draw();
+        Text(const std::shared_ptr<Font>& font, const std::shared_ptr<Shader>& shader, const char* str, unsigned int fontSize);
 
     };
 

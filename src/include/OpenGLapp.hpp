@@ -8,6 +8,7 @@
 #include "Texture.hpp"
 #include "VertexArray.hpp"
 #include "Model.hpp"
+#include "Text.hpp"
 
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
@@ -26,6 +27,7 @@ namespace Charly {
         int mFramebufferWidth, mFramebufferHeight;
 
         std::shared_ptr<Model> mModel;
+        std::shared_ptr<Text> mText;
 
         glm::mat4 mProjectionMatrixPerspective;
         glm::mat4 mProjectionMatrixOrthographic;

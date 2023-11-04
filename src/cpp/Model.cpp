@@ -4,8 +4,28 @@
 
 namespace Charly {
 
+    Model::Model()
+    : mVertexArray(nullptr)
+    , mShader(nullptr)
+    , mMaterial(nullptr)
+    , mPosition(0.f)
+    , mRotation(1.f)
+    , mScale(1.f) {
+
+    }
+
+    void Model::init(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const std::shared_ptr<Material>& material) {
+        mVertexArray = vertexArray;
+        mShader = shader;
+        mMaterial = material;
+    }
+
+    void Model::setVertexArray(const std::shared_ptr<VertexArray>& vertexArray) {
+        mVertexArray = vertexArray;
+    }
+
     Model::Model(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const std::shared_ptr<Material>& material)
-    : mVAO(vertexArray)
+    : mVertexArray(vertexArray)
     , mShader(shader)
     , mMaterial(material)
     , mPosition(0.f)
@@ -32,7 +52,7 @@ namespace Charly {
         mShader->uploadUniformMatrix4f("view", viewMatrix);
         mShader->uploadUniform3f("uColor", mMaterial->getColor());
 
-        mVAO->draw();
+        mVertexArray->draw();
     }
 
 }

@@ -115,6 +115,16 @@ namespace Charly {
 
         mModel = std::make_shared<Model>(cubeVertexArray, baseShader, material);
         mModel->setPosition(glm::vec3(0.f, 0.f, 0.f));
+
+        ///////////////////text///////////////////
+
+//        std::shared_ptr<Font> font = std::make_shared<Font>("resources/fonts/asd.TTF");
+        std::shared_ptr<Font> font = std::make_shared<Font>("resources/fonts/CONSOLA.TTF");
+
+        std::shared_ptr<Shader> textShader = std::make_shared<Shader>("resources/shaders/text.vert",
+                                                                      "resources/shaders/text.frag");
+
+        mText = std::make_shared<Text>(font, textShader, "The quick brown fox jumps over the lazy dog\n11111111111111 .....", 15);
     }
 
     void OpenGLapp::handleEvents() {
@@ -164,16 +174,8 @@ namespace Charly {
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//        shaderNum = 5;
-//        mShaderArray[shaderNum]->bind();
-//        mShaderArray[shaderNum]->uploadUniformMatrix4f("u_Projection", mProjectionMatrixOrthographic);
-//        mShaderArray[shaderNum]->uploadUniform3f("u_TextColor", glm::vec3(0.f, 1.f, 0.f));
-//        Font font("resources/fonts/asd.TTF");
-////        Font font("resources/fonts/CONSOLA.TTF");
-//        Text text(font, "The quick brown fox jumps over the lazy dog\n11111111111111 .....", 15);
-//        text.draw();
-
         mModel->draw(mCamera.calculateViewMatrix(), mProjectionMatrixPerspective);
+        mText->draw(glm::mat4(1.f), mProjectionMatrixOrthographic);
 
 
         glUseProgram(0);
