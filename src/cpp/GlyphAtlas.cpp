@@ -109,7 +109,7 @@ namespace Charly {
         float* buffer = new float[bufferCount];
 
         //TODO set start point
-        const float xDefault = 0, yDefault = 100;
+        const float xDefault = 0, yDefault = -static_cast<float>(mFontSize);
         float x = xDefault, y = yDefault;
 
         float xPos, yPos, w, h;

@@ -10,6 +10,7 @@
 
 namespace Charly {
 
+    // Origin of the text located in the top left corner
     class Text : public Model {
     private:
         std::shared_ptr<Font> mFont;

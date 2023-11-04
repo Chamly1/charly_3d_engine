@@ -125,6 +125,7 @@ namespace Charly {
                                                                       "resources/shaders/text.frag");
 
         mText = std::make_shared<Text>(font, textShader, "The quick brown fox jumps over the lazy dog\n11111111111111 .....", 15);
+        mText->setPosition(glm::vec3(0.f, 600.f, 0.f));
     }
 
     void OpenGLapp::handleEvents() {
