@@ -38,6 +38,8 @@ namespace Charly {
 
         // set context for GLEW to use
         glfwMakeContextCurrent(mWindow);
+        // disable V-sync
+        glfwSwapInterval(0);
 
         glewExperimental = GL_TRUE;
 
