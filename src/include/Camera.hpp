@@ -36,8 +36,8 @@ namespace Charly {
         Camera(glm::vec3 position, glm::vec3 worldUp, GLfloat yaw, GLfloat pitch);
 
         void update(float dt);
-        void move(MoveDirection direction);
-        void rotate(GLfloat xChange, GLfloat yChange);
+//        void move(MoveDirection direction);
+//        void rotate(GLfloat xChange, GLfloat yChange);
 
         void rotateOnSphere(GLfloat xChange, GLfloat yChange);
         void changeRotationSphereRadius(GLfloat delta);

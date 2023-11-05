@@ -40,33 +40,33 @@ namespace Charly {
 
     }
 
-    void Camera::move(MoveDirection direction) {
-        switch(direction) {
-            case MoveDirection::Forward:
-                mMoveDirection += mFront;
-                break;
-            case MoveDirection::Backward:
-                mMoveDirection -= mFront;
-                break;
-            case MoveDirection::Left:
-                mMoveDirection -= mRight;
-                break;
-            case MoveDirection::Right:
-                mMoveDirection += mRight;
-                break;
-        }
-    }
+//    void Camera::move(MoveDirection direction) {
+//        switch(direction) {
+//            case MoveDirection::Forward:
+//                mMoveDirection += mFront;
+//                break;
+//            case MoveDirection::Backward:
+//                mMoveDirection -= mFront;
+//                break;
+//            case MoveDirection::Left:
+//                mMoveDirection -= mRight;
+//                break;
+//            case MoveDirection::Right:
+//                mMoveDirection += mRight;
+//                break;
+//        }
+//    }
 
-    void Camera::rotate(GLfloat xChange, GLfloat yChange) {
-        mYaw += xChange * ROTATION_SPEED;
-        mPitch += yChange * ROTATION_SPEED;
-
-        if (mPitch > 89.f) {
-            mPitch = 89.f;
-        } else if (mPitch < -89.f) {
-            mPitch = -89.f;
-        }
-    }
+//    void Camera::rotate(GLfloat xChange, GLfloat yChange) {
+//        mYaw += xChange * ROTATION_SPEED;
+//        mPitch += yChange * ROTATION_SPEED;
+//
+//        if (mPitch > 89.f) {
+//            mPitch = 89.f;
+//        } else if (mPitch < -89.f) {
+//            mPitch = -89.f;
+//        }
+//    }
 
     void Camera::updateCameraPosition() {
         mPosition.x = mRotationSphereCenter.x + -mRotationSphereRadius * cos(glm::radians(mPitch)) * cos(glm::radians(mYaw));

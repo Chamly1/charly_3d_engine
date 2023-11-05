@@ -152,20 +152,7 @@ namespace Charly {
                 mCamera.changeRotationSphereRadius(static_cast<float>(-event.scrollEvent.yoffset));
             }
         }
-
-        // camera movement
-        if (mInputHandel.isKeyPressed(GLFW_KEY_W)) {
-            mCamera.move(MoveDirection::Forward);
-        }
-        if (mInputHandel.isKeyPressed(GLFW_KEY_S)) {
-            mCamera.move(MoveDirection::Backward);
-        }
-        if (mInputHandel.isKeyPressed(GLFW_KEY_A)) {
-            mCamera.move(MoveDirection::Left);
-        }
-        if (mInputHandel.isKeyPressed(GLFW_KEY_D)) {
-            mCamera.move(MoveDirection::Right);
-        }
+        
     }
     void OpenGLapp::update(float dt) {
         mCamera.update(dt);
