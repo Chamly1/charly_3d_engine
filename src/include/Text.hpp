@@ -14,9 +14,12 @@ namespace Charly {
     class Text : public Model {
     private:
         std::shared_ptr<Font> mFont;
+        unsigned int mFontSize;
 
     public:
         Text(const std::shared_ptr<Font>& font, const std::shared_ptr<Shader>& shader, const char* str, unsigned int fontSize);
+
+        void setString(const char* str);
 
     };
 
