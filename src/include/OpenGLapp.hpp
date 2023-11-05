@@ -9,6 +9,7 @@
 #include "VertexArray.hpp"
 #include "Model.hpp"
 #include "Text.hpp"
+#include "PerformanceStatisticManager.hpp"
 
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
@@ -28,6 +29,7 @@ namespace Charly {
 
         std::shared_ptr<Model> mModel;
         std::shared_ptr<Text> mText;
+        std::shared_ptr<PerformanceStatisticManager> mPerformanceStatisticManager;
 
         glm::mat4 mProjectionMatrixPerspective;
         glm::mat4 mProjectionMatrixOrthographic;

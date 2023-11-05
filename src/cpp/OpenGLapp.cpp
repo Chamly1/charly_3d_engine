@@ -126,6 +126,10 @@ namespace Charly {
 
         mText = std::make_shared<Text>(font, textShader, "The quick brown fox jumps over the lazy dog\n11111111111111 .....", 15);
         mText->setPosition(glm::vec3(0.f, 600.f, 0.f));
+
+        ///////////////////PerformanceStatisticManager///////////////////
+
+        mPerformanceStatisticManager = std::make_shared<PerformanceStatisticManager>(font, textShader);
     }
 
     void OpenGLapp::handleEvents() {
@@ -156,6 +160,7 @@ namespace Charly {
     }
     void OpenGLapp::update(float dt) {
         mCamera.update(dt);
+        mPerformanceStatisticManager->update(dt);
     }
 
     void OpenGLapp::render() {
@@ -163,7 +168,8 @@ namespace Charly {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         mModel->draw(mCamera.calculateViewMatrix(), mProjectionMatrixPerspective);
-        mText->draw(glm::mat4(1.f), mProjectionMatrixOrthographic);
+//        mText->draw(glm::mat4(1.f), mProjectionMatrixOrthographic);
+        mPerformanceStatisticManager->draw(glm::mat4(1.f), mProjectionMatrixOrthographic);
 
 
         glUseProgram(0);
@@ -194,14 +200,24 @@ namespace Charly {
         float currTime = static_cast<float>(glfwGetTime());
         float deltaTime = 0.f;
 
+        float performanceStatisticTime = 0.f;
+
         while (!glfwWindowShouldClose(mWindow)) {
             prevTime = currTime;
             currTime = static_cast<float>(glfwGetTime());
             deltaTime = currTime - prevTime;
 
             handleEvents();
+
+            performanceStatisticTime = static_cast<float>(glfwGetTime());
             update(deltaTime);
+            mPerformanceStatisticManager->accumulateUpdateTime(static_cast<float>(glfwGetTime()) - performanceStatisticTime);
+            mPerformanceStatisticManager->incrementLogicUpdatesCounter();
+
+            performanceStatisticTime = static_cast<float>(glfwGetTime());
             render();
+            mPerformanceStatisticManager->accumulateRenderTime(static_cast<float>(glfwGetTime()) - performanceStatisticTime);
+            mPerformanceStatisticManager->incrementFramesCounter();
         }
     }
 
