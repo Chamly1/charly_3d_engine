@@ -6,7 +6,9 @@
 #include "gl/glew.h"
 
 #define GL_CALL(func)                                                                                                  \
-    while (glGetError() != GL_NO_ERROR);                                                                               \
+    while (GLenum error = glGetError()) {                                                                              \
+        LOG_ERROR("OpenGL residual error: 0x%x", error)                                                                \
+    }                                                                                                                  \
     func;                                                                                                              \
     while (GLenum error = glGetError()) {                                                                              \
         LOG_ERROR("OpenGL: 0x%x", error)                                                                               \
