@@ -193,6 +193,15 @@ namespace Charly {
     }
 
     OpenGLapp::~OpenGLapp() {
+
+        mModel.reset();
+        mText.reset();
+        mPerformanceStatisticManager.reset();
+
+        // you must destroy all members whose destructors calls OpenGL function, before destroying the window because
+        // GL_CALL() macro call in destructor goes into infinite loop as a result of calling OpenGL functions without
+        // valid OpenGL context!!!
+
         glfwDestroyWindow(mWindow);
         glfwTerminate();
     }
