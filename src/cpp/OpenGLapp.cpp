@@ -10,52 +10,7 @@
 
 #include <iostream>
 
-// window size
-static const GLint DEFAULT_WINDOW_WIDTH = 800, DEFAULT_WINDOW_HEIGHT = 600;
-
 namespace Charly {
-
-    void OpenGLapp::createAndSetupWindow() {
-        if (!glfwInit()) {
-            LOG_ERROR("GLFW initialization failed!")
-//        return 1;
-        }
-
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        // no backwards compatibility?
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-        mWindow = glfwCreateWindow(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, "title", NULL, NULL);
-        if (!mWindow) {
-            LOG_ERROR("GLFW window creation failed!")
-            glfwTerminate();
-//        return 1;
-        }
-
-        glfwGetFramebufferSize(mWindow, &mFramebufferWidth, &mFramebufferHeight);
-
-        // set context for GLEW to use
-        glfwMakeContextCurrent(mWindow);
-        // disable V-sync
-        glfwSwapInterval(0);
-
-        glewExperimental = GL_TRUE;
-
-        if (glewInit() != GLEW_OK) {
-            LOG_ERROR("GLEW initialization failed!")
-            glfwDestroyWindow(mWindow);
-            glfwTerminate();
-//        return 1;
-        }
-
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        // setup viewport size
-        glViewport(0, 0, mFramebufferWidth, mFramebufferHeight);
-    }
 
     void OpenGLapp::createModels() {
         GLfloat cubeVertices[] = {
@@ -166,28 +121,27 @@ namespace Charly {
     }
 
     void OpenGLapp::render() {
-        glClearColor(0.f, 0.f, 0.f, 1.f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        mWindow.clear();
 
         mModel->draw(mCamera.calculateViewMatrix(), mProjectionMatrixPerspective);
 //        mText->draw(glm::mat4(1.f), mProjectionMatrixOrthographic);
         mPerformanceStatisticManager->draw(glm::mat4(1.f), mProjectionMatrixOrthographic);
 
-
         glUseProgram(0);
-        glfwSwapBuffers(mWindow);
+        mWindow.swapBuffers();
     }
 
     OpenGLapp::OpenGLapp()
             : mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
-        createAndSetupWindow();
+
         createModels();
 
         mInputHandel.init(mWindow);
 
-        GLfloat projectionAspectRation = static_cast<GLfloat>(mFramebufferWidth) / static_cast<GLfloat>(mFramebufferHeight);
+        glm::ivec2 windowSize = mWindow.getSize();
+        GLfloat projectionAspectRation = static_cast<GLfloat>(windowSize.x) / static_cast<GLfloat>(windowSize.y);
         mProjectionMatrixPerspective = glm::perspective(45.f, projectionAspectRation, 0.1f, 100.f);
-        mProjectionMatrixOrthographic = glm::ortho(0.0f, static_cast<float>(mFramebufferWidth), 0.0f, static_cast<float>(mFramebufferHeight));
+        mProjectionMatrixOrthographic = glm::ortho(0.0f, static_cast<float>(windowSize.x), 0.0f, static_cast<float>(windowSize.y));
 
 //    glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
@@ -201,9 +155,6 @@ namespace Charly {
         // you must destroy all members whose destructors calls OpenGL function, before destroying the window because
         // GL_CALL() macro call in destructor goes into infinite loop as a result of calling OpenGL functions without
         // valid OpenGL context!!!
-
-        glfwDestroyWindow(mWindow);
-        glfwTerminate();
     }
 
     void OpenGLapp::run() {
@@ -213,7 +164,7 @@ namespace Charly {
 
         float performanceStatisticTime = 0.f;
 
-        while (!glfwWindowShouldClose(mWindow)) {
+        while (!mWindow.shouldClose()) {
             prevTime = currTime;
             currTime = static_cast<float>(glfwGetTime());
             deltaTime = currTime - prevTime;

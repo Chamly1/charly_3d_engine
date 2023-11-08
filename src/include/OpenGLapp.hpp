@@ -10,8 +10,8 @@
 #include "Model.hpp"
 #include "Text.hpp"
 #include "PerformanceStatisticManager.hpp"
+#include "Window.hpp"
 
-#include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
 
 #include <vector>
@@ -21,11 +21,9 @@ namespace Charly {
 
     class OpenGLapp {
     private:
-        GLFWwindow *mWindow;
+        Window mWindow;
         GLFWinputHandler mInputHandel;
         Camera mCamera;
-
-        int mFramebufferWidth, mFramebufferHeight;
 
         std::shared_ptr<Model> mModel;
         std::shared_ptr<Text> mText;
@@ -34,7 +32,6 @@ namespace Charly {
         glm::mat4 mProjectionMatrixPerspective;
         glm::mat4 mProjectionMatrixOrthographic;
 
-        void createAndSetupWindow();
         void createModels();
 
         void handleEvents();

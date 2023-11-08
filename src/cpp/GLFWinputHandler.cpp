@@ -84,7 +84,7 @@ namespace Charly {
 
     }
 
-    GLFWinputHandler::GLFWinputHandler(GLFWwindow *window) {
+    GLFWinputHandler::GLFWinputHandler(Window& window) {
         init(window);
     }
 
@@ -92,17 +92,17 @@ namespace Charly {
 
     }
 
-    void GLFWinputHandler::init(GLFWwindow *window) {
-        glfwSetWindowUserPointer(window, this);
+    void GLFWinputHandler::init(Window& window) {
+        glfwSetWindowUserPointer(window.mWindow, this);
         memset(mIsKeyOrButtonPressed, 0, sizeof(mIsKeyOrButtonPressed));
 
-        glfwSetKeyCallback(window, keyCallback);
-        glfwSetMouseButtonCallback(window, museButtonCallback);
+        glfwSetKeyCallback(window.mWindow, keyCallback);
+        glfwSetMouseButtonCallback(window.mWindow, museButtonCallback);
         mMouseFirstMove = true;
         mMousePosX = 0.f;
         mMousePosY = 0.f;
-        glfwSetCursorPosCallback(window, cursorPosCallback);
-        glfwSetScrollCallback(window, scrollCallback);
+        glfwSetCursorPosCallback(window.mWindow, cursorPosCallback);
+        glfwSetScrollCallback(window.mWindow, scrollCallback);
     }
 
     bool GLFWinputHandler::pullInputEvent(InputEvent& event) {

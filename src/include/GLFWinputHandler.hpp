@@ -1,6 +1,8 @@
 #ifndef CHAMLY_3D_ENGINE_GLFWINPUTHANDLER_HPP
 #define CHAMLY_3D_ENGINE_GLFWINPUTHANDLER_HPP
 
+#include "Window.hpp"
+
 #include "GLFW/glfw3.h"
 
 #include <queue>
@@ -53,10 +55,10 @@ namespace Charly {
 
     public:
         GLFWinputHandler();
-        GLFWinputHandler(GLFWwindow *window);
+        GLFWinputHandler(Window& window);
         ~GLFWinputHandler();
 
-        void init(GLFWwindow *window);
+        void init(Window& window);
         /**
          * Pop the event on top of the event queue, if any, and return save it inside 'event' parameter.
          *
