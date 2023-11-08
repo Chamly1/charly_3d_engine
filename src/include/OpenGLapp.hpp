@@ -3,7 +3,7 @@
 
 #include "Mesh.hpp"
 #include "Shader.hpp"
-#include "GLFWinputHandler.hpp"
+#include "InputHandler.hpp"
 #include "Camera.hpp"
 #include "Texture.hpp"
 #include "VertexArray.hpp"
@@ -22,7 +22,7 @@ namespace Charly {
     class OpenGLapp {
     private:
         Window mWindow;
-        GLFWinputHandler mInputHandel;
+        InputHandler mInputHandel;
         Camera mCamera;
 
         std::shared_ptr<Model> mModel;

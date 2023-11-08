@@ -7,7 +7,7 @@
 
 namespace Charly {
 
-    class GLFWinputHandler;
+    class InputHandler;
 
     class Window {
     private:
@@ -24,7 +24,7 @@ namespace Charly {
 
         glm::ivec2 getSize();
 
-        friend GLFWinputHandler;
+        friend InputHandler;
     };
 
 }

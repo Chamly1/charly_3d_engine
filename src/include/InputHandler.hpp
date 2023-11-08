@@ -38,7 +38,7 @@ namespace Charly {
         MouseWheelScrollEvent scrollEvent;
     };
 
-    class GLFWinputHandler {
+    class InputHandler {
     private:
         std::queue<InputEvent> mInputEventQueue;
 
@@ -54,9 +54,9 @@ namespace Charly {
         static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
     public:
-        GLFWinputHandler();
-        GLFWinputHandler(Window& window);
-        ~GLFWinputHandler();
+        InputHandler();
+        InputHandler(Window& window);
+        ~InputHandler();
 
         void init(Window& window);
         /**
@@ -80,10 +80,10 @@ namespace Charly {
         bool isMouseButtonPressed(int button);
 
         // delete implicit methods
-        GLFWinputHandler(GLFWinputHandler const &) = delete;
-        GLFWinputHandler & operator = (GLFWinputHandler const &) = delete;
-        GLFWinputHandler(GLFWinputHandler &&) = delete;
-        GLFWinputHandler & operator = (GLFWinputHandler &&) = delete;
+        InputHandler(InputHandler const &) = delete;
+        InputHandler & operator = (InputHandler const &) = delete;
+        InputHandler(InputHandler &&) = delete;
+        InputHandler & operator = (InputHandler &&) = delete;
     };
 
 }

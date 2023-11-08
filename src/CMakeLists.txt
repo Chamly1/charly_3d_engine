@@ -16,7 +16,7 @@ add_library(main_obj_lib OBJECT
         cpp/VertexBuffer.cpp
         cpp/Texture.cpp
         cpp/Camera.cpp
-        cpp/GLFWinputHandler.cpp
+        cpp/InputHandler.cpp
         cpp/OpenGLapp.cpp
         cpp/Mesh.cpp
         cpp/Shader.cpp

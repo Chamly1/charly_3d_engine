@@ -1,9 +1,9 @@
-#include "GLFWinputHandler.hpp"
+#include "InputHandler.hpp"
 
 namespace Charly {
 
-    void GLFWinputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-        GLFWinputHandler* thisHandler = static_cast<GLFWinputHandler*>(glfwGetWindowUserPointer(window));
+    void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+        InputHandler* thisHandler = static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
 
         InputEvent inputEvent;
 
@@ -26,8 +26,8 @@ namespace Charly {
         }
     }
 
-    void GLFWinputHandler::museButtonCallback(GLFWwindow* window, int button, int action, int mods) {
-        GLFWinputHandler* thisHandler = static_cast<GLFWinputHandler*>(glfwGetWindowUserPointer(window));
+    void InputHandler::museButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+        InputHandler* thisHandler = static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
 
         InputEvent inputEvent;
 
@@ -49,8 +49,8 @@ namespace Charly {
         }
     }
 
-    void GLFWinputHandler::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
-        GLFWinputHandler* thisHandler = static_cast<GLFWinputHandler*>(glfwGetWindowUserPointer(window));
+    void InputHandler::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
+        InputHandler* thisHandler = static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
 
         InputEvent inputEvent;
         inputEvent.type = InputEvent::MouseMoved;
@@ -69,8 +69,8 @@ namespace Charly {
         thisHandler->mMousePosY = ypos;
     }
 
-    void GLFWinputHandler::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-        GLFWinputHandler* thisHandler = static_cast<GLFWinputHandler*>(glfwGetWindowUserPointer(window));
+    void InputHandler::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+        InputHandler* thisHandler = static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
 
         InputEvent inputEvent;
         inputEvent.type = InputEvent::MouseWheelScrolled;
@@ -80,19 +80,19 @@ namespace Charly {
         thisHandler->mInputEventQueue.push(inputEvent);
     }
 
-    GLFWinputHandler::GLFWinputHandler() {
+    InputHandler::InputHandler() {
 
     }
 
-    GLFWinputHandler::GLFWinputHandler(Window& window) {
+    InputHandler::InputHandler(Window& window) {
         init(window);
     }
 
-    GLFWinputHandler::~GLFWinputHandler() {
+    InputHandler::~InputHandler() {
 
     }
 
-    void GLFWinputHandler::init(Window& window) {
+    void InputHandler::init(Window& window) {
         glfwSetWindowUserPointer(window.mWindow, this);
         memset(mIsKeyOrButtonPressed, 0, sizeof(mIsKeyOrButtonPressed));
 
@@ -105,7 +105,7 @@ namespace Charly {
         glfwSetScrollCallback(window.mWindow, scrollCallback);
     }
 
-    bool GLFWinputHandler::pullInputEvent(InputEvent& event) {
+    bool InputHandler::pullInputEvent(InputEvent& event) {
         if (!mInputEventQueue.empty()) {
             event = mInputEventQueue.front();
             mInputEventQueue.pop();
@@ -114,11 +114,11 @@ namespace Charly {
         return false;
     }
 
-    bool GLFWinputHandler::isKeyPressed(int key) {
+    bool InputHandler::isKeyPressed(int key) {
         return mIsKeyOrButtonPressed[key];
     }
 
-    bool GLFWinputHandler::isMouseButtonPressed(int button) {
+    bool InputHandler::isMouseButtonPressed(int button) {
         return mIsKeyOrButtonPressed[button];
     }
 
