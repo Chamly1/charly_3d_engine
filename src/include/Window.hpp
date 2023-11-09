@@ -15,7 +15,7 @@ namespace Charly {
         glm::ivec2 mWindowSize;
 
     public:
-        Window();
+        Window(const glm::ivec2&& windowSize);
         ~Window();
 
         bool shouldClose();

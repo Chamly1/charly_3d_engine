@@ -12,6 +12,8 @@
 
 namespace Charly {
 
+    static const GLint DEFAULT_WINDOW_WIDTH = 800, DEFAULT_WINDOW_HEIGHT = 600;
+
     void OpenGLapp::createModels() {
         GLfloat cubeVertices[] = {
                 -1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
@@ -132,7 +134,8 @@ namespace Charly {
     }
 
     OpenGLapp::OpenGLapp()
-            : mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
+    : mWindow(glm::ivec2(DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_WIDTH))
+    , mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
 
         createModels();
 

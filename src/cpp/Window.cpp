@@ -4,11 +4,9 @@
 
 namespace Charly {
 
-    static const GLint DEFAULT_WINDOW_WIDTH = 800, DEFAULT_WINDOW_HEIGHT = 600;
-
-    Window::Window()
+    Window::Window(const glm::ivec2&& windowSize)
     : mWindow(nullptr)
-    , mWindowSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT) {
+    , mWindowSize(windowSize) {
         if (!glfwInit()) {
             LOG_ERROR("GLFW initialization failed!")
 //        return 1;
