@@ -43,6 +43,8 @@ namespace Charly {
         void changeRotationSphereRadius(GLfloat delta);
         void changeRotationSphereCenterPosition(GLfloat xChange, GLfloat yChange);
 
+        const glm::vec3& getPosition() const;
+
         glm::mat4 calculateViewMatrix();
     };
 

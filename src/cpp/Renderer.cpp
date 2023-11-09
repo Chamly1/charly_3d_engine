@@ -32,12 +32,20 @@ namespace Charly {
         }
     }
 
+    void Renderer::setLightSource(LightSource lightSource) {
+        mLightSource = lightSource;
+    }
+
     const glm::mat4& Renderer::getViewMatrix() const {
         return mViewMatrix;
     }
 
     const glm::mat4& Renderer::getProjectionMatrix() const {
         return *mCurrentProjectionMatrix;
+    }
+
+    const LightSource& Renderer::getLightSource() const {
+        return mLightSource;
     }
 
     void Renderer::draw(const Drawable& drawable) {

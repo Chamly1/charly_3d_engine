@@ -100,6 +100,10 @@ namespace Charly {
         updateCameraPosition();
     }
 
+    const glm::vec3& Camera::getPosition() const {
+        return mPosition;
+    }
+
     glm::mat4 Camera::calculateViewMatrix() {
         return glm::lookAt(mPosition, mPosition + mFront, mWorldUp);
     }

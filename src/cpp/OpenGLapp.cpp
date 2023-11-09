@@ -119,6 +119,10 @@ namespace Charly {
     }
     void OpenGLapp::update(float dt) {
         mCamera.update(dt);
+
+        mLightSource.mPosition = mCamera.getPosition();
+        mRenderer.setLightSource(mLightSource);
+
         mPerformanceStatisticManager->update(dt);
     }
 
@@ -141,6 +145,8 @@ namespace Charly {
     : mWindow(glm::ivec2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT))
     , mRenderer(glm::ivec2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT))
     , mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
+
+        mLightSource.mColor = glm::vec3(1.f);
 
         createModels();
 

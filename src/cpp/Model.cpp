@@ -37,7 +37,10 @@ namespace Charly {
         mShader->uploadUniformMatrix4f("u_Model", model);
         mShader->uploadUniformMatrix4f("u_Projection", renderer.getProjectionMatrix());
         mShader->uploadUniformMatrix4f("u_View", renderer.getViewMatrix());
+
         mShader->uploadUniform3f("u_Color", mMaterial->getColor());
+        mShader->uploadUniform3f("u_LightColor", renderer.getLightSource().mColor);
+        mShader->uploadUniform3f("u_LightPos", renderer.getLightSource().mPosition);
 
         mVertexArray->draw();
     }
