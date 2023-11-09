@@ -34,10 +34,10 @@ namespace Charly {
         mMaterial->bind();
 
         mShader->bind();
-        mShader->uploadUniformMatrix4f("model", model);
-        mShader->uploadUniformMatrix4f("projection", renderer.getProjectionMatrix());
-        mShader->uploadUniformMatrix4f("view", renderer.getViewMatrix());
-        mShader->uploadUniform3f("uColor", mMaterial->getColor());
+        mShader->uploadUniformMatrix4f("u_Model", model);
+        mShader->uploadUniformMatrix4f("u_Projection", renderer.getProjectionMatrix());
+        mShader->uploadUniformMatrix4f("u_View", renderer.getViewMatrix());
+        mShader->uploadUniform3f("u_Color", mMaterial->getColor());
 
         mVertexArray->draw();
     }
