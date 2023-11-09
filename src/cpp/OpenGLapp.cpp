@@ -125,26 +125,26 @@ namespace Charly {
     void OpenGLapp::render() {
         mWindow.clear();
 
-        mModel->draw(mCamera.calculateViewMatrix(), mProjectionMatrixPerspective);
-//        mText->draw(glm::mat4(1.f), mProjectionMatrixOrthographic);
-        mPerformanceStatisticManager->draw(glm::mat4(1.f), mProjectionMatrixOrthographic);
+        mRenderer.setViewMatrix(mCamera.calculateViewMatrix());
+        mRenderer.setProjectionMode(ProjectionMode::Perspective);
+        mRenderer.draw(*mModel);
+
+        mRenderer.setViewMatrix(glm::mat4(1.f));
+        mRenderer.setProjectionMode(ProjectionMode::Orthographic);
+        mRenderer.draw(*mPerformanceStatisticManager);
 
         glUseProgram(0);
         mWindow.swapBuffers();
     }
 
     OpenGLapp::OpenGLapp()
-    : mWindow(glm::ivec2(DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_WIDTH))
+    : mWindow(glm::ivec2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT))
+    , mRenderer(glm::ivec2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT))
     , mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
 
         createModels();
 
         mInputHandel.init(mWindow);
-
-        glm::ivec2 windowSize = mWindow.getSize();
-        GLfloat projectionAspectRation = static_cast<GLfloat>(windowSize.x) / static_cast<GLfloat>(windowSize.y);
-        mProjectionMatrixPerspective = glm::perspective(45.f, projectionAspectRation, 0.1f, 100.f);
-        mProjectionMatrixOrthographic = glm::ortho(0.0f, static_cast<float>(windowSize.x), 0.0f, static_cast<float>(windowSize.y));
 
 //    glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }

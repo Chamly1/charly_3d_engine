@@ -3,6 +3,8 @@ include_directories(include)
 add_compile_definitions(ENABLE_LOGGING)
 
 add_library(main_obj_lib OBJECT
+        cpp/Drawable.cpp
+        cpp/Renderer.cpp
         cpp/Window.cpp
         cpp/PerformanceStatisticManager.cpp
         cpp/Model.cpp

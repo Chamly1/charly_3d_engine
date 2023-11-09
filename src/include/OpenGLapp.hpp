@@ -11,6 +11,7 @@
 #include "Text.hpp"
 #include "PerformanceStatisticManager.hpp"
 #include "Window.hpp"
+#include "Renderer.hpp"
 
 #include "glm/glm.hpp"
 
@@ -23,14 +24,12 @@ namespace Charly {
     private:
         Window mWindow;
         InputHandler mInputHandel;
+        Renderer mRenderer;
         Camera mCamera;
 
         std::shared_ptr<Model> mModel;
         std::shared_ptr<Text> mText;
         std::shared_ptr<PerformanceStatisticManager> mPerformanceStatisticManager;
-
-        glm::mat4 mProjectionMatrixPerspective;
-        glm::mat4 mProjectionMatrixOrthographic;
 
         void createModels();
 

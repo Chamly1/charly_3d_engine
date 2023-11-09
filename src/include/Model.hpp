@@ -4,10 +4,11 @@
 #include "VertexArray.hpp"
 #include "Shader.hpp"
 #include "Material.hpp"
+#include "Drawable.hpp"
 
 namespace Charly {
 
-    class Model {
+    class Model : public Drawable {
     private:
         std::shared_ptr<VertexArray> mVertexArray;
         std::shared_ptr<Shader> mShader;
@@ -21,12 +22,12 @@ namespace Charly {
         void init(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const std::shared_ptr<Material>& material);
         void setVertexArray(const std::shared_ptr<VertexArray>& vertexArray);
 
+        void draw(Renderer& renderer) const override;
+
     public:
         Model(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const std::shared_ptr<Material>& material);
 
         void setPosition(const glm::vec3& position);
-
-        void draw(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) const;
 
         // delete implicit methods
         Model(Model const &) = delete;

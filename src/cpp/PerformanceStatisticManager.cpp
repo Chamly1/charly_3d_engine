@@ -1,4 +1,5 @@
 #include "PerformanceStatisticManager.hpp"
+#include "Renderer.hpp"
 
 namespace Charly {
 
@@ -46,8 +47,8 @@ namespace Charly {
         }
     }
 
-    void PerformanceStatisticManager::draw(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) const {
-        mStatisticText.draw(viewMatrix, projectionMatrix);
+    void PerformanceStatisticManager::draw(Renderer& renderer) const {
+        renderer.draw(mStatisticText);
     }
 
     void PerformanceStatisticManager::incrementFramesCounter() {

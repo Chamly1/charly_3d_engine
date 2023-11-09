@@ -5,7 +5,7 @@
 
 namespace Charly {
 
-    class PerformanceStatisticManager {
+    class PerformanceStatisticManager : public Drawable {
     private:
         Text mStatisticText;
         char mStrBuffer[1000];
@@ -18,6 +18,9 @@ namespace Charly {
         float mLogicUpdateTimeAccumulator;
         float mRenderTimeAccumulator;
 
+    protected:
+        void draw(Renderer& renderer) const override;
+
     public:
 
         PerformanceStatisticManager(const std::shared_ptr<Font>& font, const std::shared_ptr<Shader>& textShader);
@@ -27,7 +30,6 @@ namespace Charly {
          * @param dt delta time.
          */
         void update(float dt);
-        void draw(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) const;
         /**
          * Increment frame counter which use to calculate FPS and render time. Call it once per every general render call.
          */
