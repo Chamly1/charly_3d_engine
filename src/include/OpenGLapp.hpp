@@ -27,7 +27,8 @@ namespace Charly {
         Renderer mRenderer;
         Camera mCamera;
 
-        LightSource mLightSource;
+        PointLight mPointLight;
+        AmbientLight mAmbientLight;
 
         std::shared_ptr<Model> mModel;
         std::shared_ptr<Text> mText;

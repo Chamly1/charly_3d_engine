@@ -32,8 +32,12 @@ namespace Charly {
         }
     }
 
-    void Renderer::setLightSource(LightSource lightSource) {
-        mLightSource = lightSource;
+    void Renderer::setPointLight(PointLight pointLight) {
+        mPointLight = pointLight;
+    }
+
+    void Renderer::setAmbientLight(AmbientLight ambientLight) {
+        mAmbientLight = ambientLight;
     }
 
     const glm::mat4& Renderer::getViewMatrix() const {
@@ -44,8 +48,12 @@ namespace Charly {
         return *mCurrentProjectionMatrix;
     }
 
-    const LightSource& Renderer::getLightSource() const {
-        return mLightSource;
+    const PointLight& Renderer::getPointLight() const {
+        return mPointLight;
+    }
+
+    const AmbientLight& Renderer::getAmbientLight() const {
+        return mAmbientLight;
     }
 
     void Renderer::draw(const Drawable& drawable) {

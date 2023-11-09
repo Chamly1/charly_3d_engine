@@ -1,12 +1,7 @@
 #include "OpenGLapp.hpp"
-#include "utils.hpp"
 #include "Font.hpp"
 #include "Text.hpp"
-#include "Logger.hpp"
 #include "OpenGLUtils.hpp"
-
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
 
 #include <iostream>
 
@@ -120,8 +115,8 @@ namespace Charly {
     void OpenGLapp::update(float dt) {
         mCamera.update(dt);
 
-        mLightSource.mPosition = mCamera.getPosition();
-        mRenderer.setLightSource(mLightSource);
+        mPointLight.position = mCamera.getPosition();
+        mRenderer.setPointLight(mPointLight);
 
         mPerformanceStatisticManager->update(dt);
     }
@@ -146,7 +141,11 @@ namespace Charly {
     , mRenderer(glm::ivec2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT))
     , mCamera(glm::vec3(0.f, 0.f, 2.5f), glm::vec3(0.f, 1.f, 0.f), -90.f, 0.f) {
 
-        mLightSource.mColor = glm::vec3(1.f);
+        mPointLight.color = glm::vec3(1.f);
+
+        mAmbientLight.color = glm::vec3(1.f);
+        mAmbientLight.strength = 0.5;
+        mRenderer.setAmbientLight(mAmbientLight);
 
         createModels();
 

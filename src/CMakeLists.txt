@@ -4,7 +4,7 @@ add_compile_definitions(ENABLE_LOGGING)
 
 add_library(main_obj_lib OBJECT
         cpp/Transformable.cpp
-        cpp/LightSource.cpp
+        cpp/Light.cpp
         cpp/Drawable.cpp
         cpp/Renderer.cpp
         cpp/Window.cpp

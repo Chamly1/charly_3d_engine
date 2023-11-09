@@ -12,8 +12,10 @@ namespace Charly {
         mShader->uploadUniformMatrix4f("u_View", renderer.getViewMatrix());
 
         mShader->uploadUniform3f("u_Color", mMaterial->getColor());
-        mShader->uploadUniform3f("u_LightColor", renderer.getLightSource().mColor);
-        mShader->uploadUniform3f("u_LightPos", renderer.getLightSource().mPosition);
+        mShader->uploadUniform3f("u_LightColor", renderer.getPointLight().color);
+        mShader->uploadUniform3f("u_LightPos", renderer.getPointLight().position);
+        mShader->uploadUniform3f("u_AmbientLightColor", renderer.getAmbientLight().color);
+        mShader->uploadUniform1f("u_AmbientLightStrength", renderer.getAmbientLight().strength);
 
         mVertexArray->draw();
     }
