@@ -31,6 +31,7 @@ namespace Charly {
         AmbientLight mAmbientLight;
 
         std::shared_ptr<Model> mModel;
+//        std::vector<std::shared_ptr<Model>> mModels;
         std::shared_ptr<Text> mText;
         std::shared_ptr<PerformanceStatisticManager> mPerformanceStatisticManager;
 

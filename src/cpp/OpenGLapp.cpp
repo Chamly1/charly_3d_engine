@@ -67,6 +67,17 @@ namespace Charly {
         std::shared_ptr<Material> material = std::make_shared<Material>();
         material->setColor(glm::vec4(0.2f, 0.3f, 0.8f, 1.f));
 
+//        std::shared_ptr<Model> model;
+//        for (int x = 0; x < 10 ; ++x) {
+//            for (int y = 0; y < 10; ++y) {
+//                for (int z = 0; z < 10; ++z) {
+//                    model = std::make_shared<Model>(cubeVertexArray, baseShader, material);
+//                    model->setPosition(glm::vec3(3.f * x, 3.f * y, 3.f * -z));
+//                    mModels.push_back(model);
+//                }
+//            }
+//        }
+
         mModel = std::make_shared<Model>(cubeVertexArray, baseShader, material);
         mModel->setPosition(glm::vec3(0.f, 0.f, 0.f));
 
@@ -127,6 +138,9 @@ namespace Charly {
         mRenderer.setViewMatrix(mCamera.calculateViewMatrix());
         mRenderer.setProjectionMode(ProjectionMode::Perspective);
         mRenderer.draw(*mModel);
+//        for (std::shared_ptr<Model>& model : mModels) {
+//            mRenderer.draw(*model);
+//        }
 
         mRenderer.setViewMatrix(glm::mat4(1.f));
         mRenderer.setProjectionMode(ProjectionMode::Orthographic);
@@ -156,7 +170,7 @@ namespace Charly {
 
     OpenGLapp::~OpenGLapp() {
 
-        mModel.reset();
+//        mModel.reset();
         mText.reset();
         mPerformanceStatisticManager.reset();
 
