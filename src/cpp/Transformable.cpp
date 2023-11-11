@@ -23,4 +23,10 @@ namespace Charly {
         return model;
     }
 
+    glm::mat4 Transformable::calculateRotationMatrix() const {
+        glm::mat4 rotationMatrix(1.f);
+        rotationMatrix = glm::rotate(rotationMatrix, glm::radians(360.f), mRotation);
+        return rotationMatrix;
+    }
+
 }

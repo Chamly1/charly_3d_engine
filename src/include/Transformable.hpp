@@ -17,6 +17,7 @@ namespace Charly {
         void setPosition(const glm::vec3& position);
 
         glm::mat4 calculateModelMatrix() const;
+        glm::mat4 calculateRotationMatrix() const;
 
     };
 

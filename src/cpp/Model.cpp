@@ -10,6 +10,7 @@ namespace Charly {
         mShader->uploadUniformMatrix4f("u_Model", calculateModelMatrix());
         mShader->uploadUniformMatrix4f("u_Projection", renderer.getProjectionMatrix());
         mShader->uploadUniformMatrix4f("u_View", renderer.getViewMatrix());
+        mShader->uploadUniformMatrix4f("u_NormalRotation", calculateRotationMatrix());
 
         mShader->uploadUniform3f("u_Color", mMaterial->getColor());
         mShader->uploadUniform3f("u_LightColor", renderer.getPointLight().color);
