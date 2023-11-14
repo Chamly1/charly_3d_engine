@@ -7,8 +7,6 @@
 #include "Drawable.hpp"
 #include "Transformable.hpp"
 
-#include "assimp/scene.h"
-
 namespace Charly {
 
     class Model : public Transformable, public Drawable {
@@ -16,16 +14,6 @@ namespace Charly {
         std::shared_ptr<VertexArray> mVertexArray;
         std::shared_ptr<Shader> mShader;
         std::shared_ptr<Material> mMaterial;
-
-        float *mVerticesBuffer;
-        unsigned int mVerticesBufferSize;
-        unsigned int mVerticesBufferIndex;
-        unsigned int *mIndicesBuffer;
-        unsigned int mIndicesBufferSize;
-        unsigned int mIndicesBufferIndex;
-
-        void processAssimpNode(aiNode *node, const aiScene *scene);
-        void processAssimpMesh(aiMesh *mesh, const aiScene *scene);
 
     protected:
         void draw(Renderer& renderer) const override;
