@@ -17,7 +17,7 @@ void main() {
     vec3 normalizedNormal = normalize(v_Normal);
     vec3 lightDirection = normalize(u_LightPos - v_Pos);
 
-    float diff = max(dot(normalizedNormal, lightDirection), 0.f);
+    float diff = abs(dot(normalizedNormal, lightDirection));
     vec3 diffuse = diff * u_LightColor;
 
     color = vec4((ambient + diffuse) * u_Color, 1.f);
