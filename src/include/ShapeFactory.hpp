@@ -15,6 +15,7 @@ namespace Charly {
     public:
         static std::shared_ptr<VertexArray> createCube();
         static std::shared_ptr<VertexArray> createSquare();
+        static std::shared_ptr<VertexArray> createIcoSphere(int subdivisions);
 
     };
 
