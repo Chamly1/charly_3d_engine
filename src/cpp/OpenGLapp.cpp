@@ -2,6 +2,7 @@
 #include "Font.hpp"
 #include "Text.hpp"
 #include "OpenGLUtils.hpp"
+#include "ShapeFactory.hpp"
 
 #include <iostream>
 
@@ -10,56 +11,10 @@ namespace Charly {
     static const GLint DEFAULT_WINDOW_WIDTH = 800, DEFAULT_WINDOW_HEIGHT = 600;
 
     void OpenGLapp::createModels() {
-        GLfloat cubeVertices[] = {
-                -1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
-                1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
-                1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,
-                1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,
-                -1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,
-                -1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,
 
-                -1.f, -1.f,  1.f,  0.0f,  0.0f,  1.0f,
-                1.f, -1.f,  1.f,  0.0f,  0.0f,  1.0f,
-                1.f,  1.f,  1.f,  0.0f,  0.0f,  1.0f,
-                1.f,  1.f,  1.f,  0.0f,  0.0f,  1.0f,
-                -1.f,  1.f,  1.f,  0.0f,  0.0f,  1.0f,
-                -1.f, -1.f,  1.f,  0.0f,  0.0f,  1.0f,
-
-                -1.f,  1.f,  1.f, -1.0f,  0.0f,  0.0f,
-                -1.f,  1.f, -1.f, -1.0f,  0.0f,  0.0f,
-                -1.f, -1.f, -1.f, -1.0f,  0.0f,  0.0f,
-                -1.f, -1.f, -1.f, -1.0f,  0.0f,  0.0f,
-                -1.f, -1.f,  1.f, -1.0f,  0.0f,  0.0f,
-                -1.f,  1.f,  1.f, -1.0f,  0.0f,  0.0f,
-
-                1.f,  1.f,  1.f,  1.0f,  0.0f,  0.0f,
-                1.f,  1.f, -1.f,  1.0f,  0.0f,  0.0f,
-                1.f, -1.f, -1.f,  1.0f,  0.0f,  0.0f,
-                1.f, -1.f, -1.f,  1.0f,  0.0f,  0.0f,
-                1.f, -1.f,  1.f,  1.0f,  0.0f,  0.0f,
-                1.f,  1.f,  1.f,  1.0f,  0.0f,  0.0f,
-
-                -1.f, -1.f, -1.f,  0.0f, -1.0f,  0.0f,
-                1.f, -1.f, -1.f,  0.0f, -1.0f,  0.0f,
-                1.f, -1.f,  1.f,  0.0f, -1.0f,  0.0f,
-                1.f, -1.f,  1.f,  0.0f, -1.0f,  0.0f,
-                -1.f, -1.f,  1.f,  0.0f, -1.0f,  0.0f,
-                -1.f, -1.f, -1.f,  0.0f, -1.0f,  0.0f,
-
-                -1.f,  1.f, -1.f,  0.0f,  1.0f,  0.0f,
-                1.f,  1.f, -1.f,  0.0f,  1.0f,  0.0f,
-                1.f,  1.f,  1.f,  0.0f,  1.0f,  0.0f,
-                1.f,  1.f,  1.f,  0.0f,  1.0f,  0.0f,
-                -1.f,  1.f,  1.f,  0.0f,  1.0f,  0.0f,
-                -1.f,  1.f, -1.f,  0.0f,  1.0f,  0.0f
-        };
-
-        BufferLayout cubeBufferLayout = {
-                {ShaderDataType::Float3, "pos"},
-                {ShaderDataType::Float3, "normal"}
-        };
-        std::shared_ptr<VertexBuffer> cubeVertexBuffer = std::make_shared<VertexBuffer>(cubeVertices, sizeof(cubeVertices));
-        std::shared_ptr<VertexArray> cubeVertexArray = std::make_shared<VertexArray>(cubeVertexBuffer, cubeBufferLayout);
+//        std::shared_ptr<VertexArray> cubeVertexArray = ShapeFactory::createSquare();
+        std::shared_ptr<VertexArray> cubeVertexArray = ShapeFactory::createCube();
+//        std::shared_ptr<VertexArray> cubeVertexArray = ShapeFactory::createIcoSphere(3);
 
         std::shared_ptr<Shader> baseShader = std::make_shared<Shader>("resources/shaders/base_shader.vert",
                                                         "resources/shaders/base_shader.frag");
@@ -79,6 +34,11 @@ namespace Charly {
 //        }
 
         mModel = std::make_shared<Model>(cubeVertexArray, baseShader, material);
+//        mModel = std::make_shared<Model>("C:\\Users\\vlads\\Desktop\\models\\survival-guitar-backpack\\source\\Survival_BackPack_2\\Survival_BackPack_2.fbx", baseShader, material);
+//        mModel = std::make_shared<Model>("C:\\Users\\vlads\\Desktop\\models\\wooden-barrel\\source\\model\\model.dae", baseShader, material);
+//        mModel = std::make_shared<Model>("C:\\Users\\vlads\\Desktop\\models\\Suzanne.obj", baseShader, material);
+//        mModel = std::make_shared<Model>("C:\\Users\\vlads\\Desktop\\models\\Cube.obj", baseShader, material);
+//        mModel = std::make_shared<Model>("C:\\Users\\vlads\\Desktop\\models\\Test.obj", baseShader, material);
         mModel->setPosition(glm::vec3(0.f, 0.f, 0.f));
 
         ///////////////////text///////////////////
